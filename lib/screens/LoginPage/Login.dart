@@ -16,6 +16,7 @@ class _LoginState extends State<Login>
     with SingleTickerProviderStateMixin {
 
   var logo = Container(
+    margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
     width: 150.0,
     height: 150.0,
       decoration: new BoxDecoration(
@@ -27,26 +28,6 @@ class _LoginState extends State<Login>
         shape: BoxShape.circle,
       ),
   );
-
-  var margen_btn = Container(
-    margin: EdgeInsets.symmetric(vertical: 30,horizontal: 0),
-  );
-
-  // These functions can self contain any user auth logic required, they all have access to _email and _password
-  /*
-  void _loginPressed () {
-    print('The user wants to login with $_email and $_password');
-  }
-
-  void _createAccountPressed () {
-    print('The user wants to create an accoutn with $_email and $_password');
-
-  }
-
-  void _passwordReset () {
-    print("The user wants a password reset request sent to $_email");
-  }*/
-
 
   AnimationController controller;
   Animation<double> animation;
@@ -61,6 +42,7 @@ class _LoginState extends State<Login>
   String mensaje = '';
 
   bool _logueado = false;
+  bool _obscureText = true;//contraseñaOculta
 
   initState() {
     super.initState();
@@ -87,7 +69,11 @@ class _LoginState extends State<Login>
     controller.dispose();
     super.dispose();
   }
-
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,9 +88,9 @@ class _LoginState extends State<Login>
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            logo,//clinica dental logo
-          ],
+            children: <Widget>[
+              logo,//clinica dental logo
+            ],
         ),
         Container(
           width: 300.0, //size.width * .6,
@@ -112,51 +98,65 @@ class _LoginState extends State<Login>
             key: _key,
             child: Column(
               children: <Widget>[
-                TextFormField(
+                new Container(
+                  margin: const EdgeInsets.only(bottom: 5.0),
+                  child: TextFormField(
 
-                  validator: (text) {
-                    if (text.length == 0) {
-                      return "Este campo correo es requerido";
-                    } else if (!emailRegExp.hasMatch(text)) {
-                      return "El formato para correo no es correcto";
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  maxLength: 50,
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    hintText: 'Ingrese su Correo',
-                    labelText: 'Correo',
-                    counterText: '',
-                    fillColor: Colors.greenAccent,
-                    filled: true,
+                    validator: (text) {
+                      if (text.length == 0) {
+                        return "Este campo correo es requerido";
+                      } else if (!emailRegExp.hasMatch(text)) {
+                        return "El formato para correo no es correcto";
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    maxLength: 50,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      hintText: 'Ingrese su Correo',
+                      hintStyle: new TextStyle(color: Colors.white),
+                      labelStyle: new TextStyle(color: Colors.white),
+                      labelText: 'Correo',
+                      counterText: '',
+                      fillColor: Color.fromRGBO(19, 206, 177, 100),
+                      filled: true,
+                    ),
+                    onSaved: (text) => _correo = text,
                   ),
-                  onSaved: (text) => _correo = text,
                 ),
-                TextFormField(
-                  validator: (text) {
-                    if (text.length == 0) {
-                      return "Este campo contraseña es requerido";
-                    } else if (text.length <= 5) {
-                      return "Su contraseña debe ser al menos de 5 caracteres";
-                    } else if (!contRegExp.hasMatch(text)) {
-                      return "El formato para contraseña no es correcto";
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.text,
-                  maxLength: 20,
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    hintText: 'Ingrese su Contraseña',
-                    labelText: 'Contraseña',
-                    counterText: '',
-                    fillColor: Colors.greenAccent,
-                    filled: true,
-                    suffixIcon: Icon(Icons.remove_red_eye, size: 32.0, color: Colors.blue[800]),
+                new Container(
+                  margin: const EdgeInsets.only(top: 5.0,bottom: 10.0),
+                  child: TextFormField(
+                    validator: (text) {
+                      if (text.length == 0) {
+                        return "Este campo contraseña es requerido";
+                      } else if (text.length <= 5) {
+                        return "Su contraseña debe ser al menos de 5 caracteres";
+                      } else if (!contRegExp.hasMatch(text)) {
+                        return "El formato para contraseña no es correcto";
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.text,
+                    maxLength: 20,
+                    textAlign: TextAlign.center,
+                    obscureText: _obscureText,
+                    decoration: InputDecoration(
+                      hintText: 'Ingrese su Contraseña',
+                      labelText: 'Contraseña',
+                      hintStyle: new TextStyle(color: Colors.white),
+                      labelStyle: new TextStyle(color: Colors.white),
+                      counterText: '',
+                      fillColor: Color.fromRGBO(19, 206, 177, 100),
+                      filled: true,
+                      suffixIcon: IconButton(icon: Icon(Icons.remove_red_eye,size: 32.0,
+                          color: Colors.black),
+                                      onPressed: _toggle,
+                                      ),
+                    ),
+                    onSaved: (text) => _contrasena = text,
                   ),
-                  onSaved: (text) => _contrasena = text,
                 ),
                 new FlatButton(
                   child: new Text('¿Olvidaste tu contraseña?'),
@@ -166,7 +166,7 @@ class _LoginState extends State<Login>
                   minWidth: 200.0,
                   height: 40.0,
                   child: RaisedButton(
-                    color: Colors.greenAccent,
+                    color: Color.fromRGBO(19, 206,148, 100),
                     textColor: Colors.white,
                     onPressed: () {
                       if (_key.currentState.validate()) {
@@ -184,37 +184,38 @@ class _LoginState extends State<Login>
                   ),
                   //onPressed: _loginPressed,
                 ),
-
-                IconButton(
-                  /*onPressed: () {
-                    if (_key.currentState.validate()) {
-                      _key.currentState.save();
-                      //Aqui se llamaria a su API para hacer el login
-                      setState(() {
-                        _logueado = true;
-                      });
-                      mensaje = 'Gracias \n $_correo \n $_contrasena';
-//                      Una forma correcta de llamar a otra pantalla
-//                      Navigator.of(context).push(HomeScreen.route(mensaje));
-                    }
-                  },*/
-                  icon: Icon(
-                    Icons.arrow_forward,
-                    size: 42.0,
-                    color: Colors.blue[800],
+                Container(
+                  margin: const EdgeInsets.only(top: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      new RaisedButton(
+                        child: Image.asset("assets/facebook.png"),
+                        onPressed: () {},
+                      ),
+                      new RaisedButton(
+                        child: Image.asset("assets/twitter.png"),
+                        onPressed: () {},
+                      ),
+                    ],
                   ),
-                ),
-                new FlatButton(
-                  child: new Text('¿No tienes cuenta? Registrate ahora.'),
-                  //onPressed: _formChange,
                 ),
               ],
             ),
           ),
         ),
+        Container(
+          margin: const EdgeInsets.only(top: 30.0),
+          //alignment: Alignment.bottomCenter,
+          child: new FlatButton(
+
+            child: new Text('¿No tienes cuenta? Registrate ahora.'),
+            //onPressed: _formChange,
+          ),
+
+        ),
       ],
     );
   }
-
 }
 
