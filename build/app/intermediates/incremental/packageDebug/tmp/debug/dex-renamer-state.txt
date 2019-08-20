@@ -1,4 +1,4 @@
-#Sat Aug 10 23:55:45 ECT 2019
-base.0=/home/edward/Documents/IS_1/AppMovil/flutter_app/build/app/intermediates/transforms/dexMerger/debug/0
+#Tue Aug 20 16:13:46 COT 2019
+base.0=C\:\\Users\\Luis Toro\\Documents\\GitHub\\AppClinica\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
 path.0=classes.dex
 renamed.0=classes.dex

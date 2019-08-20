@@ -9,33 +9,54 @@ class Home extends StatelessWidget {
 
   final String mensaje;
 
+
   const Home({Key key, @required this.mensaje}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inicio'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                mensaje,
-                style: TextStyle(
-                  fontSize: 32.0,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
+        title: Text("Inicio"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.menu),
+            tooltip: 'Navegacion',
+            color: Colors.white,
+            onPressed: () =>
+                ListTile(
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          )
+          ),
         ],
       ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppMenu("Agendamiento de Citas"),
+            SizedBox(height: 10,),
+            AppMenu("Historial de Citas"),
+            SizedBox(height: 10,),
+            AppMenu("Pagos"),
+          ],
+        ),
+      ),
     );
+  }
+}
+  class AppMenu extends StatelessWidget{
+    final String nombre;
+
+    const AppMenu(this.nombre);
+
+    @override
+    Widget build(BuildContext context){
+      return DecoratedBox(
+        decoration: BoxDecoration(color: Colors.yellow),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(nombre),
+        ),
+      );
   }
 }
