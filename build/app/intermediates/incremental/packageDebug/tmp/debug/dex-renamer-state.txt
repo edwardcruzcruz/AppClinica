@@ -1,4 +1,4 @@
-#Tue Aug 20 16:13:46 COT 2019
-base.0=C\:\\Users\\Luis Toro\\Documents\\GitHub\\AppClinica\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
+#Sun Sep 01 23:21:27 ECT 2019
+base.0=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

@@ -12,7 +12,6 @@ class Home extends StatelessWidget {
 
   const Home({Key key, @required this.mensaje}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,15 +29,42 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppMenu("Agendamiento de Citas"),
-            SizedBox(height: 10,),
-            AppMenu("Historial de Citas"),
-            SizedBox(height: 10,),
-            AppMenu("Pagos"),
-          ],
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  //FloatingActionButton(
+                  //  backgroundColor: Colors.redAccent,
+                  //  onPressed: () => {},
+                  //),
+                  Icon(Icons.kitchen, color: Colors.green[500]),
+                  Text('PREP:'),
+                  //Text('25 min'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.timer, color: Colors.green[500]),
+                  Text('COOK:'),
+                  //Text('1 hr'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.restaurant, color: Colors.green[500]),
+                  Text('FEEDS:'),
+                  //Text('4-6'),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter_app/services/Shared_Preferences.dart';
 
 class Login extends StatefulWidget {
   static Route<dynamic> route() {
@@ -33,12 +34,14 @@ class _LoginState extends State<Login>
   Animation<double> animation;
 
   GlobalKey<FormState> _key = GlobalKey();
+  //var loc=locator<Shared_Preferences>();
+
 
   RegExp emailRegExp =
   new RegExp(r'^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$');
   RegExp contRegExp = new RegExp(r'^([1-zA-Z0-1@.\s]{1,255})$');
-  String _correo;
-  String _contrasena;
+  String _correo='';
+  String _contrasena='';
   String mensaje = '';
 
   bool _logueado = false;
@@ -122,7 +125,10 @@ class _LoginState extends State<Login>
                       fillColor: Color.fromRGBO(19, 206, 177, 100),
                       filled: true,
                     ),
-                    onSaved: (text) => _correo = text,
+                    onSaved: (text) {
+                      //print('saved');
+                      _correo = text;
+                    }
                   ),
                 ),
                 new Container(
@@ -170,19 +176,21 @@ class _LoginState extends State<Login>
                     textColor: Colors.white,
                     onPressed: () {
                       if (_key.currentState.validate()) {
+
                         _key.currentState.save();
                         //Aqui se llamaria a su API para hacer el login
                         setState(() {
                           _logueado = true;
                         });
+                        //loc.saveStringToDisk('correo', _correo.toString());
+
                         mensaje = 'Gracias \n $_correo \n $_contrasena';
-//                      Una forma correcta de llamar a otra pantalla
-//                      Navigator.of(context).push(HomeScreen.route(mensaje));
+                        //Una forma correcta de llamar a otra pantalla
+                      //Navigator.of(context).push(HomeScreen.route(mensaje));
                       }
                     },
                     child: Text('Iniciar Sesion'),
                   ),
-                  //onPressed: _loginPressed,
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 20.0),
@@ -191,11 +199,11 @@ class _LoginState extends State<Login>
                     children: [
                       new RaisedButton(
                         child: Image.asset("assets/facebook.png"),
-                        onPressed: () {},
+                        //onPressed: () {},
                       ),
                       new RaisedButton(
                         child: Image.asset("assets/twitter.png"),
-                        onPressed: () {},
+                        //onPressed: () {},
                       ),
                     ],
                   ),
