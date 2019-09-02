@@ -49,6 +49,12 @@ flutter:
     - assets/eye.png
     - assets/twitter.png
     - assets/facebook.png
+    - assets/agendamiento.png
+    - assets/calendario.png
+    - assets/carrito.png
+    - assets/historial.png
+    - assets/recetas.png
+    - assets/resultados.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
