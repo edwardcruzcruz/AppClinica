@@ -42,7 +42,6 @@ class _LoginState extends State<Login>
   RegExp contRegExp = new RegExp(r'^([1-zA-Z0-1@.\s]{1,255})$');
   String _correo='';
   String _contrasena='';
-  String mensaje = '';
 
   bool _logueado = false;
   bool _obscureText = true;//contraseñaOculta
@@ -80,7 +79,7 @@ class _LoginState extends State<Login>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _logueado ? Home(mensaje: mensaje) : loginForm(),
+      body: _logueado ? Home() : loginForm(),
 //      body: loginForm(),
     );
   }
@@ -175,6 +174,7 @@ class _LoginState extends State<Login>
                     color: Color.fromRGBO(19, 206,148, 100),
                     textColor: Colors.white,
                     onPressed: () {
+                      print('Correo: edward.cruz@espol.com  Contraseña: edwa rd123');
                       if (_key.currentState.validate()) {
 
                         _key.currentState.save();
@@ -184,7 +184,6 @@ class _LoginState extends State<Login>
                         });
                         //loc.saveStringToDisk('correo', _correo.toString());
 
-                        mensaje = 'Gracias \n $_correo \n $_contrasena';
                         //Una forma correcta de llamar a otra pantalla
                       //Navigator.of(context).push(HomeScreen.route(mensaje));
                       }
