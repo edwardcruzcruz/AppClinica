@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/LoginPage/Login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
-
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Home(),
@@ -23,35 +24,26 @@ class _HomeState extends State<Home>{
         title: new Image.asset('assets/logo_clinica.png', fit: BoxFit.cover,),
         centerTitle: true,
         backgroundColor: Color.fromRGBO(19, 206, 177, 100),
-        /*actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.menu),
-            tooltip: 'Navegacion',
-            color: Colors.white,
-            onPressed: () =>
-                ListTile(
-                ),
-          ),
-        ],*/
       ),
       endDrawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
         // space to fit everything.
-        child: ListView(
+        child: Column(
           // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
+          //padding: EdgeInsets.zero,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             UserAccountsDrawerHeader(
               accountName: Text('Edward'),//consultas api con modelos
               accountEmail: Text('xfaff@hotmail.com'),
               currentAccountPicture:
               Image.network('https://hammad-tariq.com/img/profile.png'),
-              decoration: BoxDecoration(color: Colors.blueAccent),
+              decoration: BoxDecoration(color: Color.fromRGBO(19, 206, 177, 100)),
             ),
             ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Drawer layout Item 1'),
+              leading: Icon(Icons.people),
+              title: Text('Cuentas Asociadas'),
               onTap: () {
                 // This line code will close drawer programatically....
                 Navigator.pop(context);
@@ -61,8 +53,8 @@ class _HomeState extends State<Home>{
               height: 2.0,
             ),
             ListTile(
-              leading: Icon(Icons.accessibility),
-              title: Text('Drawer layout Item 2'),
+              leading: Icon(Icons.question_answer),
+              title: Text('Sugerencia'),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -71,27 +63,40 @@ class _HomeState extends State<Home>{
               height: 2.0,
             ),
             ListTile(
-              leading: Icon(Icons.account_box),
-              title: Text('Drawer layout Item 3'),
+              leading: Icon(Icons.info),
+              title: Text('Acerca de Nosotros'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text("Logout"),
-                onTap: (){
-                  Navigator.pop(context);
-                }/* async {
-                // hapus shared prefs login
-                final prefs = await SharedPreferences.getInstance();
-                prefs.remove('login');
-                // redirect page/route ke login
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Login()),
-                );
-              }*/,
+            Divider(
+              height: 2.0,
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text("Cerrar Sesión"),
+                  onTap: ()async{
+                    //final prefs = await SharedPreferences.getInstance();
+                    //prefs.remove('login');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    );
+                  }/* async {
+                  // hapus shared prefs login
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.remove('login');
+                  // redirect page/route ke login
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                  );
+                }*/,
+                )
+              ),
             ),
           ],
         ),
@@ -323,25 +328,4 @@ class _HomeState extends State<Home>{
     );
   }
 
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return null;
-  }
-}
-  class AppMenu extends StatelessWidget{
-    final String nombre;
-
-    const AppMenu(this.nombre);
-
-    @override
-    Widget build(BuildContext context){
-      return DecoratedBox(
-        decoration: BoxDecoration(color: Colors.yellow),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(nombre),
-        ),
-      );
-  }
 }

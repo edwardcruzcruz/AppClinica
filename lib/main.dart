@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/splash.dart';
-import 'package:flutter_app/services/Shared_Preferences.dart';
+//import 'package:flutter_app/services/Shared_Preferences.dart';
 
 
 void main() {
-  setupLocator();
+  //setupLocator();
   runApp(MyApp());
 }
 

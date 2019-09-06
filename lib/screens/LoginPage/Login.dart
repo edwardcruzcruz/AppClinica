@@ -1,5 +1,6 @@
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:flutter_app/services/Shared_Preferences.dart';
 
 class Login extends StatefulWidget {
@@ -12,23 +13,24 @@ class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
-
-class _LoginState extends State<Login>
-    with SingleTickerProviderStateMixin {
-
-  var logo = Container(
+Widget _logo(){
+  return Container(
     margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
     width: 150.0,
     height: 150.0,
-      decoration: new BoxDecoration(
-        image: DecorationImage(
-          image: new AssetImage(
-              'assets/splash.jpg'),
-          fit: BoxFit.fill,
-        ),
-        shape: BoxShape.circle,
+    decoration: new BoxDecoration(
+      image: DecorationImage(
+        image: new AssetImage(
+            'assets/splash.jpg'),
+        fit: BoxFit.fill,
       ),
+      shape: BoxShape.circle,
+    ),
   );
+}
+class _LoginState extends State<Login>
+    with SingleTickerProviderStateMixin {
+
 
   AnimationController controller;
   Animation<double> animation;
@@ -79,8 +81,8 @@ class _LoginState extends State<Login>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,//Quitar el mensaje de exceso de pixeles
       body: _logueado ? Home() : loginForm(),
-//      body: loginForm(),
     );
   }
 
@@ -88,19 +90,14 @@ class _LoginState extends State<Login>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              logo,//clinica dental logo
-            ],
-        ),
+        _logo(),//primer widget del logo login
         Container(
           width: 300.0, //size.width * .6,
           child: Form(
             key: _key,
             child: Column(
               children: <Widget>[
-                new Container(
+                Container(
                   margin: const EdgeInsets.only(bottom: 5.0),
                   child: TextFormField(
 
@@ -133,6 +130,7 @@ class _LoginState extends State<Login>
                 new Container(
                   margin: const EdgeInsets.only(top: 5.0,bottom: 10.0),
                   child: TextFormField(
+
                     validator: (text) {
                       if (text.length == 0) {
                         return "Este campo contraseña es requerido";
@@ -173,19 +171,22 @@ class _LoginState extends State<Login>
                   child: RaisedButton(
                     color: Color.fromRGBO(19, 206,148, 100),
                     textColor: Colors.white,
-                    onPressed: () {
-                      print('Correo: edward.cruz@espol.com  Contraseña: edwa rd123');
+                    onPressed: () async {
+                      print('Correo: edward@hotmail.com  Contraseña: edwardcruz123');
                       if (_key.currentState.validate()) {
-
                         _key.currentState.save();
                         //Aqui se llamaria a su API para hacer el login
-                        setState(() {
-                          _logueado = true;
-                        });
-                        //loc.saveStringToDisk('correo', _correo.toString());
-
-                        //Una forma correcta de llamar a otra pantalla
-                      //Navigator.of(context).push(HomeScreen.route(mensaje));
+                        if(_correo.compareTo("edward@hotmail.com")==0 &&_contrasena.compareTo("edwardcruz123")==0){
+                          //final prefs = await SharedPreferences.getInstance();
+                          //prefs.remove('login');
+                          setState(() {
+                            _logueado = true;
+                          });
+                          Navigator.of(context).push(Home.route());
+                        }else{
+                          print("Correo o contraseña incorrecta");//programar spam
+                        }
+                      //
                       }
                     },
                     child: Text('Iniciar Sesion'),
@@ -196,11 +197,11 @@ class _LoginState extends State<Login>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      new RaisedButton(
+                      RaisedButton(
                         child: Image.asset("assets/facebook.png"),
                         //onPressed: () {},
                       ),
-                      new RaisedButton(
+                      RaisedButton(
                         child: Image.asset("assets/twitter.png"),
                         //onPressed: () {},
                       ),
@@ -211,15 +212,14 @@ class _LoginState extends State<Login>
             ),
           ),
         ),
-        Container(
-          margin: const EdgeInsets.only(top: 30.0),
-          //alignment: Alignment.bottomCenter,
-          child: new FlatButton(
-
-            child: new Text('¿No tienes cuenta? Registrate ahora.'),
-            //onPressed: _formChange,
+        Expanded(
+        child: Align(
+          alignment: Alignment.bottomCenter,
+            child: new FlatButton(
+              child: new Text('¿No tienes cuenta? Registrate ahora.'),
+              //onPressed: _formChange,
+            ),
           ),
-
         ),
       ],
     );
