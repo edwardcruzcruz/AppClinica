@@ -1,7 +1,7 @@
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/services/Shared_Preferences.dart';
-import 'package:flutter_app/services/Var_Shared.dart';
 
 
 class Login extends StatefulWidget {
@@ -154,7 +154,7 @@ class _LoginState extends State<Login>
                       labelStyle: new TextStyle(color: Colors.white),
                       counterText: '',
                       fillColor: Color.fromRGBO(19, 206, 177, 100),
-                      filled: true,
+                      filled: true  ,
                       suffixIcon: IconButton(icon: Icon(Icons.remove_red_eye,size: 32.0,
                           color: Colors.black),
                                       onPressed: _toggle,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/splash.dart';
-import 'package:flutter_app/services/Shared_Preferences.dart';
+import 'package:flutter_app/services/service_locator.dart';
 
 
 Future<void> main() async{

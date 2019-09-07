@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
+import 'package:flutter_app/screens/MenuPage/Agendamiento.dart';
+import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/services/Shared_Preferences.dart';
-import 'package:flutter_app/services/Var_Shared.dart';
 
 class Home extends StatefulWidget {
   static Route<dynamic> route() {
@@ -84,16 +85,7 @@ class _HomeState extends State<Home>{
                       context,
                       MaterialPageRoute(builder: (context) => Login()),
                     );
-                  }/* async {
-                  // hapus shared prefs login
-                  final prefs = await SharedPreferences.getInstance();
-                  prefs.remove('login');
-                  // redirect page/route ke login
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Login()),
-                  );
-                }*/,
+                  },
                 )
               ),
             ),
@@ -102,7 +94,7 @@ class _HomeState extends State<Home>{
       ),
       body: Column(
         children: <Widget>[
-          new Banner(
+          Banner(
           message: "",//mensaje esquina superior derecha
             location: BannerLocation.topEnd,
             color: Colors.red,
@@ -113,11 +105,11 @@ class _HomeState extends State<Home>{
               child: Center(child: Text("Hello, banner!"),),
             ),
           ),
-          new Expanded(
-            child: new ListView(
+          Expanded(
+            child: ListView(
               shrinkWrap: true,
               children: <Widget>[
-              new Container(
+                Container(
                 //padding: EdgeInsets.all(20),
                 //child: SingleChildScrollView(
                 child: Column(
@@ -127,49 +119,54 @@ class _HomeState extends State<Home>{
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        new Card(
+                        Card(
                           elevation: 0,
                           color: Colors.transparent,
-                          child: new Row(
+                          child: Row(
                             children: <Widget>[
-                              new Column(
+                              Column(
                                 children: <Widget>[
-                                  new Container(
-                                    margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
-                                    width: 130.0,
-                                    height: 130.0,
-                                    decoration: new BoxDecoration(
-                                      image: DecorationImage(
-                                        image: new AssetImage(
-                                            'assets/agendamiento.png'),
-                                        fit: BoxFit.none,
+                                  GestureDetector(
+                                    onTap: (){
+                                      Navigator.of(context).push(Agendamiento.route());
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
+                                      width: 130.0,
+                                      height: 130.0,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/agendamiento.png'),
+                                          fit: BoxFit.none,
+                                        ),
+                                        shape: BoxShape.circle,
+                                        color: Color.fromRGBO(204,192, 2,100),
                                       ),
-                                      shape: BoxShape.circle,
-                                      color: Color.fromRGBO(204,192, 2,100),
                                     ),
                                   ),
-                                  new Container(
-                                    child: new Text('Agendar Cita'),
+                                  Container(
+                                    child: Text('Agendar Cita'),
                                   ),
                                 ],
                               ),
                             ],
                           ),
                         ),
-                        new Card(
+                        Card(
                           elevation: 0,
                           color: Colors.transparent,
-                          child: new Row(
+                          child: Row(
                             children: <Widget>[
-                              new Column(
+                              Column(
                                 children: <Widget>[
-                                  new Container(
+                                  Container(
                                     margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
                                     width: 130.0,
                                     height: 130.0,
-                                    decoration: new BoxDecoration(
+                                    decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        image: new AssetImage(
+                                        image: AssetImage(
                                             'assets/calendario.png'),
                                         fit: BoxFit.none,
                                       ),
@@ -177,34 +174,33 @@ class _HomeState extends State<Home>{
                                       color: Color.fromRGBO(75, 54, 154, 100),
                                     ),
                                   ),
-                                  new Container(
-                                    child: new Text('Mis Citas'),
+                                  Container(
+                                    child: Text('Mis Citas'),
                                   ),
                                 ],
                               ),
                             ],
                           ),
                         ),
-                        //Text('25 min'),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        new Card(
+                        Card(
                           elevation: 0,
                           color: Colors.transparent,
-                          child: new Row(
+                          child: Row(
                             children: <Widget>[
-                              new Column(
+                              Column(
                                 children: <Widget>[
-                                  new Container(
+                                  Container(
                                     margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
                                     width: 130.0,
                                     height: 130.0,
-                                    decoration: new BoxDecoration(
+                                    decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        image: new AssetImage(
+                                        image: AssetImage(
                                             'assets/historial.png'),
                                         fit: BoxFit.none,
                                       ),
@@ -212,22 +208,22 @@ class _HomeState extends State<Home>{
                                       color: Colors.cyan,
                                     ),
                                   ),
-                                  new Container(
-                                    child: new Text('Historial Clinico'),
+                                  Container(
+                                    child: Text('Historial Clinico'),
                                   ),
                                 ],
                               ),
                             ],
                           ),
                         ),
-                        new Card(
+                        Card(
                           elevation: 0,
                           color: Colors.transparent,
-                          child: new Row(
+                          child: Row(
                             children: <Widget>[
-                              new Column(
+                              Column(
                                 children: <Widget>[
-                                  new Container(
+                                  Container(
                                     margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
                                     width: 130.0,
                                     height: 130.0,
@@ -241,7 +237,7 @@ class _HomeState extends State<Home>{
                                       color: Colors.red,
                                     ),
                                   ),
-                                  new Container(
+                                  Container(
                                     child: new Text('Recetas'),
                                   ),
                                 ],
@@ -254,20 +250,20 @@ class _HomeState extends State<Home>{
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        new Card(
+                        Card(
                           elevation: 0,
                           color: Colors.transparent,
-                          child: new Row(
+                          child: Row(
                             children: <Widget>[
-                              new Column(
+                              Column(
                                 children: <Widget>[
-                                  new Container(
+                                  Container(
                                     margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
                                     width: 130.0,
                                     height: 130.0,
-                                    decoration: new BoxDecoration(
+                                    decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        image: new AssetImage(
+                                        image: AssetImage(
                                             'assets/resultados.png'),
                                         fit: BoxFit.none,
                                       ),
@@ -275,28 +271,28 @@ class _HomeState extends State<Home>{
                                       color: Color.fromRGBO(22, 48, 207, 100),
                                     ),
                                   ),
-                                  new Container(
-                                    child: new Text('Mis Resultados'),
+                                  Container(
+                                    child: Text('Mis Resultados'),
                                   ),
                                 ],
                               ),
                             ],
                           ),
                         ),
-                        new Card(
+                        Card(
                           elevation: 0,
                           color: Colors.transparent,
-                          child: new Row(
+                          child: Row(
                             children: <Widget>[
-                              new Column(
+                              Column(
                                 children: <Widget>[
-                                  new Container(
+                                  Container(
                                     margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
                                     width: 130.0,
                                     height: 130.0,
-                                    decoration: new BoxDecoration(
+                                    decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        image: new AssetImage(
+                                        image: AssetImage(
                                             'assets/carrito.png'),
                                         fit: BoxFit.none,
                                       ),
@@ -304,8 +300,8 @@ class _HomeState extends State<Home>{
                                       color: Color.fromRGBO(240, 126, 26,100),
                                     ),
                                   ),
-                                  new Container(
-                                    child: new Text('Pagos'),
+                                  Container(
+                                    child: Text('Pagos'),
                                   ),
                                   ],
                                 ),
