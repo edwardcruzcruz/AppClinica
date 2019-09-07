@@ -1,7 +1,8 @@
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:flutter_app/services/Shared_Preferences.dart';
+import 'package:flutter_app/services/Shared_Preferences.dart';
+import 'package:flutter_app/services/Var_Shared.dart';
+
 
 class Login extends StatefulWidget {
   static Route<dynamic> route() {
@@ -31,7 +32,7 @@ Widget _logo(){
 class _LoginState extends State<Login>
     with SingleTickerProviderStateMixin {
 
-
+  var storageService = locator<Var_shared>();
   AnimationController controller;
   Animation<double> animation;
 
@@ -50,6 +51,7 @@ class _LoginState extends State<Login>
 
   initState() {
     super.initState();
+
     controller = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,
@@ -82,7 +84,7 @@ class _LoginState extends State<Login>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,//Quitar el mensaje de exceso de pixeles
-      body: _logueado ? Home() : loginForm(),
+      body: loginForm(),
     );
   }
 
@@ -171,18 +173,19 @@ class _LoginState extends State<Login>
                   child: RaisedButton(
                     color: Color.fromRGBO(19, 206,148, 100),
                     textColor: Colors.white,
-                    onPressed: () async {
+                    onPressed: ()async{
+                      //print(storageService.getuser);
                       print('Correo: edward@hotmail.com  Contraseña: edwardcruz123');
                       if (_key.currentState.validate()) {
                         _key.currentState.save();
                         //Aqui se llamaria a su API para hacer el login
                         if(_correo.compareTo("edward@hotmail.com")==0 &&_contrasena.compareTo("edwardcruz123")==0){
-                          //final prefs = await SharedPreferences.getInstance();
-                          //prefs.remove('login');
+                          storageService.save_user(_correo);
+                          //print(storageService.getuser);
                           setState(() {
                             _logueado = true;
                           });
-                          Navigator.of(context).push(Home.route());
+                          Navigator.of(context).pushReplacement(Home.route());
                         }else{
                           print("Correo o contraseña incorrecta");//programar spam
                         }

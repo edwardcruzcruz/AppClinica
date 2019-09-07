@@ -2,6 +2,7 @@ class User {
   final String name;
   final String surname;
 
+
   User({this.name, this.surname});
   User.fromJson(Map<String, dynamic> json)
       : name = json['name'],
@@ -13,5 +14,4 @@ class User {
     data['surname'] = this.surname;
     return data;
   }
-
 }

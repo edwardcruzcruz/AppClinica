@@ -21,6 +21,7 @@
     -->
     <application
         android:name="io.flutter.app.FlutterApplication"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
         android:label="flutter_app" >
@@ -48,6 +49,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="com.dataxad.fluttermailer.FlutterMailerFileProvider"
+            android:authorities="com.clinicaesteticadental.flutter_app.adv_provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/flutter_mailer_paths" />
+        </provider>
     </application>
 
 </manifest>

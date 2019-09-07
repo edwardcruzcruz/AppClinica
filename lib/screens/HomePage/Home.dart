@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_app/services/Shared_Preferences.dart';
+import 'package:flutter_app/services/Var_Shared.dart';
 
 class Home extends StatefulWidget {
   static Route<dynamic> route() {
@@ -15,8 +16,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home>{
-
-
+  var storageService = locator<Var_shared>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,9 +78,8 @@ class _HomeState extends State<Home>{
                 child: ListTile(
                   leading: Icon(Icons.exit_to_app),
                   title: Text("Cerrar Sesión"),
-                  onTap: ()async{
-                    //final prefs = await SharedPreferences.getInstance();
-                    //prefs.remove('login');
+                  onTap: (){
+                    storageService.delete_user();//variable de session usuario eliminada
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Login()),

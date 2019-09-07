@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/services/Shared_Preferences.dart';
+import 'package:flutter_app/services/Var_Shared.dart';
+
 
 class Splash extends StatefulWidget {
   @override
@@ -13,7 +17,9 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer(const Duration(seconds: 5), _onShowLogin);
+    //setupLocator();
+    var storageService = locator<Var_shared>();
+    _timer = Timer(const Duration(seconds: 5), (storageService.getuser!=null) ? _onShowHome : _onShowLogin);
   }
 
   @override
@@ -25,6 +31,11 @@ class _SplashState extends State<Splash> {
   void _onShowLogin() {
     if(mounted){
       Navigator.of(context).pushReplacement(Login.route());
+    }
+  }
+  void _onShowHome(){
+    if(mounted){
+      Navigator.of(context).pushReplacement(Home.route());
     }
   }
 

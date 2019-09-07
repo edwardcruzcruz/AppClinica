@@ -5,7 +5,16 @@ INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/main/Androi
 INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/main/AndroidManifest.xml:1:1-33:12
 INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/main/AndroidManifest.xml:1:1-33:12
 MERGED from /home/edward/Documents/IS_1/AppClinica/android/app/src/main/AndroidManifest.xml:1:1-33:12
+MERGED from [:fluttertoast] /home/edward/Documents/IS_1/AppClinica/build/fluttertoast/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-7:12
 MERGED from [:shared_preferences] /home/edward/Documents/IS_1/AppClinica/build/shared_preferences/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-7:12
+MERGED from [:catcher] /home/edward/Documents/IS_1/AppClinica/build/catcher/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-7:12
+MERGED from [:flutter_local_notifications] /home/edward/Documents/IS_1/AppClinica/build/flutter_local_notifications/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-7:12
+MERGED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-19:12
+MERGED from [:package_info] /home/edward/Documents/IS_1/AppClinica/build/package_info/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-7:12
+MERGED from [:device_info] /home/edward/Documents/IS_1/AppClinica/build/device_info/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core:1.0.1] /home/edward/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/c3ba67e937ea63c90cd37c1db1164c62/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/edward/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.0.0.aar/00761e18fc7a12a99f7d03a56236e8bb/AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/edward/.gradle/caches/transforms-1/files-1.1/lifecycle-runtime-2.0.0.aar/dc0f58da3d9ff6d5479d99c2d0de1907/AndroidManifest.xml:17:1-22:12
 INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/debug/AndroidManifest.xml:1:1-7:12
 INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/debug/AndroidManifest.xml:1:1-7:12
 INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/debug/AndroidManifest.xml:1:1-7:12
@@ -25,6 +34,14 @@ INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/debug/Andro
 		ADDED from /home/edward/Documents/IS_1/AppClinica/android/app/src/main/AndroidManifest.xml:1:11-69
 application
 ADDED from /home/edward/Documents/IS_1/AppClinica/android/app/src/main/AndroidManifest.xml:9:5-32:19
+MERGED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-17:19
+MERGED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:7:5-17:19
+MERGED from [androidx.core:core:1.0.1] /home/edward/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/c3ba67e937ea63c90cd37c1db1164c62/AndroidManifest.xml:22:5-89
+MERGED from [androidx.core:core:1.0.1] /home/edward/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/c3ba67e937ea63c90cd37c1db1164c62/AndroidManifest.xml:22:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/edward/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.0.0.aar/00761e18fc7a12a99f7d03a56236e8bb/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/edward/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.0.0.aar/00761e18fc7a12a99f7d03a56236e8bb/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.0.1] /home/edward/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/c3ba67e937ea63c90cd37c1db1164c62/AndroidManifest.xml:22:18-86
 	android:label
 		ADDED from /home/edward/Documents/IS_1/AppClinica/android/app/src/main/AndroidManifest.xml:11:9-36
 	android:icon
@@ -65,8 +82,26 @@ uses-sdk
 INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/main/AndroidManifest.xml
 INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/main/AndroidManifest.xml
+MERGED from [:fluttertoast] /home/edward/Documents/IS_1/AppClinica/build/fluttertoast/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:fluttertoast] /home/edward/Documents/IS_1/AppClinica/build/fluttertoast/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] /home/edward/Documents/IS_1/AppClinica/build/shared_preferences/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] /home/edward/Documents/IS_1/AppClinica/build/shared_preferences/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:catcher] /home/edward/Documents/IS_1/AppClinica/build/catcher/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:catcher] /home/edward/Documents/IS_1/AppClinica/build/catcher/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_local_notifications] /home/edward/Documents/IS_1/AppClinica/build/flutter_local_notifications/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_local_notifications] /home/edward/Documents/IS_1/AppClinica/build/flutter_local_notifications/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:package_info] /home/edward/Documents/IS_1/AppClinica/build/package_info/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:package_info] /home/edward/Documents/IS_1/AppClinica/build/package_info/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:device_info] /home/edward/Documents/IS_1/AppClinica/build/device_info/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:device_info] /home/edward/Documents/IS_1/AppClinica/build/device_info/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core:1.0.1] /home/edward/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/c3ba67e937ea63c90cd37c1db1164c62/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /home/edward/.gradle/caches/transforms-1/files-1.1/core-1.0.1.aar/c3ba67e937ea63c90cd37c1db1164c62/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/edward/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.0.0.aar/00761e18fc7a12a99f7d03a56236e8bb/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/edward/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.0.0.aar/00761e18fc7a12a99f7d03a56236e8bb/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/edward/.gradle/caches/transforms-1/files-1.1/lifecycle-runtime-2.0.0.aar/dc0f58da3d9ff6d5479d99c2d0de1907/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/edward/.gradle/caches/transforms-1/files-1.1/lifecycle-runtime-2.0.0.aar/dc0f58da3d9ff6d5479d99c2d0de1907/AndroidManifest.xml:20:5-44
 INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/debug/AndroidManifest.xml
 INJECTED from /home/edward/Documents/IS_1/AppClinica/android/app/src/debug/AndroidManifest.xml
 	android:targetSdkVersion
@@ -79,3 +114,19 @@ uses-permission#android.permission.INTERNET
 ADDED from /home/edward/Documents/IS_1/AppClinica/android/app/src/debug/AndroidManifest.xml:6:5-66
 	android:name
 		ADDED from /home/edward/Documents/IS_1/AppClinica/android/app/src/debug/AndroidManifest.xml:6:22-64
+provider#com.dataxad.fluttermailer.FlutterMailerFileProvider
+ADDED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:8:9-16:20
+	android:grantUriPermissions
+		ADDED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:12:13-47
+	android:authorities
+		ADDED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:10:13-64
+	android:exported
+		ADDED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:11:13-37
+	android:name
+		ADDED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:9:13-79
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:13:13-15:64
+	android:resource
+		ADDED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:15:17-61
+	android:name
+		ADDED from [:flutter_mailer] /home/edward/Documents/IS_1/AppClinica/build/flutter_mailer/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:14:17-67
