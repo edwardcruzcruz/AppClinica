@@ -46,7 +46,6 @@ class _LoginState extends State<Login>
   String _correo='';
   String _contrasena='';
 
-  bool _logueado = false;
   bool _obscureText = true;//contraseñaOculta
 
   initState() {
@@ -165,7 +164,7 @@ class _LoginState extends State<Login>
                 ),
                 new FlatButton(
                   child: new Text('¿Olvidaste tu contraseña?'),
-                  //onPressed: _passwordReset,
+                  onPressed:  null,//_passwordReset,
                 ),
                 ButtonTheme(
                   minWidth: 200.0,
@@ -182,9 +181,6 @@ class _LoginState extends State<Login>
                         if(_correo.compareTo("edward@hotmail.com")==0 &&_contrasena.compareTo("edwardcruz123")==0){
                           storageService.save_user(_correo);
                           //print(storageService.getuser);
-                          setState(() {
-                            _logueado = true;
-                          });
                           Navigator.of(context).pushReplacement(Home.route());
                         }else{
                           print("Correo o contraseña incorrecta");//programar spam
@@ -202,11 +198,11 @@ class _LoginState extends State<Login>
                     children: [
                       RaisedButton(
                         child: Image.asset("assets/facebook.png"),
-                        //onPressed: () {},
+                        onPressed: null,//(){},
                       ),
                       RaisedButton(
                         child: Image.asset("assets/twitter.png"),
-                        //onPressed: () {},
+                        onPressed: null,//() {},
                       ),
                     ],
                   ),
@@ -220,7 +216,7 @@ class _LoginState extends State<Login>
           alignment: Alignment.bottomCenter,
             child: new FlatButton(
               child: new Text('¿No tienes cuenta? Registrate ahora.'),
-              //onPressed: _formChange,
+              onPressed: null,//_formChange,
             ),
           ),
         ),

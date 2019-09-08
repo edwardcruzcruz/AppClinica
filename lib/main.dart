@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
     // Todas sus apliaciones deben de estar dentro de Material App para poder
     // hacer uso de las facilidades de Material Design puede omitirce esto pero
     // no podran hacer uso de estos widgets de material.dart
-    setupLocator();
     return MaterialApp(
       title: 'AppClinica',
       debugShowCheckedModeBanner: false,

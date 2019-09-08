@@ -10,7 +10,7 @@ class Cita {
   Cita({this.paciente, this.especialidad,this.tipo_Consulta,this.hora,this.fecha,this.tiempo_duracion});
   Cita.fromJson(Map<String, dynamic> json)
       : paciente = json['paciente'],
-        especialidad = json['especialidad']
+        especialidad = json['especialidad'],
         tipo_Consulta= json['tipo_Consulta'],
         hora = json['hora'],
         fecha = json['fecha'],
