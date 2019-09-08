@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
-import 'package:flutter_app/screens/MenuPage/Agendamiento.dart';
+import 'package:flutter_app/screens/MenuPage/AgendamientoPart1.dart';
 import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/services/Shared_Preferences.dart';
 
