@@ -1,5 +1,6 @@
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/LoginPage/Registro.dart';
 import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/services/Shared_Preferences.dart';
 
@@ -216,7 +217,9 @@ class _LoginState extends State<Login>
           alignment: Alignment.bottomCenter,
             child: new FlatButton(
               child: new Text('¿No tienes cuenta? Registrate ahora.'),
-              onPressed: null,//_formChange,
+              onPressed: (){
+                Navigator.of(context).pushReplacement(Registro.route());
+              },
             ),
           ),
         ),
