@@ -1,6 +1,14 @@
 <component name="libraryTable">
   <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
-    <CLASSES />
+    <CLASSES>
+      <root url="file://$USER_HOME$/AppData/Local/Android-SDK/tools/flutter/.pub-cache/hosted/pub.dartlang.org/package_info-0.4.0+6" />
+      <root url="file://$USER_HOME$/AppData/Local/Android-SDK/tools/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.3+4" />
+      <root url="file://$USER_HOME$/AppData/Local/Android-SDK/tools/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-0.5.2" />
+      <root url="file://$USER_HOME$/AppData/Local/Android-SDK/tools/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_mailer-0.4.1+2" />
+      <root url="file://$USER_HOME$/AppData/Local/Android-SDK/tools/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-3.1.3" />
+      <root url="file://$USER_HOME$/AppData/Local/Android-SDK/tools/flutter/.pub-cache/hosted/pub.dartlang.org/catcher-0.0.12" />
+      <root url="file://$USER_HOME$/AppData/Local/Android-SDK/tools/flutter/.pub-cache/hosted/pub.dartlang.org/device_info-0.4.0+2" />
+    </CLASSES>
     <JAVADOC />
     <SOURCES />
   </library>
