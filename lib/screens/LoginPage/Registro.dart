@@ -16,12 +16,26 @@ class Registro extends StatefulWidget{
 
 
 
-class _RegistroState extends State<Registro>{
+class _RegistroState extends State<Registro> {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: new Image.asset('assets/logo_clinica.png', fit: BoxFit.cover,),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.close),
+              color: Colors.black,
+              onPressed:(){
+                Navigator.of(context).pushReplacement(Login.route());
+              }
+          )
+        ],
+      ),
       body: tabla(),
       persistentFooterButtons: <Widget>[
         ButtonBar(
@@ -30,31 +44,19 @@ class _RegistroState extends State<Registro>{
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(right: 80),
-                  child: RaisedButton(
-                    color: Colors.greenAccent,
-                    textColor: Colors.white,
-                    child: Text("Atras"),
-                    padding: const EdgeInsets.all(10.0),
-                    onPressed: (){
-                      Navigator.of(context).pushReplacement(Login.route());
-                    },
-                  ),
-                ),
-                Container(
                     padding: EdgeInsets.only(left: 80),
                     child: RaisedButton(
                       color: Colors.greenAccent,
                       textColor: Colors.white,
-                      child: Text("Registrarse"),
+                      child: Text("Registrar"),
                       padding: const EdgeInsets.all(10.0),
                       onPressed: () {
-                    // Validate will return true if the form is valid, or false if
-                    // the form is invalid.
-                          if (_formKey.currentState.validate()) {
-                      // Process data.
-                          }
-                      },
+                        // Validate will return true if the form is valid, or false if
+                        // the form is invalid.
+                        if (_formKey.currentState.validate()) {
+                          // Process data.
+                        }
+                      }
                     )
                 ),
               ],
