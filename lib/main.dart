@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/splash.dart';
-import 'package:flutter_app/services/service_locator.dart';
+import 'package:flutter_app/Utils/service_locator.dart';
 
 
 Future<void> main() async{
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Todas sus apliaciones deben de estar dentro de Material App para poder
     // hacer uso de las facilidades de Material Design puede omitirce esto pero
-    // no podran hacer uso de estos widgets de material.dart
+    // no podran hacer uso de estos widgets de material.d,art
     return MaterialApp(
       title: 'AppClinica',
       debugShowCheckedModeBanner: false,

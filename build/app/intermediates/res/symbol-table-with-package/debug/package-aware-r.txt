@@ -89,6 +89,9 @@ layout notification_template_part_chronometer
 layout notification_template_part_time
 layout toast_custom
 mipmap ic_launcher
+string app_name
+string facebook_app_id
+string fb_login_protocol_scheme
 string status_bar_notification_info_overflow
 style LaunchTheme
 style TextAppearance_Compat_Notification

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
-import 'package:flutter_app/screens/MenuPage/AgendamientoPart1.dart';
-import 'package:flutter_app/services/service_locator.dart';
-import 'package:flutter_app/services/Shared_Preferences.dart';
+import 'package:flutter_app/screens/MenuPage/Agendamiento.dart';
+import 'package:flutter_app/Utils/service_locator.dart';
+import 'package:flutter_app/Utils/Shared_Preferences.dart';
 
 class Home extends StatefulWidget {
   static Route<dynamic> route() {
@@ -37,9 +37,9 @@ class _HomeState extends State<Home>{
           children: <Widget>[
             UserAccountsDrawerHeader(
               accountName: Text('Edward'),//consultas api con modelos
-              accountEmail: Text('xfaff@hotmail.com'),
+              accountEmail: Text('edward@gmail.com'),
               currentAccountPicture:
-              Image.network('https://hammad-tariq.com/img/profile.png'),
+              Image.network('https://thechangemakerrecipe.files.wordpress.com/2014/10/ec-only-logo-copy.png?w=243'),
               decoration: BoxDecoration(color: Color.fromRGBO(19, 206, 177, 100)),
             ),
             ListTile(
@@ -81,7 +81,7 @@ class _HomeState extends State<Home>{
                   title: Text("Cerrar Sesión"),
                   onTap: (){
                     storageService.delete_user();//variable de session usuario eliminada
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => Login()),
                     );
@@ -99,10 +99,10 @@ class _HomeState extends State<Home>{
             location: BannerLocation.topEnd,
             color: Colors.red,
             child: Container(
-              margin: const EdgeInsets.only(left:0.0,top:10.0,right: 0.0,bottom: 0.0),
+              margin: const EdgeInsets.only(left:0.0,top:5.0,right: 0.0,bottom: 0.0),
               color: Colors.blue,
               height: 100,
-              child: Center(child: Text("Hello, banner!"),),
+              child: Center(child: new Image.asset('assets/promocion.jpg', fit: BoxFit.fill,),),
             ),
           ),
           Expanded(

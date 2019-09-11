@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/services/service_locator.dart';
-import 'package:flutter_app/services/Shared_Preferences.dart';
+import 'package:flutter_app/Utils/service_locator.dart';
+import 'package:flutter_app/Utils/Shared_Preferences.dart';
 
 
 class Splash extends StatefulWidget {

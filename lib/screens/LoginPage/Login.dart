@@ -1,8 +1,9 @@
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/LoginPage/Registro.dart';
-import 'package:flutter_app/services/service_locator.dart';
-import 'package:flutter_app/services/Shared_Preferences.dart';
+import 'package:flutter_app/Utils/service_locator.dart';
+import 'package:flutter_app/Utils/Shared_Preferences.dart';
+//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 
 class Login extends StatefulWidget {
@@ -174,17 +175,17 @@ class _LoginState extends State<Login>
                     color: Color.fromRGBO(19, 206,148, 100),
                     textColor: Colors.white,
                     onPressed: ()async{
-                      //print(storageService.getuser);
-                      print('Correo: edward@hotmail.com  Contraseña: edwardcruz123');
+                      //print(_key.currentState.validate());
+                      print('Correo: edward@gmail.com  Contraseña: edwardcruz123');
                       if (_key.currentState.validate()) {
                         _key.currentState.save();
                         //Aqui se llamaria a su API para hacer el login
-                        if(_correo.compareTo("edward@hotmail.com")==0 &&_contrasena.compareTo("edwardcruz123")==0){
+                        if(_correo.compareTo("edward@gmail.com")==0 &&_contrasena.compareTo("edwardcruz123")==0){
+                          //print(_key.currentState.validate());
                           storageService.save_user(_correo);
-                          //print(storageService.getuser);
                           Navigator.of(context).pushReplacement(Home.route());
                         }else{
-                          print("Correo o contraseña incorrecta");//programar spam
+                          _showDialogLogin();
                         }
                       //
                       }
@@ -199,7 +200,9 @@ class _LoginState extends State<Login>
                     children: [
                       RaisedButton(
                         child: Image.asset("assets/facebook.png"),
-                        onPressed: null,//(){},
+                        onPressed: (){
+                          //initiateFacebookLogin();
+                        },
                       ),
                       RaisedButton(
                         child: Image.asset("assets/twitter.png"),
@@ -226,5 +229,55 @@ class _LoginState extends State<Login>
       ],
     );
   }
+  void _showDialogLogin() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Error"),
+          content: new Text("Usuario o Contraseña Incorrectos"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+/*
+  void initiateFacebookLogin() async {
+    var facebookLogin = FacebookLogin();
+    var facebookLoginResult =
+    await facebookLogin.logInWithReadPermissions(['email']);
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.error:
+        print("Error");
+        onLoginStatusChanged(false);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("CancelledByUser");
+        onLoginStatusChanged(false);
+        break;
+      case FacebookLoginStatus.loggedIn:
+        print("LoggedIn");
+        facebookLoginResult.toString();
+        onLoginStatusChanged(true);
+        break;
+    }
+  }
+  void onLoginStatusChanged(bool isLoggedIn) {
+    setState(() {
+      if(isLoggedIn==true){
+        print('hola');
+      }
+    });
+  }*/
 }
 
