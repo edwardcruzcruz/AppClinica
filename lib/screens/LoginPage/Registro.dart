@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
 
 class Registro extends StatefulWidget{
 
@@ -18,6 +19,13 @@ class Registro extends StatefulWidget{
 
 class _RegistroState extends State<Registro> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController username = new TextEditingController();
+  TextEditingController email = new TextEditingController();
+  TextEditingController passController1 = new TextEditingController();
+  TextEditingController passController2= new TextEditingController();
+  RegExp emailRegExp =
+  new RegExp(r'^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$');
+  RegExp contRegExp = new RegExp(r'^([1-zA-Z0-1@.\s]{1,255})$');
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +58,22 @@ class _RegistroState extends State<Registro> {
                       textColor: Colors.white,
                       child: Text("Registrar"),
                       padding: const EdgeInsets.all(10.0),
-                      onPressed: () {
+                      onPressed: () async{
                         // Validate will return true if the form is valid, or false if
                         // the form is invalid.
                         if (_formKey.currentState.validate()) {
                           // Process data.
+                        if(passController1.text.compareTo(passController2.text)==0){
+                              var response = await RestDatasource().save_user(username.text, email.text, passController1.text);
+                              if(response.statusCode==500){
+                                _showSuccessGuardar();
+                                Navigator.of(context).pushReplacement(Login.route());
+                              }else{
+                                _showErrorGuardar();
+                              }
+                          }else{
+                              _showErrorpass();
+                          }
                         }
                       }
                     )
@@ -84,6 +103,7 @@ class _RegistroState extends State<Registro> {
                           ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
+                            controller: username,
                             style: TextStyle(
                                 color: Colors.white
                             ),
@@ -93,9 +113,9 @@ class _RegistroState extends State<Registro> {
                               labelStyle: TextStyle(
                                   color: Colors.white),
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Por favor llenar los espacios';
+                            validator: (text) {
+                              if (text.length == 0) {
+                                return "Este campo contraseña es requerido";
                               }
                               return null;
                             },
@@ -108,6 +128,7 @@ class _RegistroState extends State<Registro> {
                           ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
+
                             style: TextStyle(
                                 color: Colors.white
                             ),
@@ -117,9 +138,9 @@ class _RegistroState extends State<Registro> {
                               labelStyle: TextStyle(
                                   color: Colors.white),
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Por favor llenar los espacios';
+                            validator: (text) {
+                              if (text.length == 0) {
+                                return "Este campo contraseña es requerido";
                               }
                               return null;
                             },
@@ -141,9 +162,9 @@ class _RegistroState extends State<Registro> {
                               labelStyle: TextStyle(
                                   color: Colors.white),
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Por favor llenar los espacios';
+                            validator: (text) {
+                              if (text.length == 0) {
+                                return "Este campo contraseña es requerido";
                               }
                               return null;
                             },
@@ -165,9 +186,9 @@ class _RegistroState extends State<Registro> {
                               labelStyle: TextStyle(
                                   color: Colors.white),
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Por favor llenar los espacios';
+                            validator: (text) {
+                              if (text.length == 0) {
+                                return "Este campo contraseña es requerido";
                               }
                               return null;
                             },
@@ -214,10 +235,11 @@ class _RegistroState extends State<Registro> {
                               labelStyle: TextStyle(
                                   color: Colors.white),
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Por favor llenar los espacios';
+                            validator: (text) {
+                              if (text.length == 0) {
+                                return "Este campo contraseña es requerido";
                               }
+                              return null;
                             },
                           ),
                         ),
@@ -228,6 +250,7 @@ class _RegistroState extends State<Registro> {
                           ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
+                            controller: email,
                             style: TextStyle(
                                 color: Colors.white
                             ),
@@ -238,10 +261,13 @@ class _RegistroState extends State<Registro> {
                               labelStyle: TextStyle(
                                   color: Colors.white),
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Por favor llenar los espacios';
+                            validator: (text) {
+                              if (text.length == 0) {
+                                return "Este campo correo es requerido";
+                              } else if (!emailRegExp.hasMatch(text)) {
+                                return "El formato para correo no es correcto";
                               }
+                              return null;
                             },
                           ),
                         ),
@@ -252,6 +278,7 @@ class _RegistroState extends State<Registro> {
                           ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
+                            controller: passController1,
                             style: TextStyle(
                                 color: Colors.white
                             ),
@@ -262,10 +289,15 @@ class _RegistroState extends State<Registro> {
                               labelStyle: TextStyle(
                                   color: Colors.white),
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Por favor llenar los espacios';
+                            validator: (text) {
+                              if (text.length == 0) {
+                                return "Este campo contraseña es requerido";
+                              } else if (text.length <= 5) {
+                                return "Su contraseña debe ser al menos de 5 caracteres";
+                              } else if (!contRegExp.hasMatch(text)) {
+                                return "El formato para contraseña no es correcto";
                               }
+                              return null;
                             },
                           ),
                         ),
@@ -276,6 +308,7 @@ class _RegistroState extends State<Registro> {
                           ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
+                            controller: passController2,
                             style: TextStyle(
                                 color: Colors.white
                             ),
@@ -286,20 +319,90 @@ class _RegistroState extends State<Registro> {
                               labelStyle: TextStyle(
                                   color: Colors.white),
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Por favor llenar los espacios';
+                            validator: (text) {
+                              if (text.length == 0) {
+                                return "Este campo contraseña es requerido";
+                              } else if (text.length <= 5) {
+                                return "Su contraseña debe ser al menos de 5 caracteres";
+                              } else if (!contRegExp.hasMatch(text)) {
+                                return "El formato para contraseña no es correcto";
                               }
+                              return null;
                             },
                           ),
                         ),
                       ],
                     ),
-
                   )
                 ],
               )),
         ]
+    );
+  }
+  void _showErrorpass() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Error"),
+          content: new Text("Contraseña no coincide"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showErrorGuardar() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Error"),
+          content: new Text("No se guardo el usuario"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showSuccessGuardar() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Aceptado"),
+          content: new Text("Se guardo el usuario satisfactorio"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

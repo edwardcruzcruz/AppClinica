@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Wed Sep 11 00:00:47 ECT 2019
+#Fri Sep 13 12:52:20 ECT 2019
 17.baseType=DIRECTORY
 4.path=flutter_assets/assets/logo_clinica.png
 22.set=ASSET
@@ -12,7 +12,7 @@
 16.set=ASSET
 count=24
 6.base=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/merged_assets/debug/mergeDebugAssets/out
-13.path=lib/arm64-v8a/libflutter.so
+13.path=lib/armeabi-v7a/libflutter.so
 6.baseType=DIRECTORY
 2.set=DEX
 5.path=flutter_assets/LICENSE
@@ -62,8 +62,8 @@ count=24
 18.base=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/merged_assets/debug/mergeDebugAssets/out
 5.baseType=DIRECTORY
 11.base=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/transforms/stripDebugSymbol/debug/0
-8.path=flutter_assets/FontManifest.json
-17.path=flutter_assets/AssetManifest.json
+8.path=flutter_assets/assets/historial.png
+17.path=flutter_assets/assets/facebook.png
 7.baseType=DIRECTORY
 3.base=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/merged_assets/debug/mergeDebugAssets/out
 10.path=flutter_assets/assets/resultados.png
@@ -78,8 +78,8 @@ count=24
 19.base=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/merged_assets/debug/mergeDebugAssets/out
 12.base=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/merged_assets/debug/mergeDebugAssets/out
 4.set=ASSET
-9.path=flutter_assets/assets/historial.png
-18.path=flutter_assets/assets/facebook.png
+9.path=flutter_assets/FontManifest.json
+18.path=flutter_assets/AssetManifest.json
 4.base=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/merged_assets/debug/mergeDebugAssets/out
 11.path=lib/x86_64/libflutter.so
 23.set=ASSET

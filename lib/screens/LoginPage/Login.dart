@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/LoginPage/Registro.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
-//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 
 class Login extends StatefulWidget {
@@ -47,6 +48,8 @@ class _LoginState extends State<Login>
   RegExp contRegExp = new RegExp(r'^([1-zA-Z0-1@.\s]{1,255})$');
   String _correo='';
   String _contrasena='';
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passController = new TextEditingController();
 
   bool _obscureText = true;//contraseñaOculta
 
@@ -112,6 +115,11 @@ class _LoginState extends State<Login>
                       }
                       return null;
                     },
+                    controller:emailController,
+                    onSaved: (text) {
+                      //print('saved');
+                      _correo = text;
+                    },
                     keyboardType: TextInputType.emailAddress,
                     maxLength: 50,
                     textAlign: TextAlign.center,
@@ -124,10 +132,6 @@ class _LoginState extends State<Login>
                       fillColor: Color.fromRGBO(19, 206, 177, 100),
                       filled: true,
                     ),
-                    onSaved: (text) {
-                      //print('saved');
-                      _correo = text;
-                    }
                   ),
                 ),
                 new Container(
@@ -144,6 +148,8 @@ class _LoginState extends State<Login>
                       }
                       return null;
                     },
+                    controller: passController,
+                    onSaved: (text) => _contrasena = text,
                     keyboardType: TextInputType.text,
                     maxLength: 20,
                     textAlign: TextAlign.center,
@@ -161,7 +167,7 @@ class _LoginState extends State<Login>
                                       onPressed: _toggle,
                                       ),
                     ),
-                    onSaved: (text) => _contrasena = text,
+                    //onSaved: (text) => _contrasena = text,
                   ),
                 ),
                 new FlatButton(
@@ -178,11 +184,16 @@ class _LoginState extends State<Login>
                       //print(_key.currentState.validate());
                       print('Correo: edward@gmail.com  Contraseña: edwardcruz123');
                       if (_key.currentState.validate()) {
+                        var response = await RestDatasource().postLogin(emailController.text,passController.text);
                         _key.currentState.save();
-                        //Aqui se llamaria a su API para hacer el login
-                        if(_correo.compareTo("edward@gmail.com")==0 &&_contrasena.compareTo("edwardcruz123")==0){
+                        if(response.statusCode==200){
                           //print(_key.currentState.validate());
-                          storageService.save_user(_correo);
+                          String token=response.body;
+                          //print(token);
+                          storageService.save_user(token);
+                          print(storageService.getuser);
+                          //storageService.save_email(emailController.text);
+                          //print(storageService.getuser);
                           Navigator.of(context).pushReplacement(Home.route());
                         }else{
                           _showDialogLogin();
@@ -201,7 +212,7 @@ class _LoginState extends State<Login>
                       RaisedButton(
                         child: Image.asset("assets/facebook.png"),
                         onPressed: (){
-                          //initiateFacebookLogin();
+                          initiateFacebookLogin();
                         },
                       ),
                       RaisedButton(
@@ -221,6 +232,7 @@ class _LoginState extends State<Login>
             child: new FlatButton(
               child: new Text('¿No tienes cuenta? Registrate ahora.'),
               onPressed: (){
+                //print(_contrasena);
                 Navigator.of(context).pushReplacement(Registro.route());
               },
             ),
@@ -251,11 +263,11 @@ class _LoginState extends State<Login>
       },
     );
   }
-/*
   void initiateFacebookLogin() async {
     var facebookLogin = FacebookLogin();
     var facebookLoginResult =
     await facebookLogin.logInWithReadPermissions(['email']);
+    //print('hola');
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         print("Error");
@@ -278,6 +290,6 @@ class _LoginState extends State<Login>
         print('hola');
       }
     });
-  }*/
+  }
 }
 

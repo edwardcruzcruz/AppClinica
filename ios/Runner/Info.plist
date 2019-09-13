@@ -47,10 +47,26 @@
             <key>CFBundleURLSchemes</key>
             <array>
                 <!-- Replace "000000000000" with your Facebook App ID here. -->
-                <string>fb000000000000</string>
+                <string>429661077894066</string>
             </array>
         </dict>
     </array>
+    <!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
+    <!-- Google Sign-in Section -->
+    <key>CFBundleURLTypes</key>
+    <array>
+    	<dict>
+    		<key>CFBundleTypeRole</key>
+    		<string>Editor</string>
+    		<key>CFBundleURLSchemes</key>
+    		<array>
+    			<!-- TODO Replace this value: -->
+    			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+    			<string>com.googleusercontent.apps.861823949799-vc35cprkp249096uujjn0vvnmcvjppkn</string>
+    		</array>
+    	</dict>
+    </array>
+    <!-- End of the Google Sign-in Section -->
 
     <!-- Facebook Login configuration -->
     <key>CFBundleURLTypes</key>
@@ -63,7 +79,7 @@
         </dict>
     </array>
     <key>FacebookAppID</key>
-    <string>950110338385665</string>
+    <string>429661077894066</string>
     <key>FacebookDisplayName</key>
     <string>Login test</string>
 

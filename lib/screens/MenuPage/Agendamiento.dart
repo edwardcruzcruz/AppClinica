@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter_app/screens/MenuPage/Calendario.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
 
 class Agendamiento extends StatefulWidget {
   static Route<dynamic> route() {
@@ -23,8 +25,8 @@ class _AgendamientoState extends State<Agendamiento>{
   String _doctor;//estos son modelos
   String _horario;//estos son modelos
 
+
   final _formKey = GlobalKey<FormState>();
-  var storageService = locator<Var_shared>();
   List data = List();
   @override
   Widget build(BuildContext context) {
@@ -201,23 +203,41 @@ class _AgendamientoState extends State<Agendamiento>{
 
   }
   Widget dropdownApi(){//hacer un solo metodo para solo ingresando una lista de item como parametro se pueda reutilizar el metodo
-    //data=[{"id":1,"item_name":"Monitor LCD"},{"id":2,"item_name":"Speaker Boom"}];
+    //data=[usuario.toJson()];
     //api restfull https://stackoverflow.com/questions/52094031/dropdown-option-data-in-flutter-from-json-api
     // modelos y estrucctura dropdown https://medium.com/flutteropen/flutter-widgets-13-dropdownbutton-d21e9c226f04
     //esto se cambia por llamadar y tiene diferentes dropdown
     return DropdownButton(
+      /*items: data.map((item) {
+        return new DropdownMenuItem(
+          child: new Text(item['nombre']),
+          value: item['nombre'].toString(),
+        );
+      }).toList(),
+      onChanged: (newVal) {
+        setState(() {
+          _mySelection1 = newVal;
+        });
+      },*/
       items: [
         DropdownMenuItem(
           value: "1",
           child: Text(
-            "Edward",
+            "Jose",
           ),
         ),
         DropdownMenuItem(
           value: "2",
           child: Text(
-          "Jose",
+            "Edward",
           ),
+        ),
+        DropdownMenuItem(
+          value: "3",
+          child: Text(
+            "Jacinto",
+          ),
+
         ),
       ]
       /*data.map((item) {
@@ -228,7 +248,7 @@ class _AgendamientoState extends State<Agendamiento>{
       }).toList()*/,
       onChanged: (newVal) {
         setState(() {
-          _mySelection1 = newVal;
+          _mySelection2 = newVal;
         });
       },
       value: _mySelection1,

@@ -12,16 +12,16 @@ public final class R {
     public static final class drawable {
         private drawable() {}
 
-        public static final int toast_bg = 0x7f04000e;
+        public static final int toast_bg = 0x7f060075;
     }
     public static final class id {
         private id() {}
 
-        public static final int text = 0x7f050018;
+        public static final int text = 0x7f070098;
     }
     public static final class layout {
         private layout() {}
 
-        public static final int toast_custom = 0x7f070006;
+        public static final int toast_custom = 0x7f090036;
     }
 }

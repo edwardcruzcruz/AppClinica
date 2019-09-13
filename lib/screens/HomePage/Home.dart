@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
 
 class Home extends StatefulWidget {
   static Route<dynamic> route() {
@@ -18,8 +20,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home>{
   var storageService = locator<Var_shared>();
+
   @override
   Widget build(BuildContext context) {
+    //User usuario=User.fromJson(RestDatasource().login());
     return Scaffold(
       appBar: AppBar(
         title: new Image.asset('assets/logo_clinica.png', fit: BoxFit.cover,),
@@ -36,10 +40,10 @@ class _HomeState extends State<Home>{
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text('Edward'),//consultas api con modelos
-              accountEmail: Text('edward@gmail.com'),
+              accountName: Text("edward"),//consultas api con modelos
+              accountEmail: Text("edward@gmail.com"),
               currentAccountPicture:
-              Image.network('https://thechangemakerrecipe.files.wordpress.com/2014/10/ec-only-logo-copy.png?w=243'),
+              Image.network('https://thechanmakerrecipe.files.wordpress.com/2014/10/ec-only-logo-copy.png?w=243'),
               decoration: BoxDecoration(color: Color.fromRGBO(19, 206, 177, 100)),
             ),
             ListTile(
@@ -81,6 +85,7 @@ class _HomeState extends State<Home>{
                   title: Text("Cerrar Sesión"),
                   onTap: (){
                     storageService.delete_user();//variable de session usuario eliminada
+                    //storageService.delete_email();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => Login()),
@@ -128,6 +133,9 @@ class _HomeState extends State<Home>{
                                 children: <Widget>[
                                   GestureDetector(
                                     onTap: (){
+                                      //var response = await RestDatasource().perfil(storageService.getuser);
+                                      print(storageService.getuser);
+
                                       Navigator.of(context).push(Agendamiento.route());
                                     },
                                     child: Container(
