@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/components/DateTime/flutter_datetime_picker.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
+import 'package:intl/intl.dart';
 
 class Registro extends StatefulWidget{
 
@@ -22,10 +23,13 @@ class _RegistroState extends State<Registro> {
   final _formKey = GlobalKey<FormState>();
   String dropdownValue = '1';
   TextEditingController username = new TextEditingController();
+  TextEditingController lastname = new TextEditingController();
+  TextEditingController nophone = new TextEditingController();
+  TextEditingController address = new TextEditingController();
   TextEditingController email = new TextEditingController();
   TextEditingController passController1 = new TextEditingController();
   TextEditingController passController2= new TextEditingController();
-  String Date=DateTime.now().toString();
+  String Date=DateFormat("yyyy-MM-dd").format(DateTime.now()).toString();
   RegExp emailRegExp =
   new RegExp(r'^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$');
   RegExp contRegExp = new RegExp(r'^([1-zA-Z0-1@.\s]{1,255})$');
@@ -136,7 +140,7 @@ class _RegistroState extends State<Registro> {
                           ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
-
+                            controller: lastname,
                             style: TextStyle(
                                 color: Colors.white
                             ),
@@ -162,6 +166,7 @@ class _RegistroState extends State<Registro> {
                           ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
+                            controller: nophone,
                             style: TextStyle(
                                 color: Colors.white
                             ),
@@ -187,6 +192,7 @@ class _RegistroState extends State<Registro> {
                           ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
+                            controller: address,
                             style: TextStyle(
                                 color: Colors.white
                             ),
@@ -223,7 +229,7 @@ class _RegistroState extends State<Registro> {
                                     onPressed: () {
                                       DatePicker.showDatePicker(context,
                                           showTitleActions: true,
-                                          minTime: DateTime(1955, 1, 1),
+                                          minTime: DateTime(1955, 1, 1).toUtc(),
                                           maxTime: DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day),
                                           theme: DatePickerTheme(
                                               backgroundColor: Colors.blue,
@@ -232,10 +238,8 @@ class _RegistroState extends State<Registro> {
                                               doneStyle:
                                               TextStyle(color: Colors.white, fontSize: 16)),
                                           onChanged: (date) {
-                                            //print('change $date in time zone ' +
-                                                //date.timeZoneOffset.inHours.toString());
                                             setState(() {//se utilizn estados para actualizar directmente sin esperar eventos
-                                              Date=date.toString();
+                                              Date=DateFormat("yyyy-MM-dd").format(date).toString();
                                             });
                                           }, onConfirm: (date) {
                                             print('confirm $date');
