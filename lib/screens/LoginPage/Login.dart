@@ -1,6 +1,6 @@
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/LoginPage/Registro.dart';
+import 'package:flutter_app/screens/RegistroPage/Registro.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/services/Rest_Services.dart';

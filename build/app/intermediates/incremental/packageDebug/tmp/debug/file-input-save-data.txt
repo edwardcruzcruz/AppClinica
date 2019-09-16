@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Sep 13 12:52:20 ECT 2019
+#Sun Sep 15 22:08:29 ECT 2019
 17.baseType=DIRECTORY
 4.path=flutter_assets/assets/logo_clinica.png
 22.set=ASSET
@@ -12,7 +12,7 @@
 16.set=ASSET
 count=24
 6.base=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/merged_assets/debug/mergeDebugAssets/out
-13.path=lib/armeabi-v7a/libflutter.so
+13.path=lib/x86/libflutter.so
 6.baseType=DIRECTORY
 2.set=DEX
 5.path=flutter_assets/LICENSE
@@ -26,7 +26,7 @@ count=24
 10.baseType=DIRECTORY
 15.base=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/merged_assets/debug/mergeDebugAssets/out
 7.base=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/merged_assets/debug/mergeDebugAssets/out
-14.path=lib/x86/libflutter.so
+14.path=lib/arm64-v8a/libflutter.so
 15.set=ASSET
 6.path=flutter_assets/assets/recetas.png
 23.baseType=DIRECTORY
