@@ -85,7 +85,7 @@ class _HomeState extends State<Home>{
                   title: Text("Cerrar Sesión"),
                   onTap: (){
                     storageService.delete_user();//variable de session usuario eliminada
-                    //storageService.delete_email();
+                    storageService.delete_email();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => Login()),
@@ -132,9 +132,9 @@ class _HomeState extends State<Home>{
                               Column(
                                 children: <Widget>[
                                   GestureDetector(
-                                    onTap: (){
-                                      //var response = await RestDatasource().perfil(storageService.getuser);
-                                      print(storageService.getuser);
+                                    onTap: ()async{
+                                      var response = await RestDatasource().perfil();
+                                      print(response.body);
 
                                       Navigator.of(context).push(Agendamiento.route());
                                     },

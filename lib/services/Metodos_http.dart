@@ -10,7 +10,7 @@ class Metodos_http {
 
   final JsonDecoder _decoder = new JsonDecoder();
 
-  Future<dynamic> get(String url,{Map headers}) {
+  Future<dynamic> get(String url,{Map<String, String> headers}) {
     return http.get(url,headers: headers).then((http.Response response) {
       final String res = response.body;
       final int statusCode = response.statusCode;

@@ -76,7 +76,7 @@ class _RegistroState extends State<Registro> {
                           // Process data.
                         if(passController1.text.compareTo(passController2.text)==0){
                               var response = await RestDatasource().save_user(username.text, email.text, passController1.text);
-                              if(response.statusCode==500){
+                              if(response.statusCode>200 && response.statusCode<400){
                                 _showSuccessGuardar();
                                 Navigator.of(context).pushReplacement(Login.route());
                               }else{

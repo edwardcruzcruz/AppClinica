@@ -1,4 +1,4 @@
-#Mon Sep 16 13:30:41 ECT 2019
+#Wed Sep 18 17:59:03 ECT 2019
 base.0=/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

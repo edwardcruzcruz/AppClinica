@@ -189,11 +189,9 @@ class _LoginState extends State<Login>
                         if(response.statusCode==200){
                           //print(_key.currentState.validate());
                           String token=response.body;
-                          //print(token);
+                          storageService.save_email(emailController.text);
                           storageService.save_user(token);
                           print(storageService.getuser);
-                          //storageService.save_email(emailController.text);
-                          //print(storageService.getuser);
                           Navigator.of(context).pushReplacement(Home.route());
                         }else{
                           _showDialogLogin();

@@ -5,7 +5,7 @@ class Constantes{
   static final String urilogin="/api/v1/api-token-auth/";
   static final String uriregistrar="/api/v1/rest-auth/registration/";
   static final String urilogOut="/api/";
-  static final String uriClientes="/api/v1";
+  static final String uriClientes="/api/v1/clientes/";
   static final String uriDoctores="/api/v1/doctores/";
   static final String uriDoctorId="/api/v1/doctores/1";
   static final String uriHorariosDoctores="/api/v1/horariosDoctor/";

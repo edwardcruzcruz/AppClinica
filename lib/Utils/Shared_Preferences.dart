@@ -4,8 +4,6 @@ class Var_shared{//singleton: una clase que solo pueda acceder a una sola instan
 // database table and column names
   static Var_shared _instance;
   static SharedPreferences _preferences;
-  static const String TokenSession = '';
-  //static const String emailSession = '';
 
   static Future<Var_shared> getInstance() async {
     if (_instance == null) {
@@ -19,32 +17,32 @@ class Var_shared{//singleton: una clase que solo pueda acceder a una sola instan
 
   /*Metodo get para acceder al correo*/
   String get getuser {
-    var token = _preferences.getString(TokenSession);
+    var token = _preferences.getString("token");
     if (token == null) {
       return null;
     }
     return token;
   }
-  /*String get getemail {
-    var user = _preferences.getString(emailSession);
-    if (user == null) {
+  String get getEmail {
+    var email = _preferences.getString("email");
+    if (email == null) {
       return null;
     }
-    return user;
-  }*/
+    return email;
+  }
 
   /*Metodo post para acceder al correo*/
   void save_user(String content){
-    _preferences.setString(TokenSession, content);
+    _preferences.setString("token", content);
   }
-  /*void save_email(String content){
-    _preferences.setString(emailSession, content);
-  }*/
+  void save_email(String content){
+    _preferences.setString("email", content);
+  }
 
   void delete_user(){
-    _preferences.remove(TokenSession);
+    _preferences.remove("token");
   }
-  /*void delete_email(){
-    _preferences.remove(emailSession);
-  }*/
+  void delete_email(){
+    _preferences.remove("email");
+  }
 }

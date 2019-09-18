@@ -14,8 +14,8 @@ class User {
         _apellido = json['apellido'],
         _noTelefono = json['telefono'],
         _fecha_nacimiento = json['fechaNacimiento'],
-        _correo = json['correo'],
-        _username = json['usuario'];
+        _correo = json['email'],
+        _username = json['username'];
 
   String get Nombre => _nombre;
   String get Apellido => _apellido;
@@ -30,8 +30,8 @@ class User {
     data['apellido'] = this._apellido;
     data['telefono'] = this._noTelefono;
     data['fechaNacimiento'] = this._fecha_nacimiento;
-    data['usuario'] = this._username;
-    data['correo'] = this._correo;
+    data['username'] = this._username;
+    data['email'] = this._correo;
     return data;
   }
 }
