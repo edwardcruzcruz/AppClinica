@@ -2,7 +2,7 @@ class User {
   final String _nombre;
   final String _apellido;
   final String _noTelefono;
-  final DateTime _fecha_nacimiento;
+  final String _fecha_nacimiento;
   final String _username;
   final String _correo;
   //final String _contrasena;
@@ -20,7 +20,7 @@ class User {
   String get Nombre => _nombre;
   String get Apellido => _apellido;
   String get Telefono => _noTelefono;
-  DateTime get FechaNacimiento => _fecha_nacimiento;
+  String get FechaNacimiento => _fecha_nacimiento;
   String get Usuario => _username;
   String get Correo => _correo;
 

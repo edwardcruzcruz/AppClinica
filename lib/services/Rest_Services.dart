@@ -36,41 +36,36 @@ class RestDatasource {
       return new User.fromJson(res["user"]);
     });
   }
-  /*Future<http.Response> perfil(String email) async {
-    //_API_KEY=_decoder.convert(storageService.getuser)['token'];
-    _API_KEY="1f4179e022fec16c6869ceee02738bb7e6b976ba";
-    Dio dio = Dio();
-    Dio tokenDio = new Dio();
-    String csrftoken;
-    tokenDio.options = dio.options;
-    //options.headers["csrfToken"]=_API_KEY;
-    //var response = await Dio().post("http://etcruz.pythonanywhere.com/api/emisora/13/segmentos",
-      //options: {csrftoken=options.headers["csrfToken"]=_API_KEY}
-    //);
-    //var csrf = await getCsrftoken();
-
-    var response = await dio.post("http://etcruz.pythonanywhere.com/api/emisora/13/segmentos",
-      options: new Options(
-        headers: ,
-          contentType: ContentType.parse("application/x-www-form-urlencoded")),
-    );
-
-    print("StatusCode: ");
-    print(response.statusCode);
-    print("Response cookie: ");   //THESE ARE NOT PRINTED
-    print(response.headers);
-    print(response.data);
-    //return response;
-  }*/
-  Future<http.Response> perfil() {
-    _API_KEY="1f4179e022fec16c6869ceee02738bb7e6b976ba";
-    Map<String, String> headers = {"Content-type": "application/json"};
-    return http.get(
-      'http://etcruz.pythonanywhere.com/api/emisora/13/segmentos',
+  Future<User> perfil(String email) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    /*return http.get(
+      PERFIL_URL,
       // Send authorization headers to the backend.
       headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
         HttpHeaders.authorizationHeader: "token $_API_KEY"},
-    );
+    );*/
+    return _netUtil.get(PERFIL_URL,
+      headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+         HttpHeaders.authorizationHeader: "token $_API_KEY"}
+        ).then((dynamic res) {
+          
+          //print(res[1]);
+      if(res!=null){
+        //List<User> parsedList=json.decode(res);
+        //List parsed = json.decode(res);
+        //print(parsed.elementAt(0));
+        for (final usuario in json.decode(res.toString())){
+          print(usuario);
+        }
+          //print(res[i]);
+          //if(res[i]['email'].toString().compareTo(email)==1){
+            return new User.fromJson(res[0]);
+          //}
+        //}
+        //return null;
+      }
+        return null;
+    });
   }
 
   Future<http.Response> postLogin(String username, String password) {
@@ -89,13 +84,18 @@ class RestDatasource {
       return response;
     });
   }
-  Future<http.Response> save_user(String username,String correo,String password) {
+  Future<http.Response> save_user(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento, String Genero, String correo,String password1,String password2) {
     return http
         .post(SAVE_URL,body: {
-          "nombre": username,
+          "nombre": lastname,
+          "username": name,
+          "telefono": NTelefono,
+          "direccion": Direccion,
+          "fechaNacimiento": FeNacimiento,
+          "sexo": Genero,
           "email": correo,
-          "password1": password,
-          "password2": password
+          "password1": password1,
+          "password2": password2
         }).then((http.Response response) {
       final String res = response.body;
       final int statusCode = response.statusCode;

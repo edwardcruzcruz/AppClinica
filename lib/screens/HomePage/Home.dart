@@ -133,8 +133,8 @@ class _HomeState extends State<Home>{
                                 children: <Widget>[
                                   GestureDetector(
                                     onTap: ()async{
-                                      var response = await RestDatasource().perfil();
-                                      print(response.body);
+                                      User usuario = await RestDatasource().perfil(storageService.getEmail);
+                                      print(usuario.Nombre);
 
                                       Navigator.of(context).push(Agendamiento.route());
                                     },

@@ -73,9 +73,15 @@ class _RegistroState extends State<Registro> {
                         // Validate will return true if the form is valid, or false if
                         // the form is invalid.
                         if (_formKey.currentState.validate()) {
+                          String genero="";
+                          if(dropdownValue==1){
+                            genero="Masculino";
+                          }else{
+                            genero="Femenino";
+                          }
                           // Process data.
                         if(passController1.text.compareTo(passController2.text)==0){
-                              var response = await RestDatasource().save_user(username.text, email.text, passController1.text);
+                              var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),genero,email.text, passController1.text,passController2.text);
                               if(response.statusCode>200 && response.statusCode<400){
                                 _showSuccessGuardar();
                                 Navigator.of(context).pushReplacement(Login.route());
