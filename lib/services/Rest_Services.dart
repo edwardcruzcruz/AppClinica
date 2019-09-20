@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'dart:io';
 import 'package:flutter_app/Utils/Constantes.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
+import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/services/Metodos_http.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter/services.dart';
@@ -11,16 +12,13 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 
 class RestDatasource {
-  // the unique ID of the application
-  static const String _applicationId = "my_application_id";
-  // the mobile device unique identity
-  String _deviceIdentity = "";
 
   Metodos_http _netUtil = new Metodos_http();
   static final BASE_URL = Constantes.serverdomain;
   static final LOGIN_URL = BASE_URL + Constantes.urilogin;
   static final PERFIL_URL = BASE_URL + Constantes.uriClientes;
   static final SAVE_URL = BASE_URL + Constantes.uriregistrar;
+  static final DOCTORES_URL= BASE_URL + Constantes.uriDoctores;
   String _API_KEY = "";
   final JsonDecoder _decoder = new JsonDecoder();
   var storageService = locator<Var_shared>();
@@ -63,6 +61,29 @@ class RestDatasource {
     });
   }
 
+  Future<List<Doctor>> doctoresEspecialidad(String especialidad) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    return _netUtil.get(DOCTORES_URL,
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      //print(res.toString());
+      List<Doctor> response=new List<Doctor>();
+      if(res!=null){
+        var doctores = res.map((i)=>Doctor.fromJson(i)).toList();
+        for(final doctor in doctores){
+          print(especialidad);
+          print(doctor.Especialidad);
+          if(especialidad==doctor.Especialidad){
+            print("hola");
+            response.add(doctor);
+          }
+        }
+        return response;
+      }
+      return null;
+    });
+  }
   Future<http.Response> postLogin(String username, String password) {
     return http
         .post(LOGIN_URL, body: {

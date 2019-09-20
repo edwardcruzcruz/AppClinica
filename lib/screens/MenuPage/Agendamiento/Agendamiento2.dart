@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/Doctor.dart';
 
 class Agendamiento2 extends StatefulWidget {
-  String especialidad;
+  List<Doctor> doctores;
 
-  Agendamiento2({Key key, this.especialidad}) : super(key: key);
+  Agendamiento2({Key key, this.doctores}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Agendamiento2(),
@@ -11,17 +12,13 @@ class Agendamiento2 extends StatefulWidget {
   }
 
   @override
-  _Agendamiento2State createState() => _Agendamiento2State(this.especialidad);
+  _Agendamiento2State createState() => _Agendamiento2State(this.doctores);
 
 }
 
 class _Agendamiento2State extends State<Agendamiento2>{
-  String especialidad;
-  _Agendamiento2State(this.especialidad);
-  //var storageService = locator<Var_shared>();
-  //User usuario;
-  //Doctor _doctor;//estos son modelos
-  //Horario _horario;//estos son modelos
+  List<Doctor> doctores;
+  _Agendamiento2State(this.doctores);
 
 
   final _formKey = GlobalKey<FormState>();
@@ -34,7 +31,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
         centerTitle: true,
         backgroundColor: Color.fromRGBO(19, 206, 177, 100),
       ),
-      body: Column(
+      body: Column  (
         children: <Widget>[
           new Banner(
             message: "",//mensaje esquina superior derecha
@@ -47,49 +44,8 @@ class _Agendamiento2State extends State<Agendamiento2>{
               child: Center(child: new Image.asset('assets/promocion.jpg', fit: BoxFit.fill,),),
             ),
           ),
-          new Expanded(
-              child: new ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  new Container(
-                    //padding: EdgeInsets.all(20),
-                    //child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Card(
-                              elevation: 0,
-                              color: Colors.transparent,
-                              child: Row(
-                                children: <Widget>[
-                                  Column(
-                                    children: <Widget>[
-                                      Container(
-                                        child: new Text(
-                                          'Agendamiento de Citas',
-                                          style: new TextStyle(
-                                            fontSize: 20.0
-                                            //color: Colors.yellow,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        formulario(),
-                      ],
-                    ),
-                  ),
-                ],
-              )
+          new Expanded (
+              child: formulario()
           )
           //),
         ],
@@ -99,46 +55,106 @@ class _Agendamiento2State extends State<Agendamiento2>{
   }
 
   Widget formulario(){
-    return Form(
-      key: _formKey,
-      child: Column(
+    //String especialidad=this.doctores.elementAt(0).Especialidad;
+    String especialidad="algo";
+    return ListView.builder(
+      shrinkWrap: true,
+      itemBuilder: (context, position) {
+        return Column(
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+                        width: 90.0,
+                        height: 90.0,
+                        decoration: new BoxDecoration(
+                          image: DecorationImage(
+                            image: new AssetImage(
+                              'assets/splash.jpg'),
+                              fit: BoxFit.fill,
+                            ),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
+                        child: Text(doctores.elementAt(position).Nombre+" "+doctores.elementAt(position).Apellido),
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(0.0, 6.0, 12.0, 12.0),
+                        child: Text("degree and icon"),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.arrow_right,
+                            size: 35.0,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              height: 2.0,
+              color: Colors.grey,
+            )
+          ],
+        );
+      },
+      itemCount: doctores.length,
+    );/*Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[//para tipo tratamiento o consulta ---ver la forma de como validar con la key los dropdownapi
-          ListTile(
-            leading: Icon(Icons.people),
-            title: Text(especialidad),
-            onTap: () {
-              // This line code will close drawer programatically....
-              Navigator.pop(context);
-            },
-          ),
-          Divider(
-            height: 2.0,
-          ),
-          ListTile(
-            leading: Icon(Icons.question_answer),
-            title: Text(especialidad),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          Divider(
-            height: 2.0,
-          ),
-          ListTile(
-            leading: Icon(Icons.info),
-            title: Text(especialidad),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          Divider(
-            height: 2.0,
-          ),
-
-        ],
-      ),
-    );
+        children: List.generate(doctores.length, (index) {
+          return Center(
+            /*children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.question_answer),
+                title: Text(doctores.elementAt(index).Nombre),
+                onTap: () async{
+                  Navigator.pop(context);
+                },
+              ),
+              Divider(
+                height: 2.0,
+              ),
+            ],*/
+            child: ListTile(
+              leading: Icon(Icons.question_answer),
+              title: Text(doctores.elementAt(index).Nombre+" "+doctores.elementAt(index).Apellido),
+              onTap: () async{
+                Navigator.pop(context);
+              },
+            ),
+          );
+        }),
+    );*/
 
   }
   void _showDialogSeleccion() {//todos estos mensajes se tendrian que poner en una clase externa
@@ -162,6 +178,13 @@ class _Agendamiento2State extends State<Agendamiento2>{
         );
       },
     );
+  }
+  List<Doctor> ListamisDoctores() {
+    List<Doctor> list = new List();
+    for(final doctor in doctores){
+      list.add(doctor);
+    }
+    return list ;
   }
 }
 

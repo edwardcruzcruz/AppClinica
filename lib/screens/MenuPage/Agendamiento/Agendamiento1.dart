@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento2.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
 
 class Agendamiento extends StatefulWidget {
   static Route<dynamic> route() {
@@ -19,7 +21,7 @@ class Agendamiento extends StatefulWidget {
 class _AgendamientoState extends State<Agendamiento>{
   var storageService = locator<Var_shared>();
   User usuario;
-  //Doctor _doctor;//estos son modelos
+  //List<Doctor> _doctor;//estos son modelos
   //Horario _horario;//estos son modelos
 
 
@@ -103,12 +105,16 @@ class _AgendamientoState extends State<Agendamiento>{
           ListTile(
             leading: Icon(Icons.people),
             title: Text('NUTRICIÓN'),
-            onTap: () {
+            onTap: () async{
               // This line code will close drawer programatically....
               //Navigator.pop(context);
+              List<Doctor> doctores= await RestDatasource().doctoresEspecialidad('NutriciÃ³n') ;
+              for(final doctor in doctores){
+                print(doctor.Nombre);
+              }
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Agendamiento2(especialidad: 'NUTRICIÓN')),
+                MaterialPageRoute(builder: (context) => Agendamiento2(doctores: doctores)),
               );
             },
           ),
@@ -118,10 +124,14 @@ class _AgendamientoState extends State<Agendamiento>{
           ListTile(
             leading: Icon(Icons.question_answer),
             title: Text('ODONTOLOGIA'),
-            onTap: () {
+            onTap: () async{
+              List<Doctor> doctores= await RestDatasource().doctoresEspecialidad('OdontologÃ­a') ;//por tilde
+              for(final doctor in doctores){
+                print(doctor.Nombre);
+              }
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Agendamiento2(especialidad: 'ODONTOLOGIA')),
+                MaterialPageRoute(builder: (context) => Agendamiento2(doctores: doctores)),
               );
             },
           ),
@@ -131,10 +141,14 @@ class _AgendamientoState extends State<Agendamiento>{
           ListTile(
             leading: Icon(Icons.info),
             title: Text('PSICOLOGÍA'),
-            onTap: () {
+            onTap: () async{
+              List<Doctor> doctores= await RestDatasource().doctoresEspecialidad('PsicologÃ­a') ;
+              for(final doctor in doctores){
+                print(doctor.Nombre);
+              }
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Agendamiento2(especialidad: 'PSICOLOGÍA')),
+                MaterialPageRoute(builder: (context) => Agendamiento2(doctores: doctores)),
               );
             },
           ),
