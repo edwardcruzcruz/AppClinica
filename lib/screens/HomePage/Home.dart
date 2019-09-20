@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/User.dart';
+//import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
-import 'package:flutter_app/screens/MenuPage/Agendamiento.dart';
+import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento1.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
-import 'package:flutter_app/services/Rest_Services.dart';
+//import 'package:flutter_app/services/Rest_Services.dart';
 
 class Home extends StatefulWidget {
   static Route<dynamic> route() {
@@ -23,14 +23,13 @@ class _HomeState extends State<Home>{
 
   @override
   Widget build(BuildContext context) {
-    //User usuario=User.fromJson(RestDatasource().login());
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar (
         title: new Image.asset('assets/logo_clinica.png', fit: BoxFit.cover,),
         centerTitle: true,
         backgroundColor: Color.fromRGBO(19, 206, 177, 100),
       ),
-      endDrawer: Drawer(
+      endDrawer: Drawer (
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
         // space to fit everything.
@@ -39,9 +38,9 @@ class _HomeState extends State<Home>{
           //padding: EdgeInsets.zero,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text("edward"),//consultas api con modelos
-              accountEmail: Text("edward@gmail.com"),
+            UserAccountsDrawerHeader (
+              accountName: Text(""),//consultas api con modelos
+              accountEmail: Text(storageService.getEmail),
               currentAccountPicture:
               Image.network('https://thechanmakerrecipe.files.wordpress.com/2014/10/ec-only-logo-copy.png?w=243'),
               decoration: BoxDecoration(color: Color.fromRGBO(19, 206, 177, 100)),
@@ -132,10 +131,10 @@ class _HomeState extends State<Home>{
                               Column(
                                 children: <Widget>[
                                   GestureDetector(
-                                    onTap: ()async{
-                                      User usuario = await RestDatasource().perfil(storageService.getEmail);
-                                      print(usuario.Nombre);
-
+                                    onTap: (){
+                                      //User usuario = await RestDatasource().perfil(storageService.getEmail);
+                                      //print(usuario.Correo);
+                                      //Navigator.of(context).push(Agendamiento.route());
                                       Navigator.of(context).push(Agendamiento.route());
                                     },
                                     child: Container(

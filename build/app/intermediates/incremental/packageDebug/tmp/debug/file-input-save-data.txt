@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Wed Sep 18 18:29:39 ECT 2019
+#Thu Sep 19 15:54:56 ECT 2019
 17.baseType=DIRECTORY
 4.path=flutter_assets/assets/logo_clinica.png
 22.set=ASSET

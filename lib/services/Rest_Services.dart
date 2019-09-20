@@ -48,21 +48,16 @@ class RestDatasource {
       headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
          HttpHeaders.authorizationHeader: "token $_API_KEY"}
         ).then((dynamic res) {
-          
-          //print(res[1]);
+        User response=null;
       if(res!=null){
-        //List<User> parsedList=json.decode(res);
-        //List parsed = json.decode(res);
-        //print(parsed.elementAt(0));
-        for (final usuario in json.decode(res.toString())){
-          print(usuario);
+        var usuarios = res.map((i)=>User.fromJson(i)).toList();
+        for(final usuario in usuarios){
+          //print(usuario.Correo);
+          if(email==usuario.Correo){
+            response= usuario;
+          }
         }
-          //print(res[i]);
-          //if(res[i]['email'].toString().compareTo(email)==1){
-            return new User.fromJson(res[0]);
-          //}
-        //}
-        //return null;
+        return response;
       }
         return null;
     });

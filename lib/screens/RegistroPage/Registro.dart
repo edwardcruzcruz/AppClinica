@@ -80,7 +80,7 @@ class _RegistroState extends State<Registro> {
                             genero="Femenino";
                           }
                           // Process data.
-                        if(passController1.text.compareTo(passController2.text)==0){
+                        if(passController1.text==(passController2.text)){
                               var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),genero,email.text, passController1.text,passController2.text);
                               if(response.statusCode>200 && response.statusCode<400){
                                 _showSuccessGuardar();

@@ -35,3 +35,18 @@ class User {
     return data;
   }
 }
+class UserList {
+  final List<User> usuarios;
+
+  UserList({
+    this.usuarios,
+  });
+  factory UserList.fromJson(List<dynamic> parsedJson) {
+
+    List<User> users = new List<User>();
+
+    return new UserList(
+      usuarios: users,
+    );
+  }
+}
