@@ -84,7 +84,6 @@ class _RegistroState extends State<Registro> {
                               var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),genero,email.text, passController1.text,passController2.text);
                               if(response.statusCode>200 && response.statusCode<400){
                                 _showSuccessGuardar();
-                                Navigator.of(context).pushReplacement(Login.route());
                               }else{
                                 _showErrorGuardar();
                               }
@@ -465,9 +464,9 @@ class _RegistroState extends State<Registro> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Close"),
+              child: new Text("Ok"),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacement(Login.route());
               },
             ),
           ],

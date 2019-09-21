@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Doctor.dart';
+import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/screens/MenuPage/Calendario.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
 
 class Agendamiento2 extends StatefulWidget {
   List<Doctor> doctores;
@@ -56,15 +59,24 @@ class _Agendamiento2State extends State<Agendamiento2>{
 
   Widget formulario(){
     //String especialidad=this.doctores.elementAt(0).Especialidad;
-    String especialidad="algo";
     return ListView.builder(
       shrinkWrap: true,
       itemBuilder: (context, position) {
         return Column(
           children: <Widget>[
             GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async{
+                List<Horario> horarios= await RestDatasource().HorarioDoctor(doctores.elementAt(position).Id);
+                if(horarios!=null){
+                  for(final horario in horarios){
+                    print(horario.Fecha+" "+horario.Hora);
+                  }
+                }//mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CalendarioPage(horarios: horarios,)),
+                );
+                //Navigator.pop(context);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -129,33 +141,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
         );
       },
       itemCount: doctores.length,
-    );/*Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: List.generate(doctores.length, (index) {
-          return Center(
-            /*children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.question_answer),
-                title: Text(doctores.elementAt(index).Nombre),
-                onTap: () async{
-                  Navigator.pop(context);
-                },
-              ),
-              Divider(
-                height: 2.0,
-              ),
-            ],*/
-            child: ListTile(
-              leading: Icon(Icons.question_answer),
-              title: Text(doctores.elementAt(index).Nombre+" "+doctores.elementAt(index).Apellido),
-              onTap: () async{
-                Navigator.pop(context);
-              },
-            ),
-          );
-        }),
-    );*/
-
+    );
   }
   void _showDialogSeleccion() {//todos estos mensajes se tendrian que poner en una clase externa
     // flutter defined function

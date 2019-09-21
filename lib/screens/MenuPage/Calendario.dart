@@ -1,9 +1,19 @@
 //  Copyright (c) 2019 Aleksander Woźniak
 //  Licensed under Apache License v2.0
 
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Utils/Shared_Preferences.dart';
+import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/components/table_calendar.dart';
+import 'package:flutter_app/models/Cita.dart';
+import 'package:flutter_app/models/Doctor.dart';
+import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento3.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 // Example holidays
 final Map<DateTime, List> _holidays = {
@@ -30,6 +40,9 @@ class MyApp extends StatelessWidget {
   }
 }*/
 class CalendarioPage extends StatefulWidget {
+  List<Horario> horarios;
+
+  CalendarioPage({Key key, this.horarios}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => CalendarioPage(),
@@ -41,39 +54,53 @@ class CalendarioPage extends StatefulWidget {
   //final String especialidad;
 
   @override
-  _CalendarioState createState() => _CalendarioState();
+  _CalendarioState createState() => _CalendarioState(this.horarios);
 }
 
 class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMixin {
-  Map<DateTime, List> _events;
-  List _selectedEvents;
+  List<Horario> horarios;
+  DateTime _fechaElegida=DateTime.now();
+  Map<DateTime, List<String>> _events=new HashMap();
+  List<String> _selectedEvents= new List();
   AnimationController _animationController;
   CalendarController _calendarController;
+  var storageService = locator<Var_shared>();
+
+
+  _CalendarioState(this.horarios);
 
   @override
   void initState() {
     super.initState();
     final _selectedDay = DateTime.now();
 
-    _events = {
-      _selectedDay.subtract(Duration(days: 30)): ['Event A0', 'Event B0', 'Event C0'],
-      _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
-      _selectedDay.subtract(Duration(days: 20)): ['Event A2', 'Event B2', 'Event C2', 'Event D2'],
-      _selectedDay.subtract(Duration(days: 16)): ['Event A3', 'Event B3'],
-      _selectedDay.subtract(Duration(days: 10)): ['Event A4', 'Event B4', 'Event C4'],
-      _selectedDay.subtract(Duration(days: 4)): ['Event A5', 'Event B5', 'Event C5'],
-      _selectedDay.subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-      _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-      _selectedDay.add(Duration(days: 1)): ['Dr. Juan Arevalo - 8:00am a 8:30am', 'Dr. Jose Armijos - 8:30am a 9:00am', 'Dr. Angel Rivadeneira - 14:00pm a 14:30pm', 'Dra. Ana Balon - 15:00pm a 15:30pm'],
-      _selectedDay.add(Duration(days: 3)): Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
-      _selectedDay.add(Duration(days: 7)): ['Event A10', 'Event B10', 'Event C10'],
-      _selectedDay.add(Duration(days: 11)): ['Event A11', 'Event B11'],
-      _selectedDay.add(Duration(days: 17)): ['Event A12', 'Event B12', 'Event C12', 'Event D12'],
-      _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
-      _selectedDay.add(Duration(days: 26)): ['Event A14', 'Event B14', 'Event C14'],
-    };
+    DateTime temp=DateTime.parse(DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
 
-    _selectedEvents = _events[_selectedDay] ?? [];
+    if(horarios!=null){
+      for(final horario in horarios){
+        DateTime fechaTemp=DateTime.parse(horario.Fecha);
+        //print(horario.Fecha+"->"+DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
+        print(horario.Fecha==DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
+        if(fechaTemp.isAfter(temp)){
+          print("hola despues");
+        }else if(fechaTemp.isBefore(temp)){
+          print("hola antes");
+        }else if(fechaTemp.isAtSameMomentAs(temp)){
+          //print("hey");
+          //_events.addAll(DateTime.parse(horario.Fecha),List());
+          _selectedEvents.add(horario.Hora);
+          //_selectedEvents.add(horario.Hora);
+          if(!_events.containsKey(fechaTemp)){
+            _events[fechaTemp]=_selectedEvents.toList();
+          }else{
+            _events[fechaTemp]=_selectedEvents.toList();
+
+          }
+          //_selectedEvents.add(horario.Hora);
+          //print(_selectedEvents.length);
+        }
+      }
+    }
 
     _calendarController = CalendarController();
 
@@ -94,7 +121,9 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
 
   void _onDaySelected(DateTime day, List events) {
     print('CALLBACK: _onDaySelected');
+    print('$day');
     setState(() {
+      _fechaElegida=day;
       _selectedEvents = events;
     });
   }
@@ -330,7 +359,21 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
         margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
         child: ListTile(
           title: Text(event.toString()),
-          onTap: () => print('$event tapped!'),
+          onTap: () async{
+            if(horarios!=null){//el calendario es valido
+              Doctor doctor=await RestDatasource().doctoresId(horarios.elementAt(0).IdDoctor);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Agendamiento3(cita: new Cita(storageService.getEmail,doctor.Especialidad,event.toString(),DateFormat("yyyy-MM-dd").format(_fechaElegida).toString(),doctor.Nombre+' '+doctor.Apellido),)),
+              );
+            }else{
+              print("no se peude hacer nada");
+            }
+
+
+
+            //print('$event tapped!');
+          },
         ),
       ))
           .toList(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Doctor.dart';
+import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento2.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 
 class Agendamiento extends StatefulWidget {
+  List<Especialidad> especialidades;
+  Agendamiento({Key key, this.especialidades}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Agendamiento(),
@@ -14,11 +17,13 @@ class Agendamiento extends StatefulWidget {
   }
 
   @override
-  _AgendamientoState createState() => _AgendamientoState();
+  _AgendamientoState createState() => _AgendamientoState(this.especialidades);
 
 }
 
 class _AgendamientoState extends State<Agendamiento>{
+  List<Especialidad> especialidades;
+  _AgendamientoState(this.especialidades);
   var storageService = locator<Var_shared>();
   User usuario;
   //List<Doctor> _doctor;//estos son modelos
@@ -49,45 +54,7 @@ class _AgendamientoState extends State<Agendamiento>{
             ),
           ),
           new Expanded(
-              child: new ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  new Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Card(
-                              elevation: 0,
-                              color: Colors.transparent,
-                              child: Row(
-                                children: <Widget>[
-                                  Column(
-                                    children: <Widget>[
-                                      Container(
-                                        child: new Text(
-                                          'Agendamiento de Citas',
-                                          style: new TextStyle(
-                                            fontSize: 20.0
-                                            //color: Colors.yellow,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        formulario(),
-                      ],
-                    ),
-                  ),
-                ],
-              )
+              child: formulario(),
           )
           //),
         ],
@@ -97,69 +64,68 @@ class _AgendamientoState extends State<Agendamiento>{
   }
 
   Widget formulario(){
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[//para tipo tratamiento o consulta ---ver la forma de como validar con la key los dropdownapi
-          ListTile(
-            leading: Icon(Icons.people),
-            title: Text('NUTRICIÓN'),
-            onTap: () async{
-              // This line code will close drawer programatically....
-              //Navigator.pop(context);
-              List<Doctor> doctores= await RestDatasource().doctoresEspecialidad('NutriciÃ³n') ;
-              for(final doctor in doctores){
-                print(doctor.Nombre);
-              }
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Agendamiento2(doctores: doctores)),
-              );
-            },
-          ),
-          Divider(
-            height: 2.0,
-          ),
-          ListTile(
-            leading: Icon(Icons.question_answer),
-            title: Text('ODONTOLOGIA'),
-            onTap: () async{
-              List<Doctor> doctores= await RestDatasource().doctoresEspecialidad('OdontologÃ­a') ;//por tilde
-              for(final doctor in doctores){
-                print(doctor.Nombre);
-              }
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Agendamiento2(doctores: doctores)),
-              );
-            },
-          ),
-          Divider(
-            height: 2.0,
-          ),
-          ListTile(
-            leading: Icon(Icons.info),
-            title: Text('PSICOLOGÍA'),
-            onTap: () async{
-              List<Doctor> doctores= await RestDatasource().doctoresEspecialidad('PsicologÃ­a') ;
-              for(final doctor in doctores){
-                print(doctor.Nombre);
-              }
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Agendamiento2(doctores: doctores)),
-              );
-            },
-          ),
-          Divider(
-            height: 2.0,
-          ),
-
-        ],
-      ),
+    return ListView.builder(
+      shrinkWrap: true,
+      itemBuilder: (context, position) {
+        return Column(
+          children: <Widget>[
+            GestureDetector(
+              onTap: () async{
+                List<Doctor> doctores= await RestDatasource().doctoresEspecialidad(especialidades.elementAt(position).NombreEspecialidad);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Agendamiento2(doctores: doctores,)),
+                );
+                //Navigator.pop(context);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+                        width: 90.0,
+                        height: 90.0,
+                        decoration: new BoxDecoration(
+                          image: DecorationImage(
+                            image: new AssetImage(
+                                'assets/splash.jpg'),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
+                        child: Text(especialidades.elementAt(position).NombreEspecialidad),
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(0.0, 6.0, 12.0, 12.0),
+                        child: Text("degree and icon"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              height: 2.0,
+              color: Colors.grey,
+            )
+          ],
+        );
+      },
+      itemCount: especialidades.length,
     );
-
   }
   void _showDialogSeleccion() {//todos estos mensajes se tendrian que poner en una clase externa
     // flutter defined function

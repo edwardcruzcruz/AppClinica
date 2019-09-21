@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/Especialidad.dart';
 //import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento1.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
 //import 'package:flutter_app/services/Rest_Services.dart';
 
 class Home extends StatefulWidget {
@@ -85,10 +87,7 @@ class _HomeState extends State<Home>{
                   onTap: (){
                     storageService.delete_user();//variable de session usuario eliminada
                     storageService.delete_email();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login()),
-                    );
+                    Navigator.of(context).pushAndRemoveUntil(Login.route(), (Route<dynamic> route)=>false);
                   },
                 )
               ),
@@ -131,11 +130,12 @@ class _HomeState extends State<Home>{
                               Column(
                                 children: <Widget>[
                                   GestureDetector(
-                                    onTap: (){
-                                      //User usuario = await RestDatasource().perfil(storageService.getEmail);
-                                      //print(usuario.Correo);
-                                      //Navigator.of(context).push(Agendamiento.route());
-                                      Navigator.of(context).push(Agendamiento.route());
+                                    onTap: ()async{
+                                      List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad() ;
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => Agendamiento(especialidades: especialidades)),
+                                      );
                                     },
                                     child: Container(
                                       margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
