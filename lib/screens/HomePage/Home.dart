@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Especialidad.dart';
-//import 'package:flutter_app/models/User.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento1.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
@@ -22,6 +22,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home>{
   var storageService = locator<Var_shared>();
+  bool _saving = false;//to circular progress bar
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,7 @@ class _HomeState extends State<Home>{
           ],
         ),
       ),
-      body: Column(
+      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: Column(
         children: <Widget>[
           Banner(
           message: "",//mensaje esquina superior derecha
@@ -131,7 +132,13 @@ class _HomeState extends State<Home>{
                                 children: <Widget>[
                                   GestureDetector(
                                     onTap: ()async{
+                                      setState(() {//se muestra barra circular de espera
+                                        _saving = true;
+                                      });
                                       List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad() ;
+                                      setState(() {//se oculta barra circular de espera
+                                        _saving = false;
+                                      });
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(builder: (context) => Agendamiento(especialidades: especialidades)),
@@ -326,6 +333,7 @@ class _HomeState extends State<Home>{
           //),
         ],
       ),
+      )
 
     );
   }

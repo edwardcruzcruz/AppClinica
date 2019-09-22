@@ -3,6 +3,7 @@ import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/screens/MenuPage/Calendario.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Agendamiento2 extends StatefulWidget {
   List<Doctor> doctores;
@@ -20,6 +21,7 @@ class Agendamiento2 extends StatefulWidget {
 }
 
 class _Agendamiento2State extends State<Agendamiento2>{
+  bool _saving = false;//to circular progress bar
   List<Doctor> doctores;
   _Agendamiento2State(this.doctores);
 
@@ -34,7 +36,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
         centerTitle: true,
         backgroundColor: Color.fromRGBO(19, 206, 177, 100),
       ),
-      body: Column  (
+      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: Column  (
         children: <Widget>[
           new Banner(
             message: "",//mensaje esquina superior derecha
@@ -53,6 +55,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
           //),
         ],
       ),
+      )
 
     );
   }
@@ -66,12 +69,13 @@ class _Agendamiento2State extends State<Agendamiento2>{
           children: <Widget>[
             GestureDetector(
               onTap: () async{
+                setState(() {//se muestra barra circular de espera
+                  _saving = true;
+                });
                 List<Horario> horarios= await RestDatasource().HorarioDoctor(doctores.elementAt(position).Id);
-                if(horarios!=null){
-                  for(final horario in horarios){
-                    print(horario.Fecha+" "+horario.Hora);
-                  }
-                }//mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
+                setState(() {//se oculta barra circular de espera
+                  _saving = false;
+                });//mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CalendarioPage(horarios: horarios,)),

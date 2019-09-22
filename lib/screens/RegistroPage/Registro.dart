@@ -4,6 +4,7 @@ import 'package:flutter_app/components/DateTime/flutter_datetime_picker.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Registro extends StatefulWidget{
 
@@ -20,6 +21,7 @@ class Registro extends StatefulWidget{
 
 
 class _RegistroState extends State<Registro> {
+  bool _saving = false;//to circular progress bar
   final _formKey = GlobalKey<FormState>();
   String dropdownValue = '1';
   TextEditingController username = new TextEditingController();
@@ -55,7 +57,7 @@ class _RegistroState extends State<Registro> {
           )
         ],
       ),
-      body: tabla(),
+      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: tabla()),
       persistentFooterButtons: <Widget>[
         ButtonBar(
           children: <Widget>[
@@ -72,6 +74,7 @@ class _RegistroState extends State<Registro> {
                       onPressed: () async{
                         // Validate will return true if the form is valid, or false if
                         // the form is invalid.
+
                         if (_formKey.currentState.validate()) {
                           String genero="";
                           if(dropdownValue==1){
@@ -81,7 +84,13 @@ class _RegistroState extends State<Registro> {
                           }
                           // Process data.
                         if(passController1.text==(passController2.text)){
+                          setState(() {//se muestra barra circular de espera
+                            _saving = true;
+                          });
                               var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),genero,email.text, passController1.text,passController2.text);
+                          setState(() {//se muestra barra circular de espera
+                            _saving = false;
+                          });
                               if(response.statusCode>200 && response.statusCode<400){
                                 _showSuccessGuardar();
                               }else{

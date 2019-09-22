@@ -6,6 +6,7 @@ import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento2.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Agendamiento extends StatefulWidget {
   List<Especialidad> especialidades;
@@ -22,6 +23,7 @@ class Agendamiento extends StatefulWidget {
 }
 
 class _AgendamientoState extends State<Agendamiento>{
+  bool _saving = false;//to circular progress bar
   List<Especialidad> especialidades;
   _AgendamientoState(this.especialidades);
   var storageService = locator<Var_shared>();
@@ -40,7 +42,7 @@ class _AgendamientoState extends State<Agendamiento>{
         centerTitle: true,
         backgroundColor: Color.fromRGBO(19, 206, 177, 100),
       ),
-      body: Column(
+      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: Column(
         children: <Widget>[
           new Banner(
             message: "",//mensaje esquina superior derecha
@@ -59,7 +61,7 @@ class _AgendamientoState extends State<Agendamiento>{
           //),
         ],
       ),
-
+      )
     );
   }
 
@@ -71,7 +73,13 @@ class _AgendamientoState extends State<Agendamiento>{
           children: <Widget>[
             GestureDetector(
               onTap: () async{
+                setState(() {//se muestra barra circular de espera
+                  _saving = true;
+                });
                 List<Doctor> doctores= await RestDatasource().doctoresEspecialidad(especialidades.elementAt(position).NombreEspecialidad);
+                setState(() {//se oculta barra circular de espera
+                  _saving = false;
+                });
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Agendamiento2(doctores: doctores,)),
@@ -113,6 +121,22 @@ class _AgendamientoState extends State<Agendamiento>{
                         child: Text("degree and icon"),
                       ),
                     ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.arrow_right,
+                            size: 35.0,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

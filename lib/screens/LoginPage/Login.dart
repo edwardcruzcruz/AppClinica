@@ -5,7 +5,7 @@ import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Login extends StatefulWidget {
   static Route<dynamic> route() {
@@ -34,7 +34,7 @@ Widget _logo(){
 }
 class _LoginState extends State<Login>
     with SingleTickerProviderStateMixin {
-
+  bool _saving = false;//to circular progress bar
   var storageService = locator<Var_shared>();
   AnimationController controller;
   Animation<double> animation;
@@ -88,7 +88,7 @@ class _LoginState extends State<Login>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,//Quitar el mensaje de exceso de pixeles
-      body: loginForm(),
+      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: loginForm()),
     );
   }
 
@@ -181,12 +181,18 @@ class _LoginState extends State<Login>
                     color: Color.fromRGBO(19, 206,148, 100),
                     textColor: Colors.white,
                     onPressed: ()async{
+                      setState(() {//se muestra barra circular de espera
+                        _saving = true;
+                      });
                       //print(_key.currentState.validate());
                       print('Correo: edward@gmail.com  Contraseña: edwardcruz123');
                       if (_key.currentState.validate()) {
                         var response = await RestDatasource().postLogin(emailController.text,passController.text);
                         _key.currentState.save();
                         if(response.statusCode==200){
+                          setState(() {//se oculta barra circular de espera
+                            _saving = false;
+                          });
                           //print(_key.currentState.validate());
                           String token=response.body;
                           storageService.save_email(emailController.text);
@@ -194,6 +200,9 @@ class _LoginState extends State<Login>
                           print(storageService.getuser);
                           Navigator.of(context).pushReplacement(Home.route());
                         }else{
+                          setState(() {//se oculta barra circular de espera
+                            _saving = false;
+                          });
                           _showDialogLogin();
                         }
                       //
