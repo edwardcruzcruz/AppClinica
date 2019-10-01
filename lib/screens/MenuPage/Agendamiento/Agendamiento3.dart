@@ -7,6 +7,8 @@ import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter_app/screens/MenuPage/Calendario.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
+import 'package:intl/intl.dart';
+//import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Agendamiento3 extends StatefulWidget {
   Cita cita;
@@ -24,6 +26,7 @@ class Agendamiento3 extends StatefulWidget {
 }
 
 class _Agendamiento3State extends State<Agendamiento3>{
+  //bool _saving = false;//to circular progress bar
   var storageService = locator<Var_shared>();
   Cita cita;
   _Agendamiento3State(this.cita);
@@ -39,7 +42,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
         centerTitle: true,
         backgroundColor: Color.fromRGBO(19, 206, 177, 100),
       ),
-      body: Column  (
+      body: /*ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child:*/ Column  (
         children: <Widget>[
           new Banner(
             message: "",//mensaje esquina superior derecha
@@ -58,7 +61,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
           //),
         ],
       ),
-
+      //)
     );
   }
 
@@ -108,7 +111,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                     Padding(
                       padding:
                       const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                      child: Text(cita.IdDoctor),
+                      child: Text("Doctor: "+cita.IdDoctor),
                     ),
                   ],
                 ),
@@ -124,7 +127,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                     Padding(
                       padding:
                       const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                      child: Text(DateTime.parse(cita.Fecha).day.toString()+' de '+DateTime.parse(cita.Fecha).month.toString()+' del '+DateTime.parse(cita.Fecha).year.toString()),
+                      child: Text(DateTime.parse(DateFormat("yyyy-MM-dd").format(cita.Fecha).toString()).day.toString()+' de '+DateTime.parse(DateFormat("yyyy-MM-dd").format(cita.Fecha).toString()).month.toString()+' del '+DateTime.parse(DateFormat("yyyy-MM-dd").format(cita.Fecha).toString()).year.toString()),
                     ),
                   ],
                 ),
@@ -139,7 +142,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                     Padding(
                       padding:
                       const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                      child: Text(cita.Hora +' - '+cita.Hora),
+                      child: Text(cita.Fecha.hour.toString() +' : '+cita.Fecha.minute.toString()+" - "+cita.Fecha.hour.toString() +' : '+cita.Fecha.add(Duration(minutes: 30)).minute.toString()),
                     ),
                   ],
                 ),
@@ -161,8 +164,17 @@ class _Agendamiento3State extends State<Agendamiento3>{
                     Padding(
                       padding:
                       const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                      child: FlatButton(onPressed:(){
-                        _showDialogSave();
+                      child: FlatButton(onPressed:(){//async
+                        /*setState(() {//se muestra barra circular de espera
+                          _saving = true;
+                        });
+                        var respuesta= await RestDatasource().save_cita(cita);
+                        setState(() {//se muestra barra circular de espera
+                          _saving = false;
+                        });
+                        if(respuesta.statusCode>=200 || respuesta.statusCode<=400){*/
+                          _showDialogSave();
+                        //}
                       },child: Text("confirmar"),),
                     ),
                   ],

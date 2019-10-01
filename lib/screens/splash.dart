@@ -43,36 +43,11 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.grey[600],
-      child: Column(
+      child: Flex(
+        direction: Axis.horizontal,
         children: <Widget>[
-          SizedBox(height: 100.0,),
-          Flexible(
-            flex: 2,
-            child: SafeArea(
-              child: FractionallySizedBox(
-                widthFactor: 0.7,
-                child: Image.asset('assets/splash.jpg'),
-              ),
-            ),
-          ),
-          Text(
-            'Bienvenido',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18.0,
-            ),
-          ),
-          Flexible(
-            flex: 2,
-            child: SafeArea(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 64.0, horizontal: 16.0),
-                alignment: Alignment.bottomCenter,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                ),
-              ),
-            ),
+          Expanded(
+            child: Image.asset('assets/splash-01.png',fit: BoxFit.cover),
           ),
         ],
       ),

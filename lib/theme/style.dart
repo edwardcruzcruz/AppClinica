@@ -13,11 +13,23 @@ ThemeData appTheme() {
     // is not restarted.
     primaryColor: Colors.white,
     accentColor: Colors.orange,
-    hintColor: Colors.white,
+    hintColor: HexColor("#87868a"),
     dividerColor: Colors.white,
     scaffoldBackgroundColor: Colors.black,
     canvasColor: Colors.black,
     buttonColor:Color.fromRGBO(19, 206,148, 100),
-    cardColor: Color.fromRGBO(19, 206, 177, 100),//color forma textField, shape, etc.
+    cardColor: Color.fromRGBO(19, 206, 177, 100),
+    textTheme: TextTheme(title: TextStyle(fontSize: 10.0, fontStyle: FontStyle.italic),)
   );
+}
+class HexColor extends Color {
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
+
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }

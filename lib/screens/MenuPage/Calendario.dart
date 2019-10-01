@@ -82,7 +82,9 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
         //print(horario.Fecha+"->"+DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
         print(horario.Fecha==DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
         if(fechaTemp.isAfter(temp)){
-          print("hola despues");
+          _selectedEvents.add(horario.Hora);
+          //_selectedEvents.add(horario.Hora);
+          _events[fechaTemp.add(Duration(days: fechaTemp.difference(temp).inDays))]=_selectedEvents.toList();
         }else if(fechaTemp.isBefore(temp)){
           print("hola antes");
         }else if(fechaTemp.isAtSameMomentAs(temp)){
@@ -360,11 +362,12 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
         child: ListTile(
           title: Text(event.toString()),
           onTap: () async{
+            print(DateTime.parse(DateFormat("yyyy-MM-dd").format(_fechaElegida).toString()+" "+event));
             if(horarios!=null){//el calendario es valido
               Doctor doctor=await RestDatasource().doctoresId(horarios.elementAt(0).IdDoctor);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Agendamiento3(cita: new Cita(storageService.getEmail,doctor.Especialidad,event.toString(),DateFormat("yyyy-MM-dd").format(_fechaElegida).toString(),doctor.Nombre+' '+doctor.Apellido),)),
+                MaterialPageRoute(builder: (context) => Agendamiento3(cita: new Cita(storageService.getEmail,doctor.Especialidad,"consulta",DateTime.parse(DateFormat("yyyy-MM-dd").format(_fechaElegida).toString()+" "+event),doctor.Nombre+' '+doctor.Apellido),)),
               );
             }else{
               print("no se peude hacer nada");

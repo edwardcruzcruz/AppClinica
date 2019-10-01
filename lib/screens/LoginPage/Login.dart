@@ -25,10 +25,10 @@ Widget _logo(){
     decoration: new BoxDecoration(
       image: DecorationImage(
         image: new AssetImage(
-            'assets/splash.jpg'),
+            'assets/logo_login.jpg'),
         fit: BoxFit.fill,
       ),
-      shape: BoxShape.circle,
+      //shape: BoxShape.circle,
     ),
   );
 }
@@ -95,6 +95,7 @@ class _LoginState extends State<Login>
   Widget loginForm() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      //crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         _logo(),//primer widget del logo login
         Container(
@@ -125,11 +126,11 @@ class _LoginState extends State<Login>
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       hintText: 'Ingrese su Correo',
-                      hintStyle: new TextStyle(color: Colors.white),
-                      labelStyle: new TextStyle(color: Colors.white),
-                      labelText: 'Correo',
+                      hintStyle: new TextStyle(color: Color.fromRGBO(19, 206, 177, 100)),
+                      labelStyle: new TextStyle(color: Color.fromRGBO(19, 206, 177, 100)),
+                      labelText: 'Correo Electrónico',
                       counterText: '',
-                      fillColor: Color.fromRGBO(19, 206, 177, 100),
+                      fillColor: Colors.white,
                       filled: true,
                     ),
                   ),
@@ -185,7 +186,7 @@ class _LoginState extends State<Login>
                         _saving = true;
                       });
                       //print(_key.currentState.validate());
-                      print('Correo: edward@gmail.com  Contraseña: edwardcruz123');
+                      //print('Correo: edward@gmail.com  Contraseña: edwardcruz123');
                       if (_key.currentState.validate()) {
                         var response = await RestDatasource().postLogin(emailController.text,passController.text);
                         _key.currentState.save();

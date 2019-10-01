@@ -12,22 +12,24 @@ class Metodos_http {
 
   Future<dynamic> get(String url,{Map<String, String> headers}) {
     return http.get(url,headers: headers).then((http.Response response) {
-      final String res = response.body;
+      final String utf8response=utf8.decode(response.bodyBytes);
+      //final String res = response.body;
       final int statusCode = response.statusCode;
       print(statusCode);
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw new Exception("Error while fetching data");
       }
-      return _decoder.convert(res);
+      return _decoder.convert(utf8response);
     });
   }
 
-  Future<dynamic> post(String url, {Map headers, body, encoding}) {
+  Future<dynamic> post(String url, {Map<String, String>  headers, Map body}) {
     return http
-        .post(url, body: body, headers: headers, encoding: encoding)
+        .post(url, body: body, headers: headers)
         .then((http.Response response) {
       final String res = response.body;
       final int statusCode = response.statusCode;
+      print("hey whats up bro");
       print(statusCode);
       print(res);
       if (statusCode < 200 || statusCode > 400 || json == null) {

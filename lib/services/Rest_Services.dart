@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'dart:io';
 import 'package:flutter_app/Utils/Constantes.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
+import 'package:flutter_app/models/Cita.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Horario.dart';
@@ -23,6 +24,7 @@ class RestDatasource {
   static final DOCTORES_URL= BASE_URL + Constantes.uriDoctores;
   static final HORARIO_DOCTORES_URL= BASE_URL + Constantes.uriHorariosDoctores;
   static final ESPECIALIDADES_URL=BASE_URL + Constantes.uriEspecialidad;
+  static final CITAS_URL=BASE_URL + Constantes.uriCitas;
 
   String _API_KEY = "";
   final JsonDecoder _decoder = new JsonDecoder();
@@ -71,7 +73,6 @@ class RestDatasource {
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
     ).then((dynamic res) {
-      //print(res.toString());
       List<Especialidad> response=new List<Especialidad>();
       if(res!=null){
         var especialidades = res.map((i)=>Especialidad.fromJson(i)).toList();
@@ -125,6 +126,28 @@ class RestDatasource {
         return response;
       }
       return null;
+    });
+  }
+  Future<http.Response> save_cita(Cita cita) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    return http.post(CITAS_URL,
+        body: {
+        "cliente": cita.Paciente,
+        "especialidad": cita.Especialidad,
+        "tratameinto": "Consulta",
+        "fechaHora": cita.Fecha,
+        "doctor":cita.IdDoctor
+        },
+        headers: {HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      //final String resp = res.body;
+      final int statusCode = res.statusCode;
+      print(statusCode);
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return res;
     });
   }
   Future<List<Horario>> HorarioDoctor(int idDoctor) {
