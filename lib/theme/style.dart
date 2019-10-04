@@ -12,24 +12,15 @@ ThemeData appTheme() {
     // Notice that the counter didn't reset back to zero; the application
     // is not restarted.
     primaryColor: Colors.white,
-    accentColor: Colors.orange,
-    hintColor: HexColor("#87868a"),
+    accentColor: Color.fromRGBO(68, 66,66, 100),
+    hintColor: Color.fromRGBO(135, 134,138, 100),
     dividerColor: Colors.white,
-    scaffoldBackgroundColor: Colors.black,
+    scaffoldBackgroundColor: Colors.white,
     canvasColor: Colors.black,
+
     buttonColor:Color.fromRGBO(19, 206,148, 100),
+    textSelectionColor: Color.fromRGBO(9,125, 124, 100),
     cardColor: Color.fromRGBO(19, 206, 177, 100),
     textTheme: TextTheme(title: TextStyle(fontSize: 10.0, fontStyle: FontStyle.italic),)
   );
-}
-class HexColor extends Color {
-  static int _getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
-    }
-    return int.parse(hexColor, radix: 16);
-  }
-
-  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/RegistroPage/Registro.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
+import 'package:flutter_app/theme/style.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -86,10 +87,14 @@ class _LoginState extends State<Login>
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,//Quitar el mensaje de exceso de pixeles
-      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: loginForm()),
+    return new MaterialApp(
+      theme: appTheme(),
+      home: new Scaffold(
+        resizeToAvoidBottomPadding: false,//Quitar el mensaje de exceso de pixeles
+        body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: loginForm()),
+      ),
     );
+
   }
 
   Widget loginForm() {
@@ -126,11 +131,11 @@ class _LoginState extends State<Login>
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       hintText: 'Ingrese su Correo',
-                      hintStyle: new TextStyle(color: Color.fromRGBO(19, 206, 177, 100)),
-                      labelStyle: new TextStyle(color: Color.fromRGBO(19, 206, 177, 100)),
+                      hintStyle: new TextStyle(color: appTheme().hintColor),
+                      labelStyle: new TextStyle(color: appTheme().hintColor),
                       labelText: 'Correo Electrónico',
                       counterText: '',
-                      fillColor: Colors.white,
+                      fillColor: Colors.transparent,
                       filled: true,
                     ),
                   ),
@@ -158,60 +163,32 @@ class _LoginState extends State<Login>
                     decoration: InputDecoration(
                       hintText: 'Ingrese su Contraseña',
                       labelText: 'Contraseña',
-                      hintStyle: new TextStyle(color: Colors.white),
-                      labelStyle: new TextStyle(color: Colors.white),
+                      hintStyle: new TextStyle(color: appTheme().hintColor),
+                      labelStyle: new TextStyle(color: appTheme().hintColor),
                       counterText: '',
-                      fillColor: Color.fromRGBO(19, 206, 177, 100),
+                      fillColor: Colors.transparent,
                       filled: true  ,
                       suffixIcon: IconButton(icon: Icon(Icons.remove_red_eye,size: 32.0,
-                          color: Colors.black),
+                          color: appTheme().hintColor),
                                       onPressed: _toggle,
                                       ),
                     ),
                     //onSaved: (text) => _contrasena = text,
                   ),
                 ),
-                new FlatButton(
-                  child: new Text('¿Olvidaste tu contraseña?'),
-                  onPressed:  null,//_passwordReset,
-                ),
-                ButtonTheme(
-                  minWidth: 200.0,
-                  height: 40.0,
-                  child: RaisedButton(
-                    color: Color.fromRGBO(19, 206,148, 100),
-                    textColor: Colors.white,
-                    onPressed: ()async{
-                      setState(() {//se muestra barra circular de espera
-                        _saving = true;
-                      });
-                      //print(_key.currentState.validate());
-                      //print('Correo: edward@gmail.com  Contraseña: edwardcruz123');
-                      if (_key.currentState.validate()) {
-                        var response = await RestDatasource().postLogin(emailController.text,passController.text);
-                        _key.currentState.save();
-                        if(response.statusCode==200){
-                          setState(() {//se oculta barra circular de espera
-                            _saving = false;
-                          });
-                          //print(_key.currentState.validate());
-                          String token=response.body;
-                          storageService.save_email(emailController.text);
-                          storageService.save_user(token);
-                          print(storageService.getuser);
-                          Navigator.of(context).pushReplacement(Home.route());
-                        }else{
-                          setState(() {//se oculta barra circular de espera
-                            _saving = false;
-                          });
-                          _showDialogLogin();
-                        }
-                      //
-                      }
-                    },
-                    child: Text('Iniciar Sesion'),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      FlatButton(
+                        child: new Text('¿Olvidaste tu contraseña?'),
+                        textColor: appTheme().accentColor,
+                        onPressed:  null,//_passwordReset,
+                      ),
+                    ],
                   ),
                 ),
+
                 Container(
                   margin: const EdgeInsets.only(top: 20.0),
                   child: Row(
@@ -223,12 +200,20 @@ class _LoginState extends State<Login>
                           initiateFacebookLogin();
                         },
                       ),
-                      RaisedButton(
+                      /*RaisedButton(
                         child: Image.asset("assets/twitter.png"),
                         onPressed: null,//() {},
-                      ),
+                      ),*/
                     ],
                   ),
+                ),
+                FlatButton(
+                  child: new Text('¿No tienes cuenta? Registrate ahora.'),
+                  textColor: appTheme().textSelectionColor,
+                  onPressed: (){
+                    //print(_contrasena);
+                    Navigator.of(context).pushReplacement(Registro.route());
+                  },
                 ),
               ],
             ),
@@ -237,12 +222,42 @@ class _LoginState extends State<Login>
         Expanded(
         child: Align(
           alignment: Alignment.bottomCenter,
-            child: new FlatButton(
-              child: new Text('¿No tienes cuenta? Registrate ahora.'),
-              onPressed: (){
-                //print(_contrasena);
-                Navigator.of(context).pushReplacement(Registro.route());
-              },
+            child: ButtonTheme(
+              minWidth: 200.0,
+              height: 40.0,
+              child: RaisedButton(
+                color: appTheme().buttonColor,
+                textColor: Colors.white,
+                onPressed: ()async{
+                  setState(() {//se muestra barra circular de espera
+                    _saving = true;
+                  });
+                  //print(_key.currentState.validate());
+                  //print('Correo: edward@gmail.com  Contraseña: edwardcruz123');
+                  if (_key.currentState.validate()) {
+                    var response = await RestDatasource().postLogin(emailController.text,passController.text);
+                    _key.currentState.save();
+                    if(response.statusCode==200){
+                      setState(() {//se oculta barra circular de espera
+                        _saving = false;
+                      });
+                      //print(_key.currentState.validate());
+                      String token=response.body;
+                      storageService.save_email(emailController.text);
+                      storageService.save_user(token);
+                      print(storageService.getuser);
+                      Navigator.of(context).pushReplacement(Home.route());
+                    }else{
+                      setState(() {//se oculta barra circular de espera
+                        _saving = false;
+                      });
+                      _showDialogLogin();
+                    }
+                    //
+                  }
+                },
+                child: Text('Iniciar Sesion'),
+              ),
             ),
           ),
         ),
