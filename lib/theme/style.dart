@@ -21,6 +21,11 @@ ThemeData appTheme() {
     buttonColor:Color.fromRGBO(19, 206,148, 100),
     textSelectionColor: Color.fromRGBO(9,125, 124, 100),
     cardColor: Color.fromRGBO(19, 206, 177, 100),
-    textTheme: TextTheme(title: TextStyle(fontSize: 10.0, fontStyle: FontStyle.italic),)
+    textTheme: TextTheme(
+      button: TextStyle(fontSize: 20.0,fontFamily: 'Myriad Pro',color: Colors.white),
+      title: TextStyle(fontSize: 12.0,fontFamily: 'Myriad Pro',color: Color(0xFF87868a)),
+      body1: TextStyle(fontSize: 13.0,fontFamily: 'Myriad Pro',color: Color.fromRGBO(68, 66,66, 100)),
+      body2: TextStyle(fontSize: 13.0,fontFamily: 'Myriad Pro',color: Color(0xFF097d7c)),
+    )
   );
 }

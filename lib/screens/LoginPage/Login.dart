@@ -1,9 +1,11 @@
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/LoginPage/Component/Body.dart';
 import 'package:flutter_app/screens/RegistroPage/Registro.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/theme/style.dart';
+import 'package:flutter_app/theme/Strings.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -33,12 +35,21 @@ Widget _logo(){
     ),
   );
 }
+BoxDecoration underlineTextField() {
+  return BoxDecoration(
+    border: Border(
+      bottom: BorderSide( //                   <--- left side
+        color: appTheme().buttonColor,
+        width: 1.0,
+      ),
+    ),
+  );
+}
 class _LoginState extends State<Login>
     with SingleTickerProviderStateMixin {
+
   bool _saving = false;//to circular progress bar
   var storageService = locator<Var_shared>();
-  AnimationController controller;
-  Animation<double> animation;
 
   GlobalKey<FormState> _key = GlobalKey();
   //var loc=locator<Shared_Preferences>();
@@ -47,37 +58,19 @@ class _LoginState extends State<Login>
   RegExp emailRegExp =
   new RegExp(r'^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$');
   RegExp contRegExp = new RegExp(r'^([1-zA-Z0-1@.\s]{1,255})$');
-  String _correo='';
-  String _contrasena='';
   TextEditingController emailController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
 
   bool _obscureText = true;//contraseñaOculta
 
+  static const EdgeInsets _padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0);//para subrayado
+
   initState() {
     super.initState();
-
-    controller = AnimationController(
-      duration: const Duration(milliseconds: 1000),
-      vsync: this,
-    );
-    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
-
-    //    Descomentar las siguientes lineas para generar un efecto de "respiracion"
-//    animation.addStatusListener((status) {
-//      if (status == AnimationStatus.completed) {
-//        controller.reverse();
-//      } else if (status == AnimationStatus.dismissed) {
-//        controller.forward();
-//      }
-//    });
-
-    controller.forward();
   }
 
   dispose() {
     // Es importante SIEMPRE realizar el dispose del controller.
-    controller.dispose();
     super.dispose();
   }
   void _toggle() {
@@ -88,6 +81,7 @@ class _LoginState extends State<Login>
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: appTheme(),
       home: new Scaffold(
         resizeToAvoidBottomPadding: false,//Quitar el mensaje de exceso de pixeles
@@ -122,23 +116,20 @@ class _LoginState extends State<Login>
                       return null;
                     },
                     controller:emailController,
-                    onSaved: (text) {
-                      //print('saved');
-                      _correo = text;
-                    },
                     keyboardType: TextInputType.emailAddress,
                     maxLength: 50,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                      hintText: 'Ingrese su Correo',
-                      hintStyle: new TextStyle(color: appTheme().hintColor),
-                      labelStyle: new TextStyle(color: appTheme().hintColor),
-                      labelText: 'Correo Electrónico',
+                      hintText: Strings.HintEmail,
+                      hintStyle: appTheme().textTheme.title,
+                      labelStyle: appTheme().textTheme.title,
+                      labelText: Strings.LabelEmail,
                       counterText: '',
                       fillColor: Colors.transparent,
                       filled: true,
                     ),
                   ),
+                  decoration: underlineTextField(),
                 ),
                 new Container(
                   margin: const EdgeInsets.only(top: 5.0,bottom: 10.0),
@@ -155,34 +146,32 @@ class _LoginState extends State<Login>
                       return null;
                     },
                     controller: passController,
-                    onSaved: (text) => _contrasena = text,
                     keyboardType: TextInputType.text,
                     maxLength: 20,
                     textAlign: TextAlign.center,
                     obscureText: _obscureText,
                     decoration: InputDecoration(
-                      hintText: 'Ingrese su Contraseña',
-                      labelText: 'Contraseña',
-                      hintStyle: new TextStyle(color: appTheme().hintColor),
-                      labelStyle: new TextStyle(color: appTheme().hintColor),
+                      hintText: Strings.HintPassword,
+                      labelText: Strings.LabelPassword,
+                      hintStyle: appTheme().textTheme.title,
+                      labelStyle: appTheme().textTheme.title,
                       counterText: '',
                       fillColor: Colors.transparent,
                       filled: true  ,
                       suffixIcon: IconButton(icon: Icon(Icons.remove_red_eye,size: 32.0,
-                          color: appTheme().hintColor),
-                                      onPressed: _toggle,
-                                      ),
+                        color: appTheme().hintColor),
+                           onPressed: _toggle,
+                        ),
                     ),
-                    //onSaved: (text) => _contrasena = text,
                   ),
+                  decoration: underlineTextField(),
                 ),
                 Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       FlatButton(
-                        child: new Text('¿Olvidaste tu contraseña?'),
-                        textColor: appTheme().accentColor,
+                        child: new Text(Strings.OlvidastePassword,style: appTheme().textTheme.body1,),
                         onPressed:  null,//_passwordReset,
                       ),
                     ],
@@ -194,27 +183,34 @@ class _LoginState extends State<Login>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      RaisedButton(
-                        child: Image.asset("assets/facebook.png"),
+                      FlatButton(
+                        child: Image.asset("assets/login_facebook.png"),
                         onPressed: (){
                           initiateFacebookLogin();
                         },
                       ),
-                      /*RaisedButton(
+                      /*FlatButton(
                         child: Image.asset("assets/twitter.png"),
                         onPressed: null,//() {},
                       ),*/
                     ],
                   ),
                 ),
-                FlatButton(
-                  child: new Text('¿No tienes cuenta? Registrate ahora.'),
-                  textColor: appTheme().textSelectionColor,
-                  onPressed: (){
-                    //print(_contrasena);
-                    Navigator.of(context).pushReplacement(Registro.route());
-                  },
+                Container(
+                  margin: const EdgeInsets.only(top: 60.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      FlatButton(
+                        child: new Text(Strings.Registrate,style: appTheme().textTheme.body2,),
+                        onPressed: (){
+                          Navigator.of(context).pushReplacement(Registro.route());
+                        },
+                      ),
+                    ],
+                  ),
                 ),
+
               ],
             ),
           ),
@@ -222,18 +218,14 @@ class _LoginState extends State<Login>
         Expanded(
         child: Align(
           alignment: Alignment.bottomCenter,
-            child: ButtonTheme(
-              minWidth: 200.0,
-              height: 40.0,
-              child: RaisedButton(
-                color: appTheme().buttonColor,
+            child: Container(
+              width: double.infinity,
+              child: FlatButton(
                 textColor: Colors.white,
                 onPressed: ()async{
                   setState(() {//se muestra barra circular de espera
                     _saving = true;
                   });
-                  //print(_key.currentState.validate());
-                  //print('Correo: edward@gmail.com  Contraseña: edwardcruz123');
                   if (_key.currentState.validate()) {
                     var response = await RestDatasource().postLogin(emailController.text,passController.text);
                     _key.currentState.save();
@@ -256,7 +248,17 @@ class _LoginState extends State<Login>
                     //
                   }
                 },
-                child: Text('Iniciar Sesion'),
+                child: Text(Strings.ButtonLogin,style: appTheme().textTheme.button,),
+              ),
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                  colors: [
+                    Color(0xFF00a18d),
+                    Color(0xFF00d6bc),
+                  ],
+                  begin: FractionalOffset.centerLeft,
+                  end: FractionalOffset.centerRight,
+                ),
               ),
             ),
           ),
@@ -286,6 +288,7 @@ class _LoginState extends State<Login>
       },
     );
   }
+
   void initiateFacebookLogin() async {
     var facebookLogin = FacebookLogin();
     var facebookLoginResult =
