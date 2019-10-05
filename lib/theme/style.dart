@@ -18,7 +18,7 @@ ThemeData appTheme() {
     scaffoldBackgroundColor: Colors.white,
     canvasColor: Colors.black,
 
-    buttonColor:Color.fromRGBO(19, 206,148, 100),
+    buttonColor:Color(0xFF00817c),
     textSelectionColor: Color.fromRGBO(9,125, 124, 100),
     cardColor: Color.fromRGBO(19, 206, 177, 100),
     textTheme: TextTheme(

@@ -6,4 +6,10 @@ class Strings {
   static const String HintEmail = "Ingrese su Correo";
   static const String LabelEmail = "Correo Electrónico";
   static const String ButtonLogin = "INICIAR SESIÓN";
+  static const String ButtonRegistrarse = "REGISTRARSE";
+  static const String LabelRegistroNombre = "Nombre";
+  static const String LabelRegistroApellidos = "Apellidos";
+  static const String LabelRegistroTelefono = "Número de Teléfono";
+  static const String LabelRegistroDireccion = "Dirección Domiciliaria";
+  static const String LabelRegistroValidarPas = "Validar Contraseña";
 }

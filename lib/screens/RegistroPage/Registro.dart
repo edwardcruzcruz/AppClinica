@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/components/DateTime/flutter_datetime_picker.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
+import 'package:flutter_app/theme/Strings.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:flutter_app/theme/style.dart';
+
 
 class Registro extends StatefulWidget{
 
@@ -58,56 +61,55 @@ class _RegistroState extends State<Registro> {
         ],
       ),
       body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: tabla()),
-      persistentFooterButtons: <Widget>[
-        ButtonBar(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                    padding: EdgeInsets.only(left: 80),
-                    child: RaisedButton(
-                      color: Colors.greenAccent,
-                      textColor: Colors.white,
-                      child: Text("Registrar"),
-                      padding: const EdgeInsets.all(10.0),
-                      onPressed: () async{
-                        // Validate will return true if the form is valid, or false if
-                        // the form is invalid.
+      bottomNavigationBar: BottomAppBar(
+        child:  Container(
+        width: double.infinity,
+        child: FlatButton(
+            child: Text(Strings.ButtonRegistrarse,style: appTheme().textTheme.button,),
+            padding: const EdgeInsets.all(10.0),
+            onPressed: () async{
+              // Validate will return true if the form is valid, or false if
+              // the form is invalid.
 
-                        if (_formKey.currentState.validate()) {
-                          String genero="";
-                          if(dropdownValue==1){
-                            genero="Masculino";
-                          }else{
-                            genero="Femenino";
-                          }
-                          // Process data.
-                        if(passController1.text==(passController2.text)){
-                          setState(() {//se muestra barra circular de espera
-                            _saving = true;
-                          });
-                              var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),genero,email.text, passController1.text,passController2.text);
-                          setState(() {//se muestra barra circular de espera
-                            _saving = false;
-                          });
-                              if(response.statusCode>200 && response.statusCode<400){
-                                _showSuccessGuardar();
-                              }else{
-                                _showErrorGuardar();
-                              }
-                          }else{
-                              _showErrorpass();
-                          }
-                        }
-                      }
-                    )
-                ),
-              ],
-            ),
-          ],
-        )
-      ],
+              if (_formKey.currentState.validate()) {
+                String genero="";
+                if(dropdownValue==1){
+                  genero="Masculino";
+                }else{
+                  genero="Femenino";
+                }
+                // Process data.
+                if(passController1.text==(passController2.text)){
+                  setState(() {//se muestra barra circular de espera
+                    _saving = true;
+                  });
+                  var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),genero,email.text, passController1.text,passController2.text);
+                  setState(() {//se muestra barra circular de espera
+                    _saving = false;
+                  });
+                  if(response.statusCode>200 && response.statusCode<400){
+                    _showSuccessGuardar();
+                  }else{
+                    _showErrorGuardar();
+                  }
+                }else{
+                  _showErrorpass();
+                }
+              }
+            }
+        ),
+        decoration: new BoxDecoration(
+          gradient: new LinearGradient(
+            colors: [
+              Color(0xFF00a18d),
+              Color(0xFF00d6bc),
+            ],
+            begin: FractionalOffset.centerLeft,
+            end: FractionalOffset.centerRight,
+          ),
+        ),
+      ),
+      ),
     );
   }
 
@@ -123,20 +125,16 @@ class _RegistroState extends State<Registro> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                          ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: username,
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Nombres',
-                              labelStyle: TextStyle(
-                                  color: Colors.white),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: appTheme().buttonColor,
+                                    width: 1.0),
+                              ),
+                              labelText: Strings.LabelRegistroNombre,
+                              labelStyle: appTheme().textTheme.title,
                             ),
                             validator: (value) {
                               if (value.isEmpty) {
@@ -147,22 +145,19 @@ class _RegistroState extends State<Registro> {
                               return null;
                             },
                           ),
+                          //decoration: underlineTextField(),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                          ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: lastname,
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Apellidos',
-                              labelStyle: TextStyle(
-                                  color: Colors.white),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: appTheme().buttonColor,
+                                    width: 1.0),
+                              ),
+                              labelText: Strings.LabelRegistroApellidos,
+                              labelStyle: appTheme().textTheme.title,
                             ),
                             validator: (value) {
                               if (value.isEmpty) {
@@ -173,22 +168,19 @@ class _RegistroState extends State<Registro> {
                               return null;
                             },
                           ),
+                          //decoration: underlineTextField(),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                          ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: nophone,
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Numero de Telefono',
-                              labelStyle: TextStyle(
-                                  color: Colors.white),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: appTheme().buttonColor,
+                                    width: 1.0),
+                              ),
+                              labelText: Strings.LabelRegistroTelefono,
+                              labelStyle: appTheme().textTheme.title,
                             ),
                             validator: (value) {
                               if (value.isEmpty) {
@@ -199,22 +191,19 @@ class _RegistroState extends State<Registro> {
                               return null;
                             },
                           ),
+                          //decoration: underlineTextField(),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                          ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: address,
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Dirección Domiciliaria',
-                              labelStyle: TextStyle(
-                                  color: Colors.white),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: appTheme().buttonColor,
+                                    width: 1.0),
+                              ),
+                              labelText: Strings.LabelRegistroDireccion,
+                              labelStyle: appTheme().textTheme.title,
                             ),
                             validator: (text) {
                               if (text.length == 0) {
@@ -223,11 +212,9 @@ class _RegistroState extends State<Registro> {
                               return null;
                             },
                           ),
+                          //decoration: underlineTextField(),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                          ),
                           padding: EdgeInsets.only(bottom:10,left: 15,right: 10,top: 10),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -235,7 +222,7 @@ class _RegistroState extends State<Registro> {
                               Expanded(
                                 child: new Padding(
                                   padding: const EdgeInsets.only(left: 20),
-                                  child: Text("Fecha de Nacimiento:",style: TextStyle(color: Colors.white,fontSize: 16),),
+                                  child: Text("Fecha de Nacimiento:",style: appTheme().textTheme.title,),
                                 ),
                               ),
                               Expanded(
@@ -247,10 +234,9 @@ class _RegistroState extends State<Registro> {
                                           maxTime: DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day),
                                           theme: DatePickerTheme(
                                               backgroundColor: Colors.blue,
-                                              itemStyle: TextStyle(
-                                                  color: Colors.white, fontWeight: FontWeight.bold),
+                                              itemStyle: appTheme().textTheme.button,
                                               doneStyle:
-                                              TextStyle(color: Colors.white, fontSize: 16)),
+                                              appTheme().textTheme.button),
                                           onChanged: (date) {
                                             setState(() {//se utilizn estados para actualizar directmente sin esperar eventos
                                               Date=DateFormat("yyyy-MM-dd").format(date).toString();
@@ -260,7 +246,7 @@ class _RegistroState extends State<Registro> {
                                           }, currentTime: DateTime.now(), locale: LocaleType.en);
                                     },
                                     child: new Text(Date,
-                                      style: TextStyle(color: Colors.blue),
+                                      style: appTheme().textTheme.title,
                                     )
                                 ),
 
@@ -269,9 +255,6 @@ class _RegistroState extends State<Registro> {
                           ),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                          ),
                           padding: EdgeInsets.only(bottom:10,left: 15,right: 10,top: 10),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -279,7 +262,7 @@ class _RegistroState extends State<Registro> {
                               Expanded(
                                 child: new Padding(
                                   padding: const EdgeInsets.only(left: 20),
-                                  child: Text("Genero: ",style: TextStyle(color: Colors.white,fontSize: 16),),
+                                  child: Text("Genero: ",style: appTheme().textTheme.title,),
                                 ),
                               ),
                               Expanded(
@@ -293,6 +276,7 @@ class _RegistroState extends State<Registro> {
                                           children: <Widget>[
                                             Text(
                                               "Masculino",
+                                              style: appTheme().textTheme.title,
                                             ),
                                           ],
                                         ),
@@ -305,6 +289,7 @@ class _RegistroState extends State<Registro> {
 
                                             Text(
                                               "Femenino",
+                                              style: appTheme().textTheme.title,
                                             ),
                                           ],
                                         ),
@@ -325,21 +310,16 @@ class _RegistroState extends State<Registro> {
                           ),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                          ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: email,
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: appTheme().buttonColor,
+                                    width: 1.0),
                               ),
-                              labelText: 'Correo Electronico',
-                              labelStyle: TextStyle(
-                                  color: Colors.white),
+                              labelText: Strings.LabelEmail,
+                              labelStyle: appTheme().textTheme.title,
                             ),
                             validator: (text) {
                               if (text.length == 0) {
@@ -350,23 +330,19 @@ class _RegistroState extends State<Registro> {
                               return null;
                             },
                           ),
+                          //decoration: underlineTextField(),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                          ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: passController1,
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: appTheme().buttonColor,
+                                    width: 1.0),
                               ),
-                              labelText: 'Contraseña',
-                              labelStyle: TextStyle(
-                                  color: Colors.white),
+                              labelText: Strings.LabelPassword,
+                              labelStyle: appTheme().textTheme.title,
                             ),
                             validator: (text) {
                               if (text.length == 0) {
@@ -379,23 +355,19 @@ class _RegistroState extends State<Registro> {
                               return null;
                             },
                           ),
+                          //decoration: underlineTextField(),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                          ),
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: passController2,
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: appTheme().buttonColor,
+                                    width: 1.0),
                               ),
-                              labelText: 'Validar Contraseña',
-                              labelStyle: TextStyle(
-                                  color: Colors.white),
+                              labelText: Strings.LabelRegistroValidarPas,
+                              labelStyle: appTheme().textTheme.title,
                             ),
                             validator: (text) {
                               if (text.length == 0) {
@@ -408,6 +380,7 @@ class _RegistroState extends State<Registro> {
                               return null;
                             },
                           ),
+                          //decoration: underlineTextField(),
                         ),
                       ],
                     ),

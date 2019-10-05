@@ -1,6 +1,5 @@
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/LoginPage/Component/Body.dart';
 import 'package:flutter_app/screens/RegistroPage/Registro.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
@@ -32,16 +31,6 @@ Widget _logo(){
         fit: BoxFit.fill,
       ),
       //shape: BoxShape.circle,
-    ),
-  );
-}
-BoxDecoration underlineTextField() {
-  return BoxDecoration(
-    border: Border(
-      bottom: BorderSide( //                   <--- left side
-        color: appTheme().buttonColor,
-        width: 1.0,
-      ),
     ),
   );
 }
@@ -120,6 +109,10 @@ class _LoginState extends State<Login>
                     maxLength: 50,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: appTheme().buttonColor,
+                            width: 1.0),
+                      ),
                       hintText: Strings.HintEmail,
                       hintStyle: appTheme().textTheme.title,
                       labelStyle: appTheme().textTheme.title,
@@ -129,7 +122,6 @@ class _LoginState extends State<Login>
                       filled: true,
                     ),
                   ),
-                  decoration: underlineTextField(),
                 ),
                 new Container(
                   margin: const EdgeInsets.only(top: 5.0,bottom: 10.0),
@@ -151,6 +143,10 @@ class _LoginState extends State<Login>
                     textAlign: TextAlign.center,
                     obscureText: _obscureText,
                     decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: appTheme().buttonColor,
+                            width: 1.0),
+                      ),
                       hintText: Strings.HintPassword,
                       labelText: Strings.LabelPassword,
                       hintStyle: appTheme().textTheme.title,
@@ -164,7 +160,6 @@ class _LoginState extends State<Login>
                         ),
                     ),
                   ),
-                  decoration: underlineTextField(),
                 ),
                 Container(
                   child: Row(
@@ -221,7 +216,6 @@ class _LoginState extends State<Login>
             child: Container(
               width: double.infinity,
               child: FlatButton(
-                textColor: Colors.white,
                 onPressed: ()async{
                   setState(() {//se muestra barra circular de espera
                     _saving = true;
