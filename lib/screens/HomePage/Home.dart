@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/Especialidad.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_app/theme/Strings.dart';
+import 'package:flutter_app/theme/style.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento1.dart';
@@ -23,7 +25,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home>{
   var storageService = locator<Var_shared>();
   bool _saving = false;//to circular progress bar
-
+  int currentTab=0;//bottom Navigation menu bar choice
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +98,7 @@ class _HomeState extends State<Home>{
           ],
         ),
       ),
-      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: Column(
+      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: Container()/*Column(
         children: <Widget>[
           Banner(
           message: "",//mensaje esquina superior derecha
@@ -332,9 +334,33 @@ class _HomeState extends State<Home>{
           )
           //),
         ],
+      ),*/
       ),
-      )
-
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentTab,
+        onTap: (int index){
+          setState(()=> currentTab=index);
+        },
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: currentTab==0?new Image.asset('assets/home_activo.png',width: 32,height: 28,):new Image.asset('assets/home.png',width: 32,height: 28,),//new
+          title: currentTab==0?new Text(Strings.ItemBottomNavigationBar0,style: appTheme().textTheme.subtitle,):new Text(Strings.ItemBottomNavigationBar0,style: appTheme().textTheme.title,),
+        ),
+        BottomNavigationBarItem(
+          icon: currentTab==1?new Image.asset('assets/mis_citas_activo.png',width: 32,height: 28,):new Image.asset('assets/mis_citas.png',width: 32,height: 28,),
+          title: currentTab==1?new Text(Strings.ItemBottomNavigationBar1,style: appTheme().textTheme.subtitle,):new Text(Strings.ItemBottomNavigationBar1,style: appTheme().textTheme.title,),
+        ),
+        BottomNavigationBarItem(
+          icon: currentTab==2?new Image.asset('assets/historial_clinico_activo.png',width: 32,height: 28,):new Image.asset('assets/historial_clinico.png',width: 32,height: 28,),
+          title: currentTab==2?new AutoSizeText(Strings.ItemBottomNavigationBar2,style: appTheme().textTheme.subtitle,maxLines: 2,textAlign: TextAlign.center,):new AutoSizeText(Strings.ItemBottomNavigationBar2,style: appTheme().textTheme.title,maxLines: 2,textAlign: TextAlign.center,),
+        ),
+        BottomNavigationBarItem(
+          icon: currentTab==3?new Image.asset('assets/recetas_activo.png',width: 32,height: 28,):new Image.asset('assets/recetas.png',width: 32,height: 28,),
+          title: currentTab==3?new Text(Strings.ItemBottomNavigationBar3,style: appTheme().textTheme.subtitle,):new Text(Strings.ItemBottomNavigationBar3,style: appTheme().textTheme.title,),
+        ),
+        ]
+      ),
     );
   }
 

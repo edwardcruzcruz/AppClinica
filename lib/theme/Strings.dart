@@ -12,4 +12,8 @@ class Strings {
   static const String LabelRegistroTelefono = "Número de Teléfono";
   static const String LabelRegistroDireccion = "Dirección Domiciliaria";
   static const String LabelRegistroValidarPas = "Validar Contraseña";
+  static const String ItemBottomNavigationBar0 = "Inicio";
+  static const String ItemBottomNavigationBar1 = "Mis Citas";
+  static const String ItemBottomNavigationBar2 = "Mi Historial Clínico";
+  static const String ItemBottomNavigationBar3 = "Recetas";
 }

@@ -24,6 +24,7 @@ ThemeData appTheme() {
     textTheme: TextTheme(
       button: TextStyle(fontSize: 20.0,fontFamily: 'Myriad Pro',color: Colors.white),
       title: TextStyle(fontSize: 12.0,fontFamily: 'Myriad Pro',color: Color(0xFF87868a)),
+      subtitle: TextStyle(fontSize: 12.0,fontFamily: 'Myriad Pro',color: Color(0xFF097d7c)),
       body1: TextStyle(fontSize: 13.0,fontFamily: 'Myriad Pro',color: Color.fromRGBO(68, 66,66, 100)),
       body2: TextStyle(fontSize: 13.0,fontFamily: 'Myriad Pro',color: Color(0xFF097d7c)),
     )
