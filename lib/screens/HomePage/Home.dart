@@ -29,10 +29,20 @@ class _HomeState extends State<Home>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar (
-        title: new Image.asset('assets/logo_clinica.png', fit: BoxFit.cover,),
+        leading: Icon(Icons.note_add),
+        title: new Image.asset('assets/logo_white.png',fit: BoxFit.cover,),
         centerTitle: true,
         backgroundColor: Color.fromRGBO(19, 206, 177, 100),
+        bottom: new PreferredSize(
+            child: new Container(
+                color: Colors.transparent,
+                  //padding: EdgeInsets.all(8.0),
+                  child: new Divider(color: Colors.white,indent: 50.0, endIndent: 50.0)
+              //padding: const EdgeInsets.all(5.0),
+            ),
+            preferredSize: const Size.fromHeight(10.0)),
       ),
       endDrawer: Drawer (
         // Add a ListView to the drawer. This ensures the user can scroll
