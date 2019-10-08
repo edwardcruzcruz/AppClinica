@@ -6,11 +6,14 @@ import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento2.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
+import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/theme/style.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Agendamiento extends StatefulWidget {
   List<Especialidad> especialidades;
-  Agendamiento({Key key, this.especialidades}) : super(key: key);
+  Function callback,callbackloading,callbackfull;
+  Agendamiento({Key key, this.especialidades,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Agendamiento(),
@@ -24,6 +27,7 @@ class Agendamiento extends StatefulWidget {
 
 class _AgendamientoState extends State<Agendamiento>{
   bool _saving = false;//to circular progress bar
+
   List<Especialidad> especialidades;
   _AgendamientoState(this.especialidades);
   var storageService = locator<Var_shared>();
@@ -36,33 +40,65 @@ class _AgendamientoState extends State<Agendamiento>{
   List data = List();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: new Image.asset('assets/logo_clinica.png', fit: BoxFit.cover,),
-        centerTitle: true,
-        backgroundColor: Color.fromRGBO(19, 206, 177, 100),
-      ),
-      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: Column(
+    return Column(
         children: <Widget>[
-          new Banner(
-            message: "",//mensaje esquina superior derecha
-            location: BannerLocation.topEnd,
-            color: Colors.red,
-            child: Container(
-              margin: const EdgeInsets.only(left:0.0,top:10.0,right: 0.0,bottom: 0.0),
-              color: Colors.blue,
-              height: 100,
-              child: Center(child: new Image.asset('assets/promocion.jpg', fit: BoxFit.fill,),),
+          new Container(
+            height: 100.0,
+            decoration: new BoxDecoration(
+
+                gradient: new LinearGradient(
+                  colors: [
+                    Color(0xFF00a18d),
+                    Color(0xFF00d6bc),
+                  ],
+                  begin: FractionalOffset.centerLeft,
+                  end: FractionalOffset.centerRight,
+                ),
+                borderRadius: new BorderRadius.vertical(
+                    bottom: new Radius.elliptical(
+                        MediaQuery.of(context).size.width, 120.0))
+            ),
+            child: Align(
+              alignment: Alignment.center,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    child: Text(Strings.CuerpoTituloBienvenido,style: appTheme().textTheme.display1,),
+                    alignment: Alignment(-0.80, 0),
+                  ),
+                  Align(
+                    child: new Text(storageService.getEmail.split("@")[0],style: appTheme().textTheme.display2,),
+                    alignment: Alignment(-0.80, 0),
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: 10),),
+                  Align(
+                    child: Text(Strings.AppbarIconoAgregarCita,style: appTheme().textTheme.display3,),
+                  ),
+                ],
+              ),
             ),
           ),
           new Expanded(
-              child: formulario(),
+
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+                    child: Text(Strings.AgendarTitulo1,style: appTheme().textTheme.title,),
+                  ),
+                  Divider(
+                    height: 2.0,
+                    color: Colors.grey,
+                  ),
+                  Expanded(
+                    child: formulario(),
+                  ),
+                ],
+              ),
           )
           //),
         ],
-      ),
-      )
-    );
+      );
   }
 
   Widget formulario(){
@@ -73,17 +109,14 @@ class _AgendamientoState extends State<Agendamiento>{
           children: <Widget>[
             GestureDetector(
               onTap: () async{
-                setState(() {//se muestra barra circular de espera
-                  _saving = true;
-                });
+                this.widget.callbackloading();
                 List<Doctor> doctores= await RestDatasource().doctoresEspecialidad(especialidades.elementAt(position).NombreEspecialidad);
-                setState(() {//se oculta barra circular de espera
-                  _saving = false;
-                });
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Agendamiento2(doctores: doctores,)),
-                );
+                this.widget.callbackfull();
+                if(doctores.length==0){
+                  _showDialogSeleccionNull();
+                }else{
+                  this.widget.callback(Agendamiento2(doctores: doctores,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                }
                 //Navigator.pop(context);
               },
               child: Row(
@@ -94,16 +127,11 @@ class _AgendamientoState extends State<Agendamiento>{
                     children: <Widget>[
                       Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
-                        width: 90.0,
-                        height: 90.0,
-                        decoration: new BoxDecoration(
-                          image: DecorationImage(
-                            image: new AssetImage(
-                                'assets/splash.jpg'),
-                            fit: BoxFit.fill,
-                          ),
-                          shape: BoxShape.circle,
-                        ),
+                        //if("Nutricion".equal(especialidades.elementAt(position).NombreEspecialidad)){
+                          //child: new Image.asset('assets/nutricion.png',width: 33,height: 40),
+                        //}else{
+                          child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                        //}
                       ),
                     ],
                   ),
@@ -113,12 +141,7 @@ class _AgendamientoState extends State<Agendamiento>{
                       Padding(
                         padding:
                         const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                        child: Text(especialidades.elementAt(position).NombreEspecialidad),
-                      ),
-                      Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(0.0, 6.0, 12.0, 12.0),
-                        child: Text("degree and icon"),
+                        child: Text(especialidades.elementAt(position).NombreEspecialidad,style: appTheme().textTheme.display4,),
                       ),
                     ],
                   ),
@@ -130,8 +153,8 @@ class _AgendamientoState extends State<Agendamiento>{
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(
-                            Icons.arrow_right,
-                            size: 35.0,
+                            Icons.arrow_forward_ios,
+                            size: 15.0,
                             color: Colors.grey,
                           ),
                         ),
@@ -151,15 +174,15 @@ class _AgendamientoState extends State<Agendamiento>{
       itemCount: especialidades.length,
     );
   }
-  void _showDialogSeleccion() {//todos estos mensajes se tendrian que poner en una clase externa
+  void _showDialogSeleccionNull() {//todos estos mensajes se tendrian que poner en una clase externa
     // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Falta un campo Requerido"),
-          content: new Text("Seleccione un tipo de Especialidad"),
+          title: new Text("Sin contenido"),
+          content: new Text("No hay doctores en esta especialidad, trabajando..."),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

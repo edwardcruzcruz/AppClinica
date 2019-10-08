@@ -4,7 +4,7 @@ import 'package:flutter_app/screens/RegistroPage/Registro.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/theme/style.dart';
-import 'package:flutter_app/theme/Strings.dart';
+import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';

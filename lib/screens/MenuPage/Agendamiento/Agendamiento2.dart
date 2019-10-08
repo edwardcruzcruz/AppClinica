@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Utils/Shared_Preferences.dart';
+import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Doctor.dart';
+import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento1.dart';
 import 'package:flutter_app/screens/MenuPage/Calendario.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
+import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/theme/style.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Agendamiento2 extends StatefulWidget {
   List<Doctor> doctores;
+  Function callback,callbackloading,callbackfull;
 
-  Agendamiento2({Key key, this.doctores}) : super(key: key);
+  Agendamiento2({Key key, this.doctores,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Agendamiento2(),
@@ -24,39 +31,95 @@ class _Agendamiento2State extends State<Agendamiento2>{
   bool _saving = false;//to circular progress bar
   List<Doctor> doctores;
   _Agendamiento2State(this.doctores);
+  var storageService = locator<Var_shared>();
 
 
   final _formKey = GlobalKey<FormState>();
   List data = List();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: new Image.asset('assets/logo_clinica.png', fit: BoxFit.cover,),
-        centerTitle: true,
-        backgroundColor: Color.fromRGBO(19, 206, 177, 100),
-      ),
-      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: Column  (
-        children: <Widget>[
-          new Banner(
-            message: "",//mensaje esquina superior derecha
-            location: BannerLocation.topEnd,
-            color: Colors.red,
-            child: Container(
-              margin: const EdgeInsets.only(left:0.0,top:10.0,right: 0.0,bottom: 0.0),
-              color: Colors.blue,
-              height: 100,
-              child: Center(child: new Image.asset('assets/promocion.jpg', fit: BoxFit.fill,),),
+    return Column(
+      children: <Widget>[
+        new Container(
+          height: 100.0,
+          decoration: new BoxDecoration(
+
+              gradient: new LinearGradient(
+                colors: [
+                  Color(0xFF00a18d),
+                  Color(0xFF00d6bc),
+                ],
+                begin: FractionalOffset.centerLeft,
+                end: FractionalOffset.centerRight,
+              ),
+              borderRadius: new BorderRadius.vertical(
+                  bottom: new Radius.elliptical(
+                      MediaQuery.of(context).size.width, 120.0))
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: Column(
+              children: <Widget>[
+                Align(
+                  child: Text(Strings.CuerpoTituloBienvenido,style: appTheme().textTheme.display1,),
+                  alignment: Alignment(-0.80, 0),
+                ),
+                Align(
+                  child: new Text(storageService.getEmail.split("@")[0],style: appTheme().textTheme.display2,),
+                  alignment: Alignment(-0.80, 0),
+                ),
+                Padding(padding: EdgeInsets.only(bottom: 10),),
+                Align(
+                  child: Text(Strings.AppbarIconoAgregarCita,style: appTheme().textTheme.display3,),
+                ),
+              ],
             ),
           ),
-          new Expanded (
-              child: formulario()
-          )
-          //),
-        ],
-      ),
-      )
-
+        ),
+        new Expanded(
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () async{
+                        this.widget.callbackloading;
+                        List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad();
+                        this.widget.callbackfull;
+                        this.widget.callback(Agendamiento(especialidades: especialidades,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.arrow_back_ios,size: 10,color: appTheme().textTheme.subtitle.color,),
+                            Text(Strings.TextRetroceder,style: appTheme().textTheme.subtitle,)
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      //alignment: Alignment(50, 0),
+                      margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),
+                      child: Text(Strings.AgendarTitulo2,style: appTheme().textTheme.title,)
+                    )
+                  ],
+                ),
+              ),
+              Divider(
+                height: 2.0,
+                color: Colors.grey,
+              ),
+              Expanded(
+                child: formulario(),
+              ),
+            ],
+          ),
+        )
+        //),
+      ],
     );
   }
 
@@ -69,17 +132,18 @@ class _Agendamiento2State extends State<Agendamiento2>{
           children: <Widget>[
             GestureDetector(
               onTap: () async{
-                setState(() {//se muestra barra circular de espera
-                  _saving = true;
-                });
+                this.widget.callbackloading();
                 List<Horario> horarios= await RestDatasource().HorarioDoctor(doctores.elementAt(position).Id);
-                setState(() {//se oculta barra circular de espera
-                  _saving = false;
-                });//mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
-                Navigator.push(
+                this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
+                if(horarios.length==0){
+                  _showDialogSeleccionNull();
+                }else{
+                  this.widget.callback(CalendarioPage(horarios: horarios,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                }
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CalendarioPage(horarios: horarios,)),
-                );
+                );*/
                 //Navigator.pop(context);
               },
               child: Row(
@@ -90,16 +154,8 @@ class _Agendamiento2State extends State<Agendamiento2>{
                     children: <Widget>[
                       Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
-                        width: 90.0,
-                        height: 90.0,
-                        decoration: new BoxDecoration(
-                          image: DecorationImage(
-                            image: new AssetImage(
-                              'assets/splash.jpg'),
-                              fit: BoxFit.fill,
-                            ),
-                          shape: BoxShape.circle,
-                        ),
+                        //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                        child: new Image.asset('assets/avatar.png',width: 63,height: 70),
                       ),
                     ],
                   ),
@@ -108,13 +164,28 @@ class _Agendamiento2State extends State<Agendamiento2>{
                     children: <Widget>[
                       Padding(
                         padding:
-                        const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                        child: Text(doctores.elementAt(position).Nombre+" "+doctores.elementAt(position).Apellido),
+                        const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 3.0),
+                        child: Text((doctores.elementAt(position).Especialidad=="Odontología"?"OD. ":doctores.elementAt(position).Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+doctores.elementAt(position).Nombre+" "+doctores.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                       ),
                       Padding(
                         padding:
                         const EdgeInsets.fromLTRB(0.0, 6.0, 12.0, 12.0),
-                        child: Text("degree and icon"),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Image.asset('assets/titulo.png',width: 23,height: 30),
+                                Text(" Titulo ...",style: appTheme().textTheme.title,),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Image.asset('assets/clinica.png',width: 23,height: 30),
+                                Text(" Clínica Estética Dental",style: appTheme().textTheme.title,),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -126,8 +197,8 @@ class _Agendamiento2State extends State<Agendamiento2>{
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(
-                            Icons.arrow_right,
-                            size: 35.0,
+                            Icons.arrow_forward_ios,
+                            size: 15.0,
                             color: Colors.grey,
                           ),
                         ),
@@ -147,15 +218,15 @@ class _Agendamiento2State extends State<Agendamiento2>{
       itemCount: doctores.length,
     );
   }
-  void _showDialogSeleccion() {//todos estos mensajes se tendrian que poner en una clase externa
+  void _showDialogSeleccionNull() {//todos estos mensajes se tendrian que poner en una clase externa
     // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Falta un campo Requerido"),
-          content: new Text("Seleccione un tipo de Especialidad"),
+          title: new Text("Sin contenido"),
+          content: new Text("No hay horarios disponibles con este doctor"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

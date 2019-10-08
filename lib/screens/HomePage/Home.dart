@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter_app/theme/Strings.dart';
+import 'package:flutter_app/models/Especialidad.dart';
+import 'package:flutter_app/screens/MenuPage/Historial.dart';
+import 'package:flutter_app/screens/MenuPage/Mis_Citas.dart';
+import 'package:flutter_app/screens/MenuPage/Mis_Pagos.dart';
+import 'package:flutter_app/screens/MenuPage/Noticias.dart';
+import 'package:flutter_app/screens/MenuPage/Recetas.dart';
+import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
@@ -26,15 +32,83 @@ class _HomeState extends State<Home>{
   var storageService = locator<Var_shared>();
   bool _saving = false;//to circular progress bar
   int currentTab=0;//bottom Navigation menu bar choice
+
+  Noticias noticiaPage;
+  Citas citasPage;
+  Historial historialPage;
+  //Pagos pagosPage;
+  Recetas recetasPage;
+  Agendamiento agend1Page;
+  List<Widget> pages;
+  Widget currentPage;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    noticiaPage= Noticias();
+    citasPage= Citas();
+    historialPage= Historial();
+    //pagosPage= Pagos();
+    recetasPage=Recetas();
+    agend1Page= Agendamiento();
+    pages=[noticiaPage,citasPage,historialPage,recetasPage,agend1Page];//,pagosPage
+    currentPage = noticiaPage;
+    super.initState();
+  }
+
+  void callback(Widget nextPage){
+    setState(() {
+      this.currentPage=nextPage;
+    });
+  }
+  void callbackloading(){
+    setState(() {
+      this._saving=true;
+    });
+  }
+  void callbackfull(){
+    setState(() {
+      this._saving=false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar (
-        leading: Icon(Icons.note_add),
+        elevation: 0,
+        leading: new IconButton(
+          icon: Icon(Icons.note_add),
+          onPressed: () async{
+            setState(() {//se muestra barra circular de espera
+              _saving = true;
+            });
+            List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad() ;
+            setState(() {//se oculta barra circular de espera
+              _saving = false;
+            });
+
+            setState((){
+              //currentTab=4;
+              currentPage=Agendamiento(especialidades: especialidades,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);//cambiar a 5 cuando se agregue pgos, etc
+            });
+
+          },
+        ),
         title: new Image.asset('assets/logo_white.png',fit: BoxFit.cover,),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(19, 206, 177, 100),
+        flexibleSpace: Container(
+          decoration: new BoxDecoration(
+            gradient: new LinearGradient(
+              colors: [
+                Color(0xFF00a18d),
+                Color(0xFF00d6bc),
+              ],
+              begin: FractionalOffset.centerLeft,
+              end: FractionalOffset.centerRight,
+            ),
+          ),
+        ),
         bottom: new PreferredSize(
             child: new Container(
                 color: Colors.transparent,
@@ -108,248 +182,14 @@ class _HomeState extends State<Home>{
           ],
         ),
       ),
-      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: Container()/*Column(
-        children: <Widget>[
-          Banner(
-          message: "",//mensaje esquina superior derecha
-            location: BannerLocation.topEnd,
-            color: Colors.red,
-            child: Container(
-              margin: const EdgeInsets.only(left:0.0,top:5.0,right: 0.0,bottom: 0.0),
-              color: Colors.blue,
-              height: 100,
-              child: Center(child: new Image.asset('assets/promocion.jpg', fit: BoxFit.fill,),),
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                Container(
-                //padding: EdgeInsets.all(20),
-                //child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Card(
-                          elevation: 0,
-                          color: Colors.transparent,
-                          child: Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  GestureDetector(
-                                    onTap: ()async{
-                                      setState(() {//se muestra barra circular de espera
-                                        _saving = true;
-                                      });
-                                      List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad() ;
-                                      setState(() {//se oculta barra circular de espera
-                                        _saving = false;
-                                      });
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => Agendamiento(especialidades: especialidades)),
-                                      );
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
-                                      width: 130.0,
-                                      height: 130.0,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/agendamiento.png'),
-                                          fit: BoxFit.none,
-                                        ),
-                                        shape: BoxShape.circle,
-                                        color: Color.fromRGBO(204,192, 2,100),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Text('Agendar Cita'),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Card(
-                          elevation: 0,
-                          color: Colors.transparent,
-                          child: Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
-                                    width: 130.0,
-                                    height: 130.0,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/calendario.png'),
-                                        fit: BoxFit.none,
-                                      ),
-                                      shape: BoxShape.circle,
-                                      color: Color.fromRGBO(75, 54, 154, 100),
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Text('Mis Citas'),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Card(
-                          elevation: 0,
-                          color: Colors.transparent,
-                          child: Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
-                                    width: 130.0,
-                                    height: 130.0,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/historial.png'),
-                                        fit: BoxFit.none,
-                                      ),
-                                      shape: BoxShape.circle,
-                                      color: Colors.cyan,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Text('Historial Clinico'),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Card(
-                          elevation: 0,
-                          color: Colors.transparent,
-                          child: Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
-                                    width: 130.0,
-                                    height: 130.0,
-                                    decoration: new BoxDecoration(
-                                      image: DecorationImage(
-                                        image: new AssetImage(
-                                            'assets/recetas.png'),
-                                        fit: BoxFit.none,
-                                      ),
-                                      shape: BoxShape.circle,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: new Text('Recetas'),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Card(
-                          elevation: 0,
-                          color: Colors.transparent,
-                          child: Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
-                                    width: 130.0,
-                                    height: 130.0,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/resultados.png'),
-                                        fit: BoxFit.none,
-                                      ),
-                                      shape: BoxShape.circle,
-                                      color: Color.fromRGBO(22, 48, 207, 100),
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Text('Mis Resultados'),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Card(
-                          elevation: 0,
-                          color: Colors.transparent,
-                          child: Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
-                                    width: 130.0,
-                                    height: 130.0,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/carrito.png'),
-                                        fit: BoxFit.none,
-                                      ),
-                                      shape: BoxShape.circle,
-                                      color: Color.fromRGBO(240, 126, 26,100),
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Text('Pagos'),
-                                  ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )
-          )
-          //),
-        ],
-      ),*/
-      ),
+      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: currentPage),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentTab,
         onTap: (int index){
-          setState(()=> currentTab=index);
+          setState((){
+            currentTab=index;
+            currentPage=pages[index];
+          });
         },
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[

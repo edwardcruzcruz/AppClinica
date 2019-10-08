@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/components/DateTime/flutter_datetime_picker.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
-import 'package:flutter_app/theme/Strings.dart';
+import 'package:flutter_app/Utils/Strings.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter_app/theme/style.dart';

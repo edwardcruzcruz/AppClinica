@@ -134,14 +134,14 @@ class RestDatasource {
         body: {
         "cliente": cita.Paciente,
         "especialidad": cita.Especialidad,
-        "tratameinto": "Consulta",
+        "tratameinto": "Reparación de dientes",
         "fechaHora": cita.Fecha,
         "doctor":cita.IdDoctor
         },
         headers: {HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
     ).then((dynamic res) {
-      //final String resp = res.body;
+      final String resp = res.body;
       final int statusCode = res.statusCode;
       print(statusCode);
       if (statusCode < 200 || statusCode > 400 ) {

@@ -79,6 +79,14 @@ flutter:
     - assets/recetas_activo.png
     - assets/agendar.png
     - assets/logo_white.png
+    - assets/nutricion.png
+    - assets/odontologia.png
+    - assets/psicologia.png
+    - assets/avatar.png
+    - assets/titulo.png
+    - assets/clinica.png
+    - assets/reloj.png
+    - assets/reloj_disponible.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -96,7 +104,7 @@ flutter:
      - family: Myriad Pro
        fonts:
          - asset: assets/fonts/Myriad Pro Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+         - asset: assets/fonts/Myriad Pro Bold.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

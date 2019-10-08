@@ -10,8 +10,12 @@ import 'package:flutter_app/components/table_calendar.dart';
 import 'package:flutter_app/models/Cita.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento2.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento3.dart';
+import 'package:flutter_app/screens/MenuPage/Agendamiento/Horarios.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
+import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/theme/style.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
@@ -41,8 +45,9 @@ class MyApp extends StatelessWidget {
 }*/
 class CalendarioPage extends StatefulWidget {
   List<Horario> horarios;
-
-  CalendarioPage({Key key, this.horarios}) : super(key: key);
+  Doctor doctor;
+  Function callback,callbackloading,callbackfull;
+  CalendarioPage({Key key, this.horarios,this.doctor,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => CalendarioPage(),
@@ -128,6 +133,7 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
       _fechaElegida=day;
       _selectedEvents = events;
     });
+    this.widget.callback(Horarios(doctor: this.widget.doctor,date: _fechaElegida,selectedEvents: _selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
   }
 
   void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
@@ -136,27 +142,133 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        //title: Text(widget.title),
-        title: new Image.asset('assets/logo_clinica.png', fit: BoxFit.cover,),
-        centerTitle: true,
-        backgroundColor: Color.fromRGBO(19, 206, 177, 100),
-      ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          // Switch out 2 lines below to play with TableCalendar's settings
-          //-----------------------
-          _buildTableCalendar(),
-          // _buildTableCalendarWithBuilders(),
-          const SizedBox(height: 8.0),
-          //_buildButtons(),
-          const SizedBox(height: 8.0),
-          Expanded(child: _buildEventList()),
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        new Container(
+          height: 100.0,
+          decoration: new BoxDecoration(
+
+              gradient: new LinearGradient(
+                colors: [
+                  Color(0xFF00a18d),
+                  Color(0xFF00d6bc),
+                ],
+                begin: FractionalOffset.centerLeft,
+                end: FractionalOffset.centerRight,
+              ),
+              borderRadius: new BorderRadius.vertical(
+                  bottom: new Radius.elliptical(
+                      MediaQuery.of(context).size.width, 120.0))
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: Column(
+              children: <Widget>[
+                Align(
+                  child: Text(Strings.CuerpoTituloBienvenido,style: appTheme().textTheme.display1,),
+                  alignment: Alignment(-0.80, 0),
+                ),
+                Align(
+                  child: new Text(storageService.getEmail.split("@")[0],style: appTheme().textTheme.display2,),
+                  alignment: Alignment(-0.80, 0),
+                ),
+                Padding(padding: EdgeInsets.only(bottom: 10),),
+                Align(
+                  child: Text(Strings.AppbarIconoAgregarCita,style: appTheme().textTheme.display3,),
+                ),
+              ],
+            ),
+          ),
+        ),
+        new Expanded(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              // Switch out 2 lines below to play with TableCalendar's settings
+              //-----------------------
+              Container(
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () async{
+                        this.widget.callbackloading();
+                        List<Doctor> doctores= await RestDatasource().doctoresEspecialidad(this.widget.doctor.Especialidad);
+                        this.widget.callbackfull();
+                        this.widget.callback(Agendamiento2(doctores: doctores,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.arrow_back_ios,size: 10,color: appTheme().textTheme.subtitle.color,),
+                            Text(Strings.TextRetroceder,style: appTheme().textTheme.subtitle,)
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      //alignment: Alignment(50, 0),
+                        margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),
+                        child: Text(Strings.AgendarTitulo3,style: appTheme().textTheme.title,)
+                    )
+                  ],
+                ),
+              ),
+              Divider(
+                height: 2.0,
+                color: Colors.grey,
+              ),
+              Expanded(
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  children: <Widget>[
+                    Container(
+                      width: 270,
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(left: 40),
+                                //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                child: new Image.asset('assets/avatar.png',width: 43,height: 50),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            //mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text((this.widget.doctor.Especialidad=="Odontología"?"OD. ":this.widget.doctor.Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+this.widget.doctor.Nombre+" "+this.widget.doctor.Apellido,style: appTheme().textTheme.display4,),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: _buildTableCalendar(),
+                      //width: 300,
+                      //height: 300,
+                    ),
+                  ],
+                ),
+              ),
+              //const SizedBox(height: 8.0),
+              //Expanded(child: _buildEventList()),
+            ],
+          ),
+        )
+        //),
+      ],
     );
+
   }
 
   // Simple TableCalendar configuration (using Styles)
@@ -167,17 +279,18 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
       holidays: _holidays,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
-        selectedColor: Colors.deepOrange[400],
-        todayColor: Colors.deepOrange[200],
-        markersColor: Colors.brown[700],
-        outsideDaysVisible: false,
+        selectedColor: appTheme().buttonColor,
+        todayColor: appTheme().textTheme.display4.color,
+        markersColor: appTheme().textTheme.display3.color,
+        //outsideDaysVisible: false,
       ),
       headerStyle: HeaderStyle(
         formatButtonTextStyle: TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
         formatButtonDecoration: BoxDecoration(
-          color: Colors.deepOrange[400],
+          color: appTheme().textTheme.display4.color,//color 2 semanas  mes, etc.. cabecera
           borderRadius: BorderRadius.circular(16.0),
         ),
+        //formatButtonVisible: false,//oculto 2 semanas, mes , etc
       ),
       onDaySelected: _onDaySelected,
       onVisibleDaysChanged: _onVisibleDaysChanged,
@@ -364,11 +477,14 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
           onTap: () async{
             print(DateTime.parse(DateFormat("yyyy-MM-dd").format(_fechaElegida).toString()+" "+event));
             if(horarios!=null){//el calendario es valido
+              this.widget.callbackloading();
               Doctor doctor=await RestDatasource().doctoresId(horarios.elementAt(0).IdDoctor);
-              Navigator.push(
+              this.widget.callbackfull();
+              this.widget.callback(Agendamiento3(cita: new Cita(storageService.getEmail,doctor.Especialidad,"consulta",(DateFormat("yyyy-MM-dd").format(_fechaElegida).toString()+" "+event),doctor.Nombre+' '+doctor.Apellido),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+              /*Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Agendamiento3(cita: new Cita(storageService.getEmail,doctor.Especialidad,"consulta",DateTime.parse(DateFormat("yyyy-MM-dd").format(_fechaElegida).toString()+" "+event),doctor.Nombre+' '+doctor.Apellido),)),
-              );
+              );*/
             }else{
               print("no se peude hacer nada");
             }
@@ -380,6 +496,28 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
         ),
       ))
           .toList(),
+    );
+  }
+  void _showDialogSeleccionNull() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Sin contenido"),
+          content: new Text("No hay horarios disponibles con este doctor"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

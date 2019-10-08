@@ -16,4 +16,16 @@ class Strings {
   static const String ItemBottomNavigationBar1 = "Mis Citas";
   static const String ItemBottomNavigationBar2 = "Mi Historial Clínico";
   static const String ItemBottomNavigationBar3 = "Recetas";
+  static const String CuerpoTituloBienvenido = "Bienvenido,";
+  static const String CuerpoTituloPaginaNoticias = "NOTICIAS";
+  static const String CuerpoTituloPaginaCitas = "MIS CITAS";
+  static const String CuerpoTituloPaginaHitorial = "MI HISTORIAL CLÍNICO";
+  static const String CuerpoTituloPaginaRecetas = "RECETAS";
+  static const String AppbarIconoAgregarCita = "AGENDAR CITA";
+  static const String TextRetroceder = "atras";
+  static const String AgendarTitulo1 = "Elige una Especialidad";
+  static const String AgendarTitulo2 = "Elige un/a doctor/a";
+  static const String AgendarTitulo3 = "Elige un día Disponible";
+  static const String AgendarTitulo4 = "Elige un horario disponible";
+  static const String AgendarTitulo5 = "Resumen";
 }

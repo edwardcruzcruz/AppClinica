@@ -3,17 +3,21 @@ import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Cita.dart';
 import 'package:flutter_app/models/Doctor.dart';
-import 'package:flutter_app/models/Horario.dart';
-import 'package:flutter_app/screens/HomePage/Home.dart';
-import 'package:flutter_app/screens/MenuPage/Calendario.dart';
+import 'package:flutter_app/screens/MenuPage/Agendamiento/Horarios.dart';
+import 'package:flutter_app/screens/MenuPage/Noticias.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
+import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/theme/style.dart';
 import 'package:intl/intl.dart';
 //import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Agendamiento3 extends StatefulWidget {
   Cita cita;
-
-  Agendamiento3({Key key, this.cita}) : super(key: key);
+  DateTime fecha;
+  Doctor doctor;
+  List<String> events;
+  Function callback,callbackloading,callbackfull;
+  Agendamiento3({Key key, this.cita,this.doctor,this.fecha,this.events,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Agendamiento3(),
@@ -36,32 +40,83 @@ class _Agendamiento3State extends State<Agendamiento3>{
   List data = List();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: new Image.asset('assets/logo_clinica.png', fit: BoxFit.cover,),
-        centerTitle: true,
-        backgroundColor: Color.fromRGBO(19, 206, 177, 100),
-      ),
-      body: /*ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child:*/ Column  (
-        children: <Widget>[
-          new Banner(
-            message: "",//mensaje esquina superior derecha
-            location: BannerLocation.topEnd,
-            color: Colors.red,
-            child: Container(
-              margin: const EdgeInsets.only(left:0.0,top:10.0,right: 0.0,bottom: 0.0),
-              color: Colors.blue,
-              height: 100,
-              child: Center(child: new Image.asset('assets/promocion.jpg', fit: BoxFit.fill,),),
+    return Column(
+      children: <Widget>[
+        new Container(
+          height: 100.0,
+          decoration: new BoxDecoration(
+
+              gradient: new LinearGradient(
+                colors: [
+                  Color(0xFF00a18d),
+                  Color(0xFF00d6bc),
+                ],
+                begin: FractionalOffset.centerLeft,
+                end: FractionalOffset.centerRight,
+              ),
+              borderRadius: new BorderRadius.vertical(
+                  bottom: new Radius.elliptical(
+                      MediaQuery.of(context).size.width, 120.0))
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: Column(
+              children: <Widget>[
+                Align(
+                  child: Text(Strings.CuerpoTituloBienvenido,style: appTheme().textTheme.display1,),
+                  alignment: Alignment(-0.80, 0),
+                ),
+                Align(
+                  child: new Text(storageService.getEmail.split("@")[0],style: appTheme().textTheme.display2,),
+                  alignment: Alignment(-0.80, 0),
+                ),
+                Padding(padding: EdgeInsets.only(bottom: 10),),
+                Align(
+                  child: Text(Strings.AppbarIconoAgregarCita,style: appTheme().textTheme.display3,),
+                ),
+              ],
             ),
           ),
-          new Expanded (
-              child: formulario()
-          )
-          //),
-        ],
-      ),
-      //)
+        ),
+        new Expanded(
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () async{
+                        this.widget.callback(Horarios(doctor: this.widget.doctor,date: this.widget.fecha,selectedEvents: this.widget.events,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.arrow_back_ios,size: 10,color: appTheme().textTheme.subtitle.color,),
+                            Text(Strings.TextRetroceder,style: appTheme().textTheme.subtitle,)
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      //alignment: Alignment(50, 0),
+                        margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),
+                        child: Text(Strings.AgendarTitulo5,style: appTheme().textTheme.title,)
+                    )
+                  ],
+                ),
+              ),
+              Divider(
+                height: 2.0,
+                color: Colors.grey,
+              ),
+              formulario(),
+            ],
+          ),
+        )
+        //),
+      ],
     );
   }
 
@@ -77,16 +132,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                     children: <Widget>[
                       Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
-                        width: 40.0,
-                        height: 40.0,
-                        decoration: new BoxDecoration(
-                          image: DecorationImage(
-                            image: new AssetImage(
-                              'assets/splash.jpg'),
-                              fit: BoxFit.fill,
-                            ),
-                          //shape: BoxShape.circle,
-                        ),
+                        child: this.widget.cita.Especialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):this.widget.cita.Especialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
                       ),
                     ],
                   ),
@@ -105,15 +151,13 @@ class _Agendamiento3State extends State<Agendamiento3>{
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding:
-                      const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                      child: Text("Doctor: "+cita.IdDoctor),
-                    ),
-                  ],
+                Container(
+                  //padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                  child: new Image.asset('assets/avatar.png',width: 43,height: 50),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text((this.widget.cita.Especialidad=="Odontología"?"OD. ":this.widget.cita.Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+cita.IdDoctor),
                 ),
 
               ],
@@ -121,30 +165,27 @@ class _Agendamiento3State extends State<Agendamiento3>{
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding:
-                      const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                      child: Text(DateTime.parse(DateFormat("yyyy-MM-dd").format(cita.Fecha).toString()).day.toString()+' de '+DateTime.parse(DateFormat("yyyy-MM-dd").format(cita.Fecha).toString()).month.toString()+' del '+DateTime.parse(DateFormat("yyyy-MM-dd").format(cita.Fecha).toString()).year.toString()),
-                    ),
-                  ],
+                Container(
+                  //padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                  child: Icon(Icons.calendar_today),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(cita.Fecha.split("-")[0]+' de '+cita.Fecha.split("-")[1]+' del '+cita.Fecha.split("-")[2].split(" ")[0]),
                 ),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
+
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding:
-                      const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                      child: Text(cita.Fecha.hour.toString() +' : '+cita.Fecha.minute.toString()+" - "+cita.Fecha.hour.toString() +' : '+cita.Fecha.add(Duration(minutes: 30)).minute.toString()),
-                    ),
-                  ],
+                Container(
+                  //padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                  child: new Image.asset('assets/reloj.png',width: 23,height: 30),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(cita.Fecha.split(" ")[1].split(":")[0] +' : '+cita.Fecha.split(" ")[1].split(":")[1]+" - "+cita.Fecha.split(" ")[1].split(":")[0] +' : '+cita.Fecha.split(" ")[1].split(":")[0]),
                 ),
               ],
             ),
@@ -154,27 +195,25 @@ class _Agendamiento3State extends State<Agendamiento3>{
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
+                    /*Padding(
                       padding:
                       const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
                       child: FlatButton(onPressed:(){
                         Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
                       },child: Text("cancelar"),),
-                    ),
+                    ),*/
                     Padding(
                       padding:
                       const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                      child: FlatButton(onPressed:(){//async
-                        /*setState(() {//se muestra barra circular de espera
-                          _saving = true;
-                        });
+                      child: FlatButton(onPressed:()async{//async
+                        this.widget.callbackloading();
                         var respuesta= await RestDatasource().save_cita(cita);
-                        setState(() {//se muestra barra circular de espera
-                          _saving = false;
-                        });
-                        if(respuesta.statusCode>=200 || respuesta.statusCode<=400){*/
+                        this.widget.callbackfull();
+                        if(respuesta.statusCode>=200 || respuesta.statusCode<400){
                           _showDialogSave();
-                        //}
+                        }else{
+                          _showDialogDontSave();
+                        }
                       },child: Text("confirmar"),),
                     ),
                   ],
@@ -198,7 +237,33 @@ class _Agendamiento3State extends State<Agendamiento3>{
             new FlatButton(
               child: new Text("Ok"),
               onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+                this.widget.callback(Noticias());
+                Navigator.of(context).pop();
+                //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showDialogDontSave() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Registro Fallido"),
+          content: new Text("No se ha podido registrar una cita con la cuenta "+storageService.getEmail),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () {
+                this.widget.callback(Noticias());
+                Navigator.of(context).pop();
+                //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
               },
             ),
           ],
