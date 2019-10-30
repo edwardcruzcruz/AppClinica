@@ -8,6 +8,7 @@ import 'package:flutter_app/models/Cita.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/models/Noticia.dart';
 import 'package:flutter_app/services/Metodos_http.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +26,7 @@ class RestDatasource {
   static final HORARIO_DOCTORES_URL= BASE_URL + Constantes.uriHorariosDoctores;
   static final ESPECIALIDADES_URL=BASE_URL + Constantes.uriEspecialidad;
   static final CITAS_URL=BASE_URL + Constantes.uriCitas;
+  static final NOTICIAS_URL=BASE_URL + Constantes.uriNoticias;
 
   String _API_KEY = "";
   final JsonDecoder _decoder = new JsonDecoder();
@@ -173,7 +175,23 @@ class RestDatasource {
       return null;
     });
   }
-
+  Future<List<Noticia>> ListaNoticias() {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    return _netUtil.get(NOTICIAS_URL,
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      List<Noticia> response=new List<Noticia>();
+      if(res!=null){
+        var especialidades = res.map((i)=>Noticia.fromJson(i)).toList();
+        for(final especialidad in especialidades){
+          response.add(especialidad);
+        }
+        return response;
+      }
+      return null;
+    });
+  }
   Future<http.Response> postLogin(String username, String password) {
     return http
         .post(LOGIN_URL, body: {
@@ -213,4 +231,5 @@ class RestDatasource {
       return response;
     });
   }
+
 }

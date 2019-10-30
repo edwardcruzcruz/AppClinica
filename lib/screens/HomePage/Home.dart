@@ -113,7 +113,8 @@ class _HomeState extends State<Home>{
             child: new Container(
                 color: Colors.transparent,
                   //padding: EdgeInsets.all(8.0),
-                  child: new Divider(color: Colors.white,indent: 50.0, endIndent: 50.0)
+                  child: new Divider(
+                      color: Colors.white,indent: 50.0, endIndent: 50.0)
               //padding: const EdgeInsets.all(5.0),
             ),
             preferredSize: const Size.fromHeight(10.0)),
@@ -182,7 +183,11 @@ class _HomeState extends State<Home>{
           ],
         ),
       ),
-      body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: currentPage),
+      body: ModalProgressHUD(
+          color: Colors.grey[600],
+          progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),
+          inAsyncCall: _saving,
+          child: currentPage),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentTab,
         onTap: (int index){

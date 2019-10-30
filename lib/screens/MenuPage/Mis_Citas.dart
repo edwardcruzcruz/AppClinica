@@ -50,10 +50,11 @@ class _CitasState extends State<Citas>{
             Padding(padding: EdgeInsets.only(bottom: 10),),
             Align(
               child: Text(Strings.CuerpoTituloPaginaCitas,style: appTheme().textTheme.display3,),
-            ),
+            )
           ],
         ),
       ),
     );
   }
+
 }
