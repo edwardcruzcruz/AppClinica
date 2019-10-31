@@ -4,6 +4,7 @@ import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento1.dart';
 import 'package:flutter_app/screens/MenuPage/Calendario.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
@@ -13,9 +14,11 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Agendamiento2 extends StatefulWidget {
   List<Doctor> doctores;
+  User usuario;
+  int idEspecialidadEscogida;
   Function callback,callbackloading,callbackfull;
 
-  Agendamiento2({Key key, this.doctores,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  Agendamiento2({Key key,this.usuario,this.idEspecialidadEscogida, this.doctores,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Agendamiento2(),
@@ -88,7 +91,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
                         this.widget.callbackloading;
                         List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad();
                         this.widget.callbackfull;
-                        this.widget.callback(Agendamiento(especialidades: especialidades,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                        this.widget.callback(Agendamiento(usuario: this.widget.usuario,especialidades: especialidades,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                       },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
@@ -138,7 +141,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
                 if(horarios.length==0){
                   _showDialogSeleccionNull();
                 }else{
-                  this.widget.callback(CalendarioPage(horarios: horarios,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                  this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 }
                 /*Navigator.push(
                   context,

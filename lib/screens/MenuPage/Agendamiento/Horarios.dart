@@ -3,6 +3,7 @@ import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento3.dart';
 import 'package:flutter_app/models/Cita.dart';
 import 'package:flutter_app/Utils/Strings.dart';
@@ -13,11 +14,13 @@ import 'package:flutter_app/services/Rest_Services.dart';
 
 class Horarios extends StatefulWidget {
   Doctor doctor;
+  User usuario;
+  int idEspecialidadEscogida,idHorario;
   DateTime date;
   List<String> selectedEvents;
   Function callback,callbackloading,callbackfull;
 
-  Horarios({Key key, this.doctor,this.date,this.selectedEvents,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  Horarios({Key key, this.usuario,this.idEspecialidadEscogida , this.idHorario,this.doctor,this.date,this.selectedEvents,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Horarios(),
@@ -88,7 +91,7 @@ class _HorariosState extends State<Horarios>{
                         this.widget.callbackloading();
                         List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.doctor.Id);
                         this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
-                        this.widget.callback(CalendarioPage(horarios: horarios,doctor: this.widget.doctor,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                        this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,idHorario: this.widget.idHorario,horarios: horarios,doctor: this.widget.doctor,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                       },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
@@ -133,7 +136,7 @@ class _HorariosState extends State<Horarios>{
             GestureDetector(
               onTap: () async{
                 //print(this.widget.selectedEvents.elementAt(position).toString());
-                this.widget.callback(Agendamiento3(cita: new Cita(storageService.getEmail,this.widget.doctor.Especialidad,"Reparación de dientes",(DateFormat("yyyy-MM-dd").format(this.widget.date).toString()+" "+this.widget.selectedEvents.elementAt(position).toString()),this.widget.doctor.Nombre+' '+this.widget.doctor.Apellido),doctor: this.widget.doctor,fecha: this.widget.date,events: this.widget.selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                this.widget.callback(Agendamiento3(usuario: this.widget.usuario,idEspecialidadEscogida:  this.widget.idEspecialidadEscogida,idHorario: this.widget.idHorario,cita: new Cita(storageService.getEmail,this.widget.doctor.Especialidad,"dental",(DateFormat("yyyy-MM-dd").format(this.widget.date).toString()+" "+this.widget.selectedEvents.elementAt(position).toString()),this.widget.doctor.Nombre+' '+this.widget.doctor.Apellido),doctor: this.widget.doctor,fecha: this.widget.date,events: this.widget.selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 //this.widget.callbackloading();
                 //List<Horario> horarios= await RestDatasource().HorarioDoctor(doctores.elementAt(position).Id);
                 //this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa

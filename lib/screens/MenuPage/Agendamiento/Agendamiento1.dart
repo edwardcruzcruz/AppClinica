@@ -12,8 +12,9 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Agendamiento extends StatefulWidget {
   List<Especialidad> especialidades;
+  User usuario;
   Function callback,callbackloading,callbackfull;
-  Agendamiento({Key key, this.especialidades,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  Agendamiento({Key key,this.usuario, this.especialidades,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Agendamiento(),
@@ -115,7 +116,7 @@ class _AgendamientoState extends State<Agendamiento>{
                 if(doctores.length==0){
                   _showDialogSeleccionNull();
                 }else{
-                  this.widget.callback(Agendamiento2(doctores: doctores,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                  this.widget.callback(Agendamiento2(usuario: this.widget.usuario,idEspecialidadEscogida: this.especialidades.elementAt(position).Id,doctores: doctores,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 }
                 //Navigator.pop(context);
               },

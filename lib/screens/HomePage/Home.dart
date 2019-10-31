@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_app/models/Especialidad.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Historial.dart';
 import 'package:flutter_app/screens/MenuPage/Mis_Citas.dart';
 import 'package:flutter_app/screens/MenuPage/Mis_Pagos.dart';
@@ -84,13 +85,15 @@ class _HomeState extends State<Home>{
               _saving = true;
             });
             List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad() ;
+            User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+            //print(usuario);
             setState(() {//se oculta barra circular de espera
               _saving = false;
             });
 
             setState((){
               //currentTab=4;
-              currentPage=Agendamiento(especialidades: especialidades,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);//cambiar a 5 cuando se agregue pgos, etc
+              currentPage=Agendamiento(usuario: usuario,especialidades: especialidades,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);//cambiar a 5 cuando se agregue pgos, etc
             });
 
           },

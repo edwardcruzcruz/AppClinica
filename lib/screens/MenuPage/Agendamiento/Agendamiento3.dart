@@ -3,6 +3,7 @@ import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Cita.dart';
 import 'package:flutter_app/models/Doctor.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Horarios.dart';
 import 'package:flutter_app/screens/MenuPage/Noticias.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
@@ -14,10 +15,12 @@ import 'package:intl/intl.dart';
 class Agendamiento3 extends StatefulWidget {
   Cita cita;
   DateTime fecha;
+  int idEspecialidadEscogida,idHorario;
   Doctor doctor;
+  User usuario;
   List<String> events;
   Function callback,callbackloading,callbackfull;
-  Agendamiento3({Key key, this.cita,this.doctor,this.fecha,this.events,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  Agendamiento3({Key key,this.usuario,this.idEspecialidadEscogida, this.idHorario,this.cita,this.doctor,this.fecha,this.events,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Agendamiento3(),
@@ -87,7 +90,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                   children: <Widget>[
                     GestureDetector(
                       onTap: () async{
-                        this.widget.callback(Horarios(doctor: this.widget.doctor,date: this.widget.fecha,selectedEvents: this.widget.events,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                        this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: this.widget.idHorario,doctor: this.widget.doctor,date: this.widget.fecha,selectedEvents: this.widget.events,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                       },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
@@ -207,9 +210,10 @@ class _Agendamiento3State extends State<Agendamiento3>{
                       const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
                       child: FlatButton(onPressed:()async{//async
                         this.widget.callbackloading();
-                        var respuesta= await RestDatasource().save_cita(cita);
+                        print(this.widget.usuario.Id);
+                        var respuesta= await RestDatasource().save_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id);
                         this.widget.callbackfull();
-                        if(respuesta.statusCode>=200 || respuesta.statusCode<400){
+                        if(respuesta.statusCode==200){
                           _showDialogSave();
                         }else{
                           _showDialogDontSave();

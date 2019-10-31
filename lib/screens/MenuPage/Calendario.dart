@@ -10,6 +10,7 @@ import 'package:flutter_app/components/table_calendar.dart';
 import 'package:flutter_app/models/Cita.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento2.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento3.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Horarios.dart';
@@ -46,8 +47,10 @@ class MyApp extends StatelessWidget {
 class CalendarioPage extends StatefulWidget {
   List<Horario> horarios;
   Doctor doctor;
+  User usuario;
+  int idEspecialidadEscogida,idHorario;
   Function callback,callbackloading,callbackfull;
-  CalendarioPage({Key key, this.horarios,this.doctor,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  CalendarioPage({Key key, this.usuario,this.idEspecialidadEscogida,this.idHorario,this.horarios,this.doctor,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => CalendarioPage(),
@@ -133,7 +136,7 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
       _fechaElegida=day;
       _selectedEvents = events;
     });
-    this.widget.callback(Horarios(doctor: this.widget.doctor,date: _fechaElegida,selectedEvents: _selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+    this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: this.widget.idHorario,doctor: this.widget.doctor,date: _fechaElegida,selectedEvents: _selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
   }
 
   void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
@@ -195,7 +198,7 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
                         this.widget.callbackloading();
                         List<Doctor> doctores= await RestDatasource().doctoresEspecialidad(this.widget.doctor.Especialidad);
                         this.widget.callbackfull();
-                        this.widget.callback(Agendamiento2(doctores: doctores,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                        this.widget.callback(Agendamiento2(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,doctores: doctores,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                       },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),

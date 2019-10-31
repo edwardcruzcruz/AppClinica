@@ -83,7 +83,7 @@ class _RegistroState extends State<Registro> {
                   setState(() {//se muestra barra circular de espera
                     _saving = true;
                   });
-                  var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),genero,email.text, passController1.text,passController2.text);
+                  var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),genero,email.text, passController1.text);
                   setState(() {//se muestra barra circular de espera
                     _saving = false;
                   });
