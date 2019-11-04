@@ -7,6 +7,8 @@ import 'package:flutter_app/screens/MenuPage/Mis_Pagos.dart';
 import 'package:flutter_app/screens/MenuPage/Noticias.dart';
 import 'package:flutter_app/screens/MenuPage/Recetas.dart';
 import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/screens/PagosPage/AgregarTarjeta.dart';
+import 'package:flutter_app/screens/PagosPage/Carrito.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
@@ -25,77 +27,117 @@ class Home extends StatefulWidget {
 
   @override
   _HomeState createState() => _HomeState();
-
 }
 
-class _HomeState extends State<Home>{
+class _HomeState extends State<Home> {
   var storageService = locator<Var_shared>();
-  bool _saving = false;//to circular progress bar
-  int currentTab=0;//bottom Navigation menu bar choice
+  bool _saving = false; //to circular progress bar
+  int currentTab = 0; //bottom Navigation menu bar choice
 
   Noticias noticiaPage;
   Citas citasPage;
   Historial historialPage;
-  //Pagos pagosPage;
   Recetas recetasPage;
   Agendamiento agend1Page;
+  Pagos carrito;
   List<Widget> pages;
   Widget currentPage;
 
   @override
   void initState() {
     // TODO: implement initState
-    noticiaPage= Noticias();
-    citasPage= Citas();
-    historialPage= Historial();
-    //pagosPage= Pagos();
-    recetasPage=Recetas();
-    agend1Page= Agendamiento();
-    pages=[noticiaPage,citasPage,historialPage,recetasPage,agend1Page];//,pagosPage
+    noticiaPage = Noticias();
+    citasPage = Citas();
+    historialPage = Historial();
+    recetasPage = Recetas();
+    agend1Page = Agendamiento();
+    carrito = Pagos();
+    pages = [
+      noticiaPage,
+      citasPage,
+      historialPage,
+      recetasPage,
+      agend1Page
+    ]; //,pagosPage
     currentPage = noticiaPage;
     super.initState();
   }
 
-  void callback(Widget nextPage){
+  void callback(Widget nextPage) {
     setState(() {
-      this.currentPage=nextPage;
+      this.currentPage = nextPage;
     });
   }
-  void callbackloading(){
+
+  void callbackloading() {
     setState(() {
-      this._saving=true;
+      this._saving = true;
     });
   }
-  void callbackfull(){
+
+  void callbackfull() {
     setState(() {
-      this._saving=false;
+      this._saving = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar (
+      appBar: AppBar(
         elevation: 0,
         leading: new IconButton(
           icon: Icon(Icons.note_add),
-          onPressed: () async{
-            setState(() {//se muestra barra circular de espera
+          onPressed: () async {
+            setState(() {
+              //se muestra barra circular de espera
               _saving = true;
             });
-            List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad() ;
-            setState(() {//se oculta barra circular de espera
+            List<Especialidad> especialidades =
+                await RestDatasource().ListaEspecialidad();
+            setState(() {
+              //se oculta barra circular de espera
               _saving = false;
             });
 
-            setState((){
+            setState(() {
               //currentTab=4;
-              currentPage=Agendamiento(especialidades: especialidades,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);//cambiar a 5 cuando se agregue pgos, etc
+              currentPage = Agendamiento(
+                especialidades: especialidades,
+                callback: this.callback,
+                callbackloading: this.callbackloading,
+                callbackfull: this.callbackfull,
+              ); //cambiar a 5 cuando se agregue pgos, etc
             });
-
           },
         ),
-        title: new Image.asset('assets/logo_white.png',fit: BoxFit.cover,),
+        title: new Image.asset(
+          'assets/logo_white.png',
+          fit: BoxFit.cover,
+        ),
+        actions: <Widget>[
+          new IconButton(
+            icon: Image.asset(
+              'assets/carrito.png',
+              fit: BoxFit.cover,
+            ), // Icon(Icons.note_add),
+            onPressed: () async {
+              /*setState(() {//se muestra barra circular de espera
+                _saving = true;
+              });
+              List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad() ;
+              setState(() {//se oculta barra circular de espera
+                _saving = false;
+              });*/
+
+              setState(() {
+                //currentTab=4;
+                currentPage =
+                    Pagos(); //cambiar a 5 cuando se agregue pgos, etc
+              });
+            },
+          ),
+        ],
         centerTitle: true,
         flexibleSpace: Container(
           decoration: new BoxDecoration(
@@ -112,14 +154,14 @@ class _HomeState extends State<Home>{
         bottom: new PreferredSize(
             child: new Container(
                 color: Colors.transparent,
-                  //padding: EdgeInsets.all(8.0),
-                  child: new Divider(
-                      color: Colors.white,indent: 50.0, endIndent: 50.0)
-              //padding: const EdgeInsets.all(5.0),
-            ),
+                //padding: EdgeInsets.all(8.0),
+                child: new Divider(
+                    color: Colors.white, indent: 50.0, endIndent: 50.0)
+                //padding: const EdgeInsets.all(5.0),
+                ),
             preferredSize: const Size.fromHeight(10.0)),
       ),
-      endDrawer: Drawer (
+      endDrawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
         // space to fit everything.
@@ -128,12 +170,13 @@ class _HomeState extends State<Home>{
           //padding: EdgeInsets.zero,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            UserAccountsDrawerHeader (
-              accountName: Text(""),//consultas api con modelos
+            UserAccountsDrawerHeader(
+              accountName: Text(""), //consultas api con modelos
               accountEmail: Text(storageService.getEmail),
-              currentAccountPicture:
-              Image.network('https://thechanmakerrecipe.files.wordpress.com/2014/10/ec-only-logo-copy.png?w=243'),
-              decoration: BoxDecoration(color: Color.fromRGBO(19, 206, 177, 100)),
+              currentAccountPicture: Image.network(
+                  'https://thechanmakerrecipe.files.wordpress.com/2014/10/ec-only-logo-copy.png?w=243'),
+              decoration:
+                  BoxDecoration(color: Color.fromRGBO(19, 206, 177, 100)),
             ),
             ListTile(
               leading: Icon(Icons.people),
@@ -168,55 +211,132 @@ class _HomeState extends State<Home>{
             ),
             Expanded(
               child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ListTile(
-                  leading: Icon(Icons.exit_to_app),
-                  title: Text("Cerrar Sesión"),
-                  onTap: (){
-                    storageService.delete_user();//variable de session usuario eliminada
-                    storageService.delete_email();
-                    Navigator.of(context).pushAndRemoveUntil(Login.route(), (Route<dynamic> route)=>false);
-                  },
-                )
-              ),
+                  alignment: Alignment.bottomCenter,
+                  child: ListTile(
+                    leading: Icon(Icons.exit_to_app),
+                    title: Text("Cerrar Sesión"),
+                    onTap: () {
+                      storageService
+                          .delete_user(); //variable de session usuario eliminada
+                      storageService.delete_email();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          Login.route(), (Route<dynamic> route) => false);
+                    },
+                  )),
             ),
           ],
         ),
       ),
       body: ModalProgressHUD(
           color: Colors.grey[600],
-          progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),
+          progressIndicator: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+          ),
           inAsyncCall: _saving,
           child: currentPage),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentTab,
-        onTap: (int index){
-          setState((){
-            currentTab=index;
-            currentPage=pages[index];
-          });
-        },
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: currentTab==0?new Image.asset('assets/home_activo.png',width: 32,height: 28,):new Image.asset('assets/home.png',width: 32,height: 28,),//new
-          title: currentTab==0?new Text(Strings.ItemBottomNavigationBar0,style: appTheme().textTheme.subtitle,):new Text(Strings.ItemBottomNavigationBar0,style: appTheme().textTheme.title,),
-        ),
-        BottomNavigationBarItem(
-          icon: currentTab==1?new Image.asset('assets/mis_citas_activo.png',width: 32,height: 28,):new Image.asset('assets/mis_citas.png',width: 32,height: 28,),
-          title: currentTab==1?new Text(Strings.ItemBottomNavigationBar1,style: appTheme().textTheme.subtitle,):new Text(Strings.ItemBottomNavigationBar1,style: appTheme().textTheme.title,),
-        ),
-        BottomNavigationBarItem(
-          icon: currentTab==2?new Image.asset('assets/historial_clinico_activo.png',width: 32,height: 28,):new Image.asset('assets/historial_clinico.png',width: 32,height: 28,),
-          title: currentTab==2?new AutoSizeText(Strings.ItemBottomNavigationBar2,style: appTheme().textTheme.subtitle,maxLines: 2,textAlign: TextAlign.center,):new AutoSizeText(Strings.ItemBottomNavigationBar2,style: appTheme().textTheme.title,maxLines: 2,textAlign: TextAlign.center,),
-        ),
-        BottomNavigationBarItem(
-          icon: currentTab==3?new Image.asset('assets/recetas_activo.png',width: 32,height: 28,):new Image.asset('assets/recetas.png',width: 32,height: 28,),
-          title: currentTab==3?new Text(Strings.ItemBottomNavigationBar3,style: appTheme().textTheme.subtitle,):new Text(Strings.ItemBottomNavigationBar3,style: appTheme().textTheme.title,),
-        ),
-        ]
-      ),
+          currentIndex: currentTab,
+          onTap: (int index) {
+            setState(() {
+              currentTab = index;
+              currentPage = pages[index];
+            });
+          },
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: currentTab == 0
+                  ? new Image.asset(
+                      'assets/home_activo.png',
+                      width: 32,
+                      height: 28,
+                    )
+                  : new Image.asset(
+                      'assets/home.png',
+                      width: 32,
+                      height: 28,
+                    ), //new
+              title: currentTab == 0
+                  ? new Text(
+                      Strings.ItemBottomNavigationBar0,
+                      style: appTheme().textTheme.subtitle,
+                    )
+                  : new Text(
+                      Strings.ItemBottomNavigationBar0,
+                      style: appTheme().textTheme.title,
+                    ),
+            ),
+            BottomNavigationBarItem(
+              icon: currentTab == 1
+                  ? new Image.asset(
+                      'assets/mis_citas_activo.png',
+                      width: 32,
+                      height: 28,
+                    )
+                  : new Image.asset(
+                      'assets/mis_citas.png',
+                      width: 32,
+                      height: 28,
+                    ),
+              title: currentTab == 1
+                  ? new Text(
+                      Strings.ItemBottomNavigationBar1,
+                      style: appTheme().textTheme.subtitle,
+                    )
+                  : new Text(
+                      Strings.ItemBottomNavigationBar1,
+                      style: appTheme().textTheme.title,
+                    ),
+            ),
+            BottomNavigationBarItem(
+              icon: currentTab == 2
+                  ? new Image.asset(
+                      'assets/historial_clinico_activo.png',
+                      width: 32,
+                      height: 28,
+                    )
+                  : new Image.asset(
+                      'assets/historial_clinico.png',
+                      width: 32,
+                      height: 28,
+                    ),
+              title: currentTab == 2
+                  ? new AutoSizeText(
+                      Strings.ItemBottomNavigationBar2,
+                      style: appTheme().textTheme.subtitle,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    )
+                  : new AutoSizeText(
+                      Strings.ItemBottomNavigationBar2,
+                      style: appTheme().textTheme.title,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+            ),
+            BottomNavigationBarItem(
+              icon: currentTab == 3
+                  ? new Image.asset(
+                      'assets/recetas_activo.png',
+                      width: 32,
+                      height: 28,
+                    )
+                  : new Image.asset(
+                      'assets/recetas.png',
+                      width: 32,
+                      height: 28,
+                    ),
+              title: currentTab == 3
+                  ? new Text(
+                      Strings.ItemBottomNavigationBar3,
+                      style: appTheme().textTheme.subtitle,
+                    )
+                  : new Text(
+                      Strings.ItemBottomNavigationBar3,
+                      style: appTheme().textTheme.title,
+                    ),
+            ),
+          ]),
     );
   }
-
 }

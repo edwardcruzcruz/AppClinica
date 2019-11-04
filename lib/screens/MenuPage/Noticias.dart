@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/screens/PagosPage/AgregarTarjeta.dart';
 import 'package:flutter_app/theme/style.dart';
 import './Listado.dart';
 class Noticias extends StatefulWidget {
