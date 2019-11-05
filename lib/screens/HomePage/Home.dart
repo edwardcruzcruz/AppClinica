@@ -31,6 +31,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+  openTheDrawer(){
+    _scaffoldKey.currentState.openEndDrawer();
+  }
   var storageService = locator<Var_shared>();
   bool _saving = false; //to circular progress bar
   int currentTab = 0; //bottom Navigation menu bar choice
@@ -85,6 +89,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         leading: new IconButton(
@@ -134,10 +139,7 @@ class _HomeState extends State<Home> {
         ),
         actions: <Widget>[
           new IconButton(
-            icon: Image.asset(
-              'assets/carrito.png',
-              fit: BoxFit.cover,
-            ), // Icon(Icons.note_add),
+            icon: Icon(Icons.shopping_cart), // Icon(Icons.note_add),
             onPressed: () async {
               /*setState(() {//se muestra barra circular de espera
                 _saving = true;
@@ -153,6 +155,10 @@ class _HomeState extends State<Home> {
                     Pagos(); //cambiar a 5 cuando se agregue pgos, etc
               });
             },
+          ),
+          new IconButton(
+            icon: Icon(Icons.menu), // Icon(Icons.note_add),
+            onPressed: () =>openTheDrawer(),
           ),
         ],
         centerTitle: true,
