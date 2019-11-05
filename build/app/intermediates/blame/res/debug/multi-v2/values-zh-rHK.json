@@ -4,7 +4,7 @@
             "outputFile": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rHK/values-zh-rHK.xml",
             "map": [
                 {
-                    "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/values-zh-rHK/values-zh-rHK.xml",
+                    "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/values-zh-rHK/values-zh-rHK.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

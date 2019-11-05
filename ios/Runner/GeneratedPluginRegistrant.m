@@ -11,6 +11,7 @@
 #import <fluttertoast/FluttertoastPlugin.h>
 #import <package_info/PackageInfoPlugin.h>
 #import <shared_preferences/SharedPreferencesPlugin.h>
+#import <webview_flutter/WebViewFlutterPlugin.h>
 
 @implementation GeneratedPluginRegistrant
 
@@ -23,6 +24,7 @@
   [FluttertoastPlugin registerWithRegistrar:[registry registrarForPlugin:@"FluttertoastPlugin"]];
   [FLTPackageInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPackageInfoPlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
+  [FLTWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTWebViewFlutterPlugin"]];
 }
 
 @end

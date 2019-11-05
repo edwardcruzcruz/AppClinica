@@ -1,7 +1,7 @@
 [
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_tooltip_black_topnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-xhdpi-v4/com_facebook_tooltip_black_topnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-xhdpi-v4/com_facebook_tooltip_black_topnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_abc_btn_check_to_on_mtrl_015.png.flat",
@@ -45,7 +45,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_tooltip_blue_bottomnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-hdpi-v4/com_facebook_tooltip_blue_bottomnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-hdpi-v4/com_facebook_tooltip_blue_bottomnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
@@ -81,7 +81,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_tooltip_black_background.9.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-hdpi-v4/com_facebook_tooltip_black_background.9.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-hdpi-v4/com_facebook_tooltip_black_background.9.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_abc_ab_share_pack_mtrl_alpha.9.png.flat",
@@ -149,7 +149,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/layout_com_facebook_login_fragment.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/layout/com_facebook_login_fragment.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/layout/com_facebook_login_fragment.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable_abc_ic_menu_overflow_material.xml.flat",
@@ -177,7 +177,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_profile_picture_blank_portrait.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-mdpi-v4/com_facebook_profile_picture_blank_portrait.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-mdpi-v4/com_facebook_profile_picture_blank_portrait.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/color_abc_btn_colored_text_material.xml.flat",
@@ -233,7 +233,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_tooltip_blue_background.9.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-xhdpi-v4/com_facebook_tooltip_blue_background.9.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-xhdpi-v4/com_facebook_tooltip_blue_background.9.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_notification_bg_low_normal.9.png.flat",
@@ -265,7 +265,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_tooltip_blue_xout.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-xhdpi-v4/com_facebook_tooltip_blue_xout.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-xhdpi-v4/com_facebook_tooltip_blue_xout.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
@@ -353,7 +353,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable_com_facebook_auth_dialog_header_background.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable/com_facebook_auth_dialog_header_background.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable/com_facebook_auth_dialog_header_background.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/anim_abc_popup_exit.xml.flat",
@@ -381,7 +381,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_tooltip_blue_xout.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-hdpi-v4/com_facebook_tooltip_blue_xout.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-hdpi-v4/com_facebook_tooltip_blue_xout.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
@@ -449,7 +449,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/layout_com_facebook_tooltip_bubble.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/layout/com_facebook_tooltip_bubble.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/layout/com_facebook_tooltip_bubble.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/layout_browser_actions_context_menu_page.xml.flat",
@@ -473,7 +473,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/color_com_facebook_button_text_color.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/color/com_facebook_button_text_color.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/color/com_facebook_button_text_color.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat",
@@ -549,7 +549,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable_com_facebook_favicon_blue.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable/com_facebook_favicon_blue.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable/com_facebook_favicon_blue.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/anim_abc_shrink_fade_out_from_bottom.xml.flat",
@@ -585,7 +585,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_button_like_icon_selected.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable-xhdpi-v4/com_facebook_button_like_icon_selected.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable-xhdpi-v4/com_facebook_button_like_icon_selected.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
@@ -629,7 +629,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_tooltip_black_background.9.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-mdpi-v4/com_facebook_tooltip_black_background.9.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-mdpi-v4/com_facebook_tooltip_black_background.9.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_control_to_pressed_mtrl_000.png.flat",
@@ -673,7 +673,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable_com_facebook_button_background.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable/com_facebook_button_background.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable/com_facebook_button_background.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-ldrtl-xhdpi-v17_abc_spinner_mtrl_am_alpha.9.png.flat",
@@ -685,7 +685,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_tooltip_blue_xout.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-mdpi-v4/com_facebook_tooltip_blue_xout.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-mdpi-v4/com_facebook_tooltip_blue_xout.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_text_select_handle_right_mtrl_dark.png.flat",
@@ -709,7 +709,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/layout_com_facebook_activity_layout.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/layout/com_facebook_activity_layout.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/layout/com_facebook_activity_layout.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/layout_notification_template_big_media_narrow_custom.xml.flat",
@@ -745,7 +745,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_button_like_icon_selected.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable-mdpi-v4/com_facebook_button_like_icon_selected.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable-mdpi-v4/com_facebook_button_like_icon_selected.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
@@ -769,7 +769,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_tooltip_blue_background.9.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-hdpi-v4/com_facebook_tooltip_blue_background.9.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-hdpi-v4/com_facebook_tooltip_blue_background.9.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
@@ -817,11 +817,11 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_tooltip_black_xout.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-mdpi-v4/com_facebook_tooltip_black_xout.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-mdpi-v4/com_facebook_tooltip_black_xout.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_tooltip_blue_background.9.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-mdpi-v4/com_facebook_tooltip_blue_background.9.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-mdpi-v4/com_facebook_tooltip_blue_background.9.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable_abc_switch_thumb_material.xml.flat",
@@ -841,7 +841,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_tooltip_blue_topnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-xhdpi-v4/com_facebook_tooltip_blue_topnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-xhdpi-v4/com_facebook_tooltip_blue_topnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_abc_textfield_default_mtrl_alpha.9.png.flat",
@@ -893,7 +893,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_tooltip_blue_bottomnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-xhdpi-v4/com_facebook_tooltip_blue_bottomnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-xhdpi-v4/com_facebook_tooltip_blue_bottomnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_abc_text_select_handle_right_mtrl_light.png.flat",
@@ -909,7 +909,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_close.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable-hdpi-v4/com_facebook_close.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable-hdpi-v4/com_facebook_close.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_abc_list_divider_mtrl_alpha.9.png.flat",
@@ -925,7 +925,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_tooltip_black_topnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-mdpi-v4/com_facebook_tooltip_black_topnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-mdpi-v4/com_facebook_tooltip_black_topnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_abc_popup_background_mtrl_mult.9.png.flat",
@@ -937,7 +937,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable_com_facebook_button_like_background.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable/com_facebook_button_like_background.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable/com_facebook_button_like_background.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat",
@@ -965,7 +965,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_tooltip_black_xout.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-hdpi-v4/com_facebook_tooltip_black_xout.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-hdpi-v4/com_facebook_tooltip_black_xout.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_notification_bg_normal.9.png.flat",
@@ -981,7 +981,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_button_like_icon_selected.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable-hdpi-v4/com_facebook_button_like_icon_selected.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable-hdpi-v4/com_facebook_button_like_icon_selected.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_track_mtrl_alpha.9.png.flat",
@@ -1149,11 +1149,11 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_tooltip_black_topnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-hdpi-v4/com_facebook_tooltip_black_topnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-hdpi-v4/com_facebook_tooltip_black_topnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable_com_facebook_auth_dialog_background.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable/com_facebook_auth_dialog_background.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable/com_facebook_auth_dialog_background.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/color_abc_search_url_text.xml.flat",
@@ -1233,11 +1233,11 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_profile_picture_blank_square.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-mdpi-v4/com_facebook_profile_picture_blank_square.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-mdpi-v4/com_facebook_profile_picture_blank_square.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_tooltip_blue_topnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-mdpi-v4/com_facebook_tooltip_blue_topnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-mdpi-v4/com_facebook_tooltip_blue_topnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_star_half_black_48dp.png.flat",
@@ -1277,11 +1277,11 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_close.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable-mdpi-v4/com_facebook_close.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable-mdpi-v4/com_facebook_close.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/layout_com_facebook_device_auth_dialog_fragment.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/layout/com_facebook_device_auth_dialog_fragment.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/layout/com_facebook_device_auth_dialog_fragment.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_abc_list_selector_disabled_holo_dark.9.png.flat",
@@ -1313,7 +1313,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_tooltip_black_bottomnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-xhdpi-v4/com_facebook_tooltip_black_bottomnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-xhdpi-v4/com_facebook_tooltip_black_bottomnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-ldrtl-xxxhdpi-v17_abc_spinner_mtrl_am_alpha.9.png.flat",
@@ -1333,7 +1333,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/layout_com_facebook_smart_device_dialog_fragment.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/layout/com_facebook_smart_device_dialog_fragment.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/layout/com_facebook_smart_device_dialog_fragment.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_half_black_36dp.png.flat",
@@ -1385,7 +1385,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable_com_facebook_button_icon.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable/com_facebook_button_icon.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable/com_facebook_button_icon.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_list_selector_disabled_holo_light.9.png.flat",
@@ -1421,7 +1421,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable_com_facebook_auth_dialog_cancel_background.xml.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable/com_facebook_auth_dialog_cancel_background.xml"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable/com_facebook_auth_dialog_cancel_background.xml"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_abc_list_selector_disabled_holo_light.9.png.flat",
@@ -1453,7 +1453,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_tooltip_black_bottomnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-hdpi-v4/com_facebook_tooltip_black_bottomnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-hdpi-v4/com_facebook_tooltip_black_bottomnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_star_half_black_36dp.png.flat",
@@ -1473,7 +1473,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_close.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable-xhdpi-v4/com_facebook_close.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable-xhdpi-v4/com_facebook_close.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable_abc_btn_default_mtrl_shape.xml.flat",
@@ -1533,7 +1533,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_tooltip_black_xout.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-xhdpi-v4/com_facebook_tooltip_black_xout.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-xhdpi-v4/com_facebook_tooltip_black_xout.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_abc_text_select_handle_left_mtrl_dark.png.flat",
@@ -1565,7 +1565,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_tooltip_blue_topnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-hdpi-v4/com_facebook_tooltip_blue_topnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-hdpi-v4/com_facebook_tooltip_blue_topnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_notification_bg_normal.9.png.flat",
@@ -1605,7 +1605,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_tooltip_black_bottomnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-mdpi-v4/com_facebook_tooltip_black_bottomnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-mdpi-v4/com_facebook_tooltip_black_bottomnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_abc_ic_star_black_16dp.png.flat",
@@ -1621,7 +1621,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_tooltip_blue_bottomnub.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-mdpi-v4/com_facebook_tooltip_blue_bottomnub.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-mdpi-v4/com_facebook_tooltip_blue_bottomnub.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/layout_notification_template_lines_media.xml.flat",
@@ -1661,7 +1661,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xxhdpi-v4_com_facebook_button_like_icon_selected.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.5.1.aar/d9dc5af35794412e04b54bf554ec46c5/res/drawable-xxhdpi-v4/com_facebook_button_like_icon_selected.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.9.0.aar/3fecc2045a7add24f426b762c4fdb780/res/drawable-xxhdpi-v4/com_facebook_button_like_icon_selected.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_abc_ic_star_half_black_16dp.png.flat",
@@ -1673,7 +1673,7 @@
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_tooltip_black_background.9.png.flat",
-        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.5.1.aar/58d0e34813a0bf7972b246c38ba411f5/res/drawable-xhdpi-v4/com_facebook_tooltip_black_background.9.png"
+        "source": "/home/edward/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.9.0.aar/2ddb3a2c658c28155efc51cd4ea3b21c/res/drawable-xhdpi-v4/com_facebook_tooltip_black_background.9.png"
     },
     {
         "merged": "/home/edward/Documents/IS_1/AppClinica/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_text_select_handle_left_mtrl_dark.png.flat",

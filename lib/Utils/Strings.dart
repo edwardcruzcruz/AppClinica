@@ -22,6 +22,7 @@ class Strings {
   static const String CuerpoTituloPaginaHitorial = "MI HISTORIAL CLÍNICO";
   static const String CuerpoTituloPaginaRecetas = "RECETAS";
   static const String AppbarIconoAgregarCita = "AGENDAR CITA";
+  static const String CuerpoTituloCarrito = "CARRITO";
   static const String TextRetroceder = "atras";
   static const String AgendarTitulo1 = "Elige una Especialidad";
   static const String AgendarTitulo2 = "Elige un/a doctor/a";

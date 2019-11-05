@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Noticia.dart';
+import 'package:flutter_app/theme/style.dart';
 import 'package:webfeed/webfeed.dart';
 import 'dart:math';
 import 'package:flutter_app/services/Rest_Services.dart';
@@ -65,7 +66,12 @@ class _ListadoState extends State<Listado> {
           case ConnectionState.waiting:
             return Center(child: CircularProgressIndicator());
           case ConnectionState.done:
-            if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+            if (snapshot.hasError)
+              return Text(
+                "No hay noticias nuevas",
+                textAlign: TextAlign.center,
+                style:appTheme().textTheme.display4 ,
+              );//'Error: ${snapshot.error}'
 
             return Stack(
               children: <Widget>[
