@@ -6,7 +6,7 @@ import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento1.dart';
-import 'package:flutter_app/screens/MenuPage/Calendario.dart';
+import 'package:flutter_app/screens/MenuPage/Agendamiento/Calendario.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/theme/style.dart';
@@ -68,7 +68,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
                   alignment: Alignment(-0.80, 0),
                 ),
                 Align(
-                  child: new Text(storageService.getEmail.split("@")[0],style: appTheme().textTheme.display2,),
+                  child: new Text(storageService.getCuentaActual,style: appTheme().textTheme.display2,),
                   alignment: Alignment(-0.80, 0),
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 10),),

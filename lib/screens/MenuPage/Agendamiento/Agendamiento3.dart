@@ -70,7 +70,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                   alignment: Alignment(-0.80, 0),
                 ),
                 Align(
-                  child: new Text(storageService.getEmail.split("@")[0],style: appTheme().textTheme.display2,),
+                  child: new Text(storageService.getCuentaActual,style: appTheme().textTheme.display2,),
                   alignment: Alignment(-0.80, 0),
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 10),),

@@ -4,18 +4,18 @@ import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/theme/style.dart';
 
-class Recetas extends StatefulWidget {
+class Acerca extends StatefulWidget {
   static Route<dynamic> route() {
     return MaterialPageRoute(
-      builder: (context) => Recetas(),
+      builder: (context) => Acerca(),
     );
   }
 
   @override
-  _RecetasState createState() => _RecetasState();
+  _AcercaState createState() => _AcercaState();
 }
 
-class _RecetasState extends State<Recetas>{
+class _AcercaState extends State<Acerca>{
   var storageService = locator<Var_shared>();
   @override
   Widget build(BuildContext context) {
@@ -49,11 +49,12 @@ class _RecetasState extends State<Recetas>{
             ),
             Padding(padding: EdgeInsets.only(bottom: 10),),
             Align(
-              child: Text(Strings.CuerpoTituloPaginaRecetas,style: appTheme().textTheme.display3,),
-            ),
+              child: Text(Strings.CuerpoTituloPaginaAcercade,style: appTheme().textTheme.display3,),
+            )
           ],
         ),
       ),
     );
   }
+
 }

@@ -1,3 +1,4 @@
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/RegistroPage/Registro.dart';
@@ -224,13 +225,16 @@ class _LoginState extends State<Login>
                     var response = await RestDatasource().postLogin(emailController.text,passController.text);
                     _key.currentState.save();
                     if(response.statusCode==200){
+                      User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                      String token=response.body;
+                      storageService.save_email(emailController.text);
+                      storageService.save_user(token);
+                      storageService.save_idPadre(usuario.Id);//guardamos de manera general el id padre
+                      storageService.save_currentAccount(usuario.Apellido);
                       setState(() {//se oculta barra circular de espera
                         _saving = false;
                       });
                       //print(_key.currentState.validate());
-                      String token=response.body;
-                      storageService.save_email(emailController.text);
-                      storageService.save_user(token);
                       print(storageService.getuser);
                       Navigator.of(context).pushReplacement(Home.route());
                     }else{

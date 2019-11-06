@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/User.dart';
+import 'package:flutter_app/screens/MenuPage/Acerca.dart';
+import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/CuentasAsociadas.dart';
 import 'package:flutter_app/screens/MenuPage/Historial.dart';
 import 'package:flutter_app/screens/MenuPage/Mis_Citas.dart';
 import 'package:flutter_app/screens/MenuPage/Mis_Pagos.dart';
 import 'package:flutter_app/screens/MenuPage/Noticias.dart';
 import 'package:flutter_app/screens/MenuPage/Recetas.dart';
 import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/screens/MenuPage/Sugerencia.dart';
 import 'package:flutter_app/screens/PagosPage/AgregarTarjeta.dart';
 import 'package:flutter_app/screens/PagosPage/Carrito.dart';
 import 'package:flutter_app/theme/style.dart';
@@ -99,38 +103,19 @@ class _HomeState extends State<Home> {
               //se muestra barra circular de espera
               _saving = true;
             });
-//<<<<<<< HEAD
-            List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad() ;
+            List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad();
+
             User usuario= await RestDatasource().perfil(storageService.getEmail) ;
-            //print(usuario);
             setState(() {//se oculta barra circular de espera
-/*=======
-            List<Especialidad> especialidades =
-                await RestDatasource().ListaEspecialidad();
-            setState(() {
-              //se oculta barra circular de espera
->>>>>>> e340f430aebd6c161f23c522c358b6d68caa66fe*/
               _saving = false;
             });
-/*
-            setState(() {
-              //currentTab=4;
-<<<<<<< HEAD*/
+
               currentPage=Agendamiento(
                 usuario: usuario,
                 especialidades: especialidades,
                 callback: this.callback,
                 callbackloading: this.callbackloading,
                 callbackfull: this.callbackfull,);//cambiar a 5 cuando se agregue pgos, etc
-/*=======
-              currentPage = Agendamiento(
-                especialidades: especialidades,
-                callback: this.callback,
-                callbackloading: this.callbackloading,
-                callbackfull: this.callbackfull,
-              ); //cambiar a 5 cuando se agregue pgos, etc
->>>>>>> e340f430aebd6c161f23c522c358b6d68caa66fe
-            });*/
           },
         ),
         title: new Image.asset(
@@ -195,17 +180,43 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             UserAccountsDrawerHeader(
               accountName: Text(""), //consultas api con modelos
-              accountEmail: Text(storageService.getEmail),
-              currentAccountPicture: Image.network(
-                  'https://thechanmakerrecipe.files.wordpress.com/2014/10/ec-only-logo-copy.png?w=243'),
-              decoration:
-                  BoxDecoration(color: Color.fromRGBO(19, 206, 177, 100)),
+              accountEmail: Text(storageService.getEmail,style: appTheme().textTheme.display1,),
+              currentAccountPicture:
+                CircleAvatar(
+                  child: Image.asset("assets/avatar.png"),
+                ),
+              decoration:new BoxDecoration(
+                gradient: new LinearGradient(
+                  colors: [
+                    Color(0xFF00a18d),
+                    Color(0xFF00d6bc),
+                  ],
+                  begin: FractionalOffset.centerLeft,
+                  end: FractionalOffset.centerRight,
+                ),
+              ),
             ),
             ListTile(
               leading: Icon(Icons.people),
               title: Text('Cuentas Asociadas'),
-              onTap: () {
-                // This line code will close drawer programatically....
+              onTap: () {//async
+                /*setState(() {
+                  //se muestra barra circular de espera
+                  _saving = true;
+                });*/
+                List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
+                  return Cuenta(
+                      1,"Jose", "Castillo","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
+                  );
+                });//await RestDatasource().ListaEspecialidad() ;
+                /*User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                setState(() {//se oculta barra circular de espera
+                  _saving = false;
+                });*/
+                setState(() {
+                  currentPage = CuentasAsociadas(cuentas: cuentas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);
+                });
+
                 Navigator.pop(context);
               },
             ),
@@ -216,6 +227,9 @@ class _HomeState extends State<Home> {
               leading: Icon(Icons.question_answer),
               title: Text('Sugerencia'),
               onTap: () {
+                setState(() {
+                  currentPage = Sugerencia();
+                });
                 Navigator.pop(context);
               },
             ),
@@ -226,6 +240,9 @@ class _HomeState extends State<Home> {
               leading: Icon(Icons.info),
               title: Text('Acerca de Nosotros'),
               onTap: () {
+                setState(() {
+                  currentPage = Acerca();
+                });
                 Navigator.pop(context);
               },
             ),
@@ -239,9 +256,11 @@ class _HomeState extends State<Home> {
                     leading: Icon(Icons.exit_to_app),
                     title: Text("Cerrar Sesión"),
                     onTap: () {
-                      storageService
-                          .delete_user(); //variable de session usuario eliminada
+                      storageService.delete_user(); //variable de session usuario eliminada
                       storageService.delete_email();
+                      storageService.delete_idPadre();
+                      storageService.delete_idHijo();
+                      storageService.delete_currentAccount();
                       Navigator.of(context).pushAndRemoveUntil(
                           Login.route(), (Route<dynamic> route) => false);
                     },
