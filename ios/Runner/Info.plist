@@ -47,7 +47,7 @@
             <key>CFBundleURLSchemes</key>
             <array>
                 <!-- Replace "000000000000" with your Facebook App ID here. -->
-                <string>429661077894066</string>
+                <string>fb429661077894066</string>
             </array>
         </dict>
     </array>
@@ -57,7 +57,7 @@
     <array>
     	<dict>
     		<key>CFBundleTypeRole</key>
-    		<string>Editor</string>
+    		<string>Editor</striAppClinicang>
     		<key>CFBundleURLSchemes</key>
     		<array>
     			<!-- TODO Replace this value: -->
@@ -74,7 +74,7 @@
         <dict>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>fb950110338385665</string>
+                <string>fb429661077894066</string>
             </array>
         </dict>
     </array>

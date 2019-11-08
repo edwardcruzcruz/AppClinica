@@ -9,6 +9,8 @@ import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as JSON;
 
 class Login extends StatefulWidget {
   static Route<dynamic> route() {
@@ -295,20 +297,35 @@ class _LoginState extends State<Login>
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         print("Error");
-        onLoginStatusChanged(false);
+        onLoginStatusChanged(false,facebookLoginResult.status);
         break;
       case FacebookLoginStatus.cancelledByUser:
         print("CancelledByUser");
-        onLoginStatusChanged(false);
+        onLoginStatusChanged(false,facebookLoginResult.status);
         break;
       case FacebookLoginStatus.loggedIn:
         print("LoggedIn");
-        facebookLoginResult.toString();
-        onLoginStatusChanged(true);
+        //facebookLoginResult.toString();
+
+        final token=facebookLoginResult.accessToken.token;
+        final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+        final profile = JSON.jsonDecode(graphResponse.body);
+        storageService.save_email(profile['email']);
+
+        /*ojooooooooooooooooooooooooooooo .............................................................*/
+        //storageService.save_user("por ver .... solucionar el api facebook de django");
+        storageService.save_idPadre(0);//guardar cuando se cree la funcion de guardar cliente sin token pero verlo ojo
+        /*ojooooooooooooooooooooooooooooo .............................................................*/
+
+        storageService.save_currentAccount(profile['name']);
+        storageService.save_isuserFace(true);
+        Navigator.of(context).pushReplacement(Home.route());
+        onLoginStatusChanged(true,facebookLoginResult.status);
         break;
     }
   }
-  void onLoginStatusChanged(bool isLoggedIn) {
+  void onLoginStatusChanged(bool isLoggedIn,var result){
     setState(() {
       if(isLoggedIn==true){
         print('hola');
