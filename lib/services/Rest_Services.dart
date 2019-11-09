@@ -223,7 +223,7 @@ class RestDatasource {
       return response;
     });
   }
-  Future<http.Response> save_user(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento, String Genero, String correo,String password1) {
+  Future<http.Response> save_user(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento, String Genero,String cedula, String correo,String password1) {
       Map<String,dynamic> body=  {
         "nombre": lastname,
         "apellido": name,
@@ -231,6 +231,7 @@ class RestDatasource {
         "direccion": Direccion,
         "fechaNacimiento": FeNacimiento,
         "sexo": Genero,
+        "cedula":cedula,
         "email": correo,
         "password": password1
       };

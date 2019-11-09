@@ -227,10 +227,10 @@ class _LoginState extends State<Login>
                     var response = await RestDatasource().postLogin(emailController.text,passController.text);
                     _key.currentState.save();
                     if(response.statusCode==200){
-                      User usuario= await RestDatasource().perfil(storageService.getEmail) ;
                       String token=response.body;
                       storageService.save_email(emailController.text);
                       storageService.save_user(token);
+                      User usuario= await RestDatasource().perfil(storageService.getEmail) ;
                       storageService.save_idPadre(usuario.Id);//guardamos de manera general el id padre
                       storageService.save_currentAccount(usuario.Apellido);
                       setState(() {//se oculta barra circular de espera

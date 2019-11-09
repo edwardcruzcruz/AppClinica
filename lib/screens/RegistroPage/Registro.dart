@@ -34,6 +34,7 @@ class _RegistroState extends State<Registro> {
   TextEditingController email = new TextEditingController();
   TextEditingController passController1 = new TextEditingController();
   TextEditingController passController2= new TextEditingController();
+  TextEditingController CIController= new TextEditingController();
   String Date=DateFormat("yyyy-MM-dd").format(DateTime.now()).toString();
   RegExp emailRegExp =
   new RegExp(r'^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$');
@@ -72,18 +73,18 @@ class _RegistroState extends State<Registro> {
               // the form is invalid.
 
               if (_formKey.currentState.validate()) {
-                String genero="";
+                /*String genero="";
                 if(dropdownValue==1){
                   genero="Masculino";
                 }else{
                   genero="Femenino";
-                }
+                }*/
                 // Process data.
                 if(passController1.text==(passController2.text)){
                   setState(() {//se muestra barra circular de espera
                     _saving = true;
                   });
-                  var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),genero,email.text, passController1.text);
+                  var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),dropdownValue,CIController.text,email.text, passController1.text);
                   setState(() {//se muestra barra circular de espera
                     _saving = false;
                   });
@@ -174,6 +175,7 @@ class _RegistroState extends State<Registro> {
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: nophone,
+                            keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: appTheme().buttonColor,
@@ -209,6 +211,30 @@ class _RegistroState extends State<Registro> {
                               if (text.length == 0) {
                                 return "Este campo contraseña es requerido";
                               }
+                              return null;
+                            },
+                          ),
+                          //decoration: underlineTextField(),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          child: TextFormField(
+                            controller: CIController,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: appTheme().buttonColor,
+                                    width: 1.0),
+                              ),
+                              labelText: Strings.LabelCI,
+                              labelStyle: appTheme().textTheme.title,
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Por favor llenar los espacios';
+                              }/*else if (!Cedulavalida(value)){
+                                return 'Por favor ingresar un numero de cedula valida';
+                              }*/
                               return null;
                             },
                           ),
@@ -313,6 +339,7 @@ class _RegistroState extends State<Registro> {
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: email,
+                            keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: appTheme().buttonColor,
@@ -336,6 +363,7 @@ class _RegistroState extends State<Registro> {
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: passController1,
+                            keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: appTheme().buttonColor,
@@ -361,6 +389,7 @@ class _RegistroState extends State<Registro> {
                           padding: EdgeInsets.all(10),
                           child: TextFormField(
                             controller: passController2,
+                            keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: appTheme().buttonColor,
@@ -455,5 +484,49 @@ class _RegistroState extends State<Registro> {
         );
       },
     );
+  }
+  bool Cedulavalida(String x) {
+    int suma = 0;
+    if (x.length == 9) {
+      //System.out.println("Ingrese su cedula de 10 digitos");
+      return false;
+    } else {
+
+      List<int> a = new List();//new int[x.length / 2];
+      List<int> b = new List();//new int[(x.length / 2)];
+      int c = 0;
+      int d = 1;
+      /*x.runes.forEach((int rune) {
+        var character=new String.fromCharCode(rune);
+        print(character);
+
+      });*/
+      for (int i = 0; i < x.length / 2; i++) {
+        a[i] = int.parse(x.substring(c));
+        c = c + 2;
+        if (i < (x.length / 2) - 1) {
+          b[i] = int.parse(x.substring(d));
+          d = d + 2;
+        }
+      }
+
+      for (int i = 0; i < a.length; i++) {
+        a[i] = a[i] * 2;
+        if (a[i] > 9) {
+          a[i] = a[i] - 9;
+        }
+        suma = suma + a[i] + b[i];
+      }
+      int aux = (suma / 10) as int;
+      int dec = (aux + 1) * 10;
+      if ((dec - suma) == int.parse(x.substring(x.length-1)))//Integer.parseInt(String.valueOf(x.charAt(x.length - 1))))
+        return true;
+      else if (suma % 10 == 0 && x.substring(x.length - 1) == '0') {
+        return true;
+      } else {
+        return false;
+      }
+
+    }
   }
 }

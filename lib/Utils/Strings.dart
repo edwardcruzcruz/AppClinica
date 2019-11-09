@@ -10,6 +10,7 @@ class Strings {
   static const String LabelRegistroNombre = "Nombre";
   static const String LabelRegistroApellidos = "Apellidos";
   static const String LabelRegistroTelefono = "Número de Teléfono";
+  static const String LabelCI = "Número de Cedula";
   static const String LabelRegistroDireccion = "Dirección Domiciliaria";
   static const String LabelRegistroValidarPas = "Validar Contraseña";
   static const String ItemBottomNavigationBar0 = "Inicio";
