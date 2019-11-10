@@ -46,71 +46,58 @@ class _CarritoState extends State<Carrito> {
             case ConnectionState.done:
               if (snapshot.hasError)
                 return Text("No hay tratamientos a pagar",
-                  textAlign: TextAlign.center,
-                  style:appTheme().textTheme.display4
+                    textAlign: TextAlign.center,
+                    style:appTheme().textTheme.display4
                 );//'Error: ${snapshot.error}'
-            return Scaffold(
-              body: Row(
-                children: <Widget>[
-                  Table(
-                    //border: TableBorder.all(width: 1.0, color: Colors.black),
-                    children: [
-                      TableRow(children: [
-                        TableCell(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              new Text(''),
+              return Scaffold(
+                body: Row(
+                  children: <Widget>[
+                    Table(
+                      //border: TableBorder.all(width: 1.0, color: Colors.black),
+                      children: [
+                        TableRow(children: [
+                          TableCell(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                new Text(''),
 
-                              new Text('Descripción'),
-                              new Text("Costo",
-                                textAlign: TextAlign.left,
-                              ),
-                            ],
-                          ),
-                        )
-                      ]),
-                      TableRow(children: [
-                        TableCell(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              new Radio(
-                                  value: 1, groupValue: null, onChanged: null),
-                              new Text('Name'),
-                              new Text("dfgjksdfsdf"),
-                            ],
-                          ),
-                        )
-                      ]),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32.0),
-                    child: ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        initState() {}
-                        return _item(snapshot.data.elementAt(index));
-                      },
+                                new Text('Descripción'),
+                                new Text("Costo",
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
+                            ),
+                          )
+                        ])
+                      ],
                     ),
-                  ),
-                ],
-              ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 32.0),
+                      child: ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          initState() {}
+                          return _item(snapshot.data.elementAt(index));
+                        },
+                      ),
+                    ),
+                  ],
+                ),
 
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  // Add your onPressed code here!
-                },
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    // Add your onPressed code here!
+                  },
 
-                child: Icon(Icons.arrow_forward_ios),
-                backgroundColor: Color(0xFF00d6bc),
-              ),
-            );
+                  child: Icon(Icons.arrow_forward_ios),
+                  backgroundColor: Color(0xFF00d6bc),
+                ),
+              );
 
-        }
+          }
           return null;
-      }
+        }
     );
   }
 
@@ -138,7 +125,7 @@ class _CarritoState extends State<Carrito> {
             Column(
               children: <Widget>[
                 Text(
-                  item.Descripcion
+                    item.Descripcion
                 )
               ],
 
@@ -146,7 +133,7 @@ class _CarritoState extends State<Carrito> {
             Column(
               children: <Widget>[
                 Text(
-                  item.Costo.toString()
+                    item.Costo.toString()
                 )
               ],
 
