@@ -59,6 +59,13 @@ class Var_shared{//singleton: una clase que solo pueda acceder a una sola instan
     }
     return username;
   }
+  bool get IsFacebookUser {
+    var userface = _preferences.getBool("userFace");
+    if (userface == null) {
+      return null;
+    }
+    return userface;
+  }
 
   /*Metodo post para acceder al correo*/
   void save_user(String content){
@@ -79,6 +86,9 @@ class Var_shared{//singleton: una clase que solo pueda acceder a una sola instan
   void save_idHijo(int content){
     _preferences.setInt("idHijo", content);
   }
+  void save_isuserFace(bool content){
+    _preferences.setBool("userFace", content);
+  }
   void delete_user(){
     _preferences.remove("token");
   }
@@ -96,5 +106,8 @@ class Var_shared{//singleton: una clase que solo pueda acceder a una sola instan
   }
   void delete_username(){
     _preferences.remove("username");
+  }
+  void delete_userface(){
+    _preferences.remove("userFace");
   }
 }

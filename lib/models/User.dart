@@ -3,7 +3,7 @@ class User {
   final String _nombre;
   final String _apellido;
   final String _correo;
-  final String _sexo;
+  final int _sexo;
   final String _noTelefono;
   final String _direccion;
   final String _fecha_nacimiento;
@@ -27,7 +27,7 @@ class User {
   String get Telefono => _noTelefono;
   String get FechaNacimiento => _fecha_nacimiento;
   String get Correo => _correo;
-  String get Sexo => _sexo;
+  int get Sexo => _sexo;
   String get Direccion => _direccion;
 
   Map<String, dynamic> toJson() {

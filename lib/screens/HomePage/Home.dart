@@ -14,6 +14,7 @@ import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/screens/MenuPage/Sugerencia.dart';
 import 'package:flutter_app/screens/PagosPage/AgregarTarjeta.dart';
 import 'package:flutter_app/screens/PagosPage/Carrito.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
@@ -256,6 +257,10 @@ class _HomeState extends State<Home> {
                     leading: Icon(Icons.exit_to_app),
                     title: Text("Cerrar Sesión"),
                     onTap: () {
+                      if(storageService.IsFacebookUser){
+                        FacebookLogin().logOut();
+                        storageService.delete_userface();
+                      }
                       storageService.delete_user(); //variable de session usuario eliminada
                       storageService.delete_email();
                       storageService.delete_idPadre();
