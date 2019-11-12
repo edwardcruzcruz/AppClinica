@@ -4,29 +4,34 @@ import 'dart:io';
 
 
 class CarritoCompra {
-  final String _descripcion;
-  final Float _costo;
-  final int _id;
+  final int _id_Cliente;
+  final int _id_Oferta;
+  final int _id_Tratamiento;
+  final String _valorFaltante;
+
   bool _seleccionado;
 
-  CarritoCompra(this._descripcion,this._costo,this._id);
+  CarritoCompra(this._id_Cliente,this._id_Oferta,this._id_Tratamiento,this._valorFaltante);
   CarritoCompra.fromJson(Map<String, dynamic> json):
-        _descripcion = json['Descripcion'],
-        _costo=json['Costo'],
-        _id=json['Id'];
+        _id_Cliente=json['id_Cliente'],
+        _id_Oferta = json['id_Oferta'],
+        _id_Tratamiento = json['id_Tratamiento'],
+        _valorFaltante=json['valorFaltante'];
 
 
-  String get Descripcion => _descripcion;
-  Float get Costo =>_costo;
-  int get Id=>_id;
+  int get IdOferta => _id_Oferta;
+  String get valorFaltante =>_valorFaltante;
+  int get IdCliente=>_id_Cliente;
   bool get Seleccionado=>_seleccionado;
+  int get IdTratamiento=>_id_Tratamiento;
 
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Descripcion']=this._descripcion;
-    data['Costo']=this._costo;
-    data['Id']=this._id;
+    data['id_Cliente']=this._id_Cliente;
+    data['id_Oferta']=this._id_Oferta;
+    data['valorFaltante']=this._valorFaltante;
+    data['id_Cliente']=this._id_Cliente;
     return data;
   }
 

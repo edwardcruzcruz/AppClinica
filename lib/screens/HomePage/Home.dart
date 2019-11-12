@@ -138,7 +138,8 @@ class _HomeState extends State<Home> {
               setState(() {
                 //currentTab=4;
                 currentPage =
-                    Pagos(); //cambiar a 5 cuando se agregue pgos, etc
+                    //AgregarTarjeta();
+                    Pagos();
               });
             },
           ),

@@ -69,10 +69,6 @@ class _PagosState extends State<Pagos>{
               Container(
                 margin: const EdgeInsets.fromLTRB(1.0,1.0,1.0,1.0),
               ),
-              Divider(
-                height: 1.0,
-                color: Colors.grey,
-              ),
               Expanded(
                 child: Carrito(),
               ),

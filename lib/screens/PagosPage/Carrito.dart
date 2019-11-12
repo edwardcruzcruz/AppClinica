@@ -20,10 +20,13 @@ class Carrito extends StatefulWidget {
 }
 
 class _CarritoState extends State<Carrito> {
+  ScrollController _controller;
   Future<List<CarritoCompra>> future;
+
   @override
   void initState() {
     super.initState();
+    _controller = ScrollController();
     future = RestDatasource().ListaCarritos();
   }
 
@@ -36,6 +39,7 @@ class _CarritoState extends State<Carrito> {
 
   Widget _body() {
     return FutureBuilder(
+        future: future,
         builder: (BuildContext context,
             AsyncSnapshot<List<CarritoCompra>> snapshot) {
           switch (snapshot.connectionState) {
@@ -47,102 +51,69 @@ class _CarritoState extends State<Carrito> {
               if (snapshot.hasError)
                 return Text("No hay tratamientos a pagar",
                     textAlign: TextAlign.center,
-                    style:appTheme().textTheme.display4
-                );//'Error: ${snapshot.error}'
+                    style: appTheme()
+                        .textTheme
+                        .display4); //'Error: ${snapshot.error}'
               return Scaffold(
                 body: Row(
                   children: <Widget>[
-                    Table(
-                      //border: TableBorder.all(width: 1.0, color: Colors.black),
-                      children: [
-                        TableRow(children: [
-                          TableCell(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                new Text(''),
-
-                                new Text('Descripción'),
-                                new Text("Costo",
-                                  textAlign: TextAlign.left,
-                                ),
-                              ],
-                            ),
+                    DataTable(
+                      rows: snapshot.data
+                          .map(
+                            (CarritoCompra) => DataRow(
+                                //selected: selectedUsers.contains(user),
+                                /*onSelectChanged: (b) {
+                                  print("Onselect");
+                                  onSelectedRow(b, user);
+                                },*/
+                                cells: [
+                                  DataCell(
+                                      Checkbox(
+                                        onChanged: (bool value) {
+                                          setState(() {
+                                            CarritoCompra.seleccionado(value);
+                                          });
+                                        },
+                                        value: CarritoCompra.Seleccionado,
+                                      )
+                                  ),
+                                  DataCell(
+                                    Text(CarritoCompra.IdTratamiento.toString()),
+                                    onTap: () {
+                                      print('Selected ${CarritoCompra.IdTratamiento.toString()}');
+                                    },
+                                  ),
+                                  DataCell(
+                                    Text(CarritoCompra.valorFaltante),
+                                  ),
+                                ]),
                           )
-                        ])
+                          .toList(),
+                      columns: [
+                        DataColumn(
+                          label: Text(""),
+                        ),
+                        DataColumn(
+                          label: Text("Descripción"),
+                        ),
+                        DataColumn(
+                          label: Text("Costo"),
+                        ),
                       ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 32.0),
-                      child: ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          initState() {}
-                          return _item(snapshot.data.elementAt(index));
-                        },
-                      ),
-                    ),
+                    )
                   ],
                 ),
-
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
+                    print(snapshot.data);
                     // Add your onPressed code here!
                   },
-
                   child: Icon(Icons.arrow_forward_ios),
                   backgroundColor: Color(0xFF00d6bc),
                 ),
               );
-
           }
           return null;
-        }
-    );
+        });
   }
-
-  Widget _item(CarritoCompra item) {
-    //String mediaUrl = item.Imagen;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      item.seleccionado(value);
-                    });
-                  },
-                  value: item.Seleccionado,
-                )
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Text(
-                    item.Descripcion
-                )
-              ],
-
-            ),
-            Column(
-              children: <Widget>[
-                Text(
-                    item.Costo.toString()
-                )
-              ],
-
-            )
-
-          ],
-        ),
-      ),
-    );
-  }
-
 }

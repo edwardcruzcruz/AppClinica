@@ -23,7 +23,7 @@ class _NoticiasState extends State<Noticias>{
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-    new Container(
+    new  Container(
     height: 100.0,
       decoration: new BoxDecoration(
 

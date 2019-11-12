@@ -1,6 +1,6 @@
 class Constantes{
   static final String serverdomain="http://jacelly.pythonanywhere.com";
-  //static final String serverdomain="http://192.168.0.11:8000";
+  //static final String serverdomain="http://192.168.1.8:8000";
 
   static final String urilogin="/api/v1/api-token-auth/";
   static final String uriregistrar="/api/v1/registrarClient/";
@@ -13,5 +13,5 @@ class Constantes{
   static final String uriEspecialidad="/api/v1/especialidades/";
   static final String uriCitas="/api/v1/citas/";
   static final String uriNoticias="/api/v1/noticias/";
-  static final String uriCarrito="/api/v1/carrito/";
+  static final String uriCarrito="/api/v1/deudasCliente/";
 }
