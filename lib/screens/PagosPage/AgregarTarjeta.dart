@@ -18,33 +18,40 @@ class AgregarTarjeta extends StatefulWidget{
 }
 
 class _AgregarTarjetaState extends State<AgregarTarjeta>{
-  Completer<WebViewController> _controller = Completer<WebViewController>();
+  //Completer<WebViewController> _controller = Completer<WebViewController>();
+  WebViewController _controller;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pagos')
+        title: const Text('Pagos'),
+        backgroundColor: Color(0xFF00d6bc),
       ),
+      backgroundColor: Color(0xFF00d6bc),
+      drawerScrimColor: Color(0xFF00d6bc),
+
       body: //Text("Hola")
       WebView(
-        initialUrl:'http://192.168.1.8:8000/pago',
+        initialUrl:'https://test.placetopay.ec/redirection/session/130575/b1eefadf396395f35d4c5567324bae86',
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
-          _controller.complete(webViewController);
+          //_controller.complete(webViewController);
+          _controller=webViewController;
         },
-        javascriptChannels: Set.from([
+        /*javascriptChannels: Set.from([
           JavascriptChannel(
               name: 'Print',
-              onMessageReceived: (JavascriptMessage message) {
+
+              *//*onMessageReceived: (JavascriptMessage message) {
                 //This is where you receive message from
                 //javascript code and handle in Flutter/Dart
                 //like here, the message is just being printed
                 //in Run/LogCat window of android studio
                 print("exit:");
                 print(message.message);
-              })
-        ]),
+              })*//*
+        ]),*/
       ),
     );
   }
