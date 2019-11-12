@@ -111,7 +111,7 @@ class _AgendamientoState extends State<Agendamiento>{
             GestureDetector(
               onTap: () async{
                 this.widget.callbackloading();
-                List<Doctor> doctores= await RestDatasource().doctoresEspecialidad(especialidades.elementAt(position).NombreEspecialidad);
+                List<Doctor> doctores= await RestDatasource().doctoresEspecialidad(especialidades.elementAt(position).Id);
                 this.widget.callbackfull();
                 if(doctores.length==0){
                   _showDialogSeleccionNull();

@@ -3,6 +3,7 @@ class Constantes{
   //static final String serverdomain="http://192.168.0.11:8000";
 
   static final String urilogin="/api/v1/api-token-auth/";
+  static final String uriloginfb="/api/v1/rest-auth/facebook/";
   static final String uriregistrar="/api/v1/registrarClient/";
   static final String urilogOut="/api/";
   static final String uriClientes="/api/v1/clientes/";

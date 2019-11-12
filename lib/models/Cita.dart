@@ -1,6 +1,6 @@
 class Cita {
   final String _paciente;
-  final String _especialidad;
+  final int _especialidad;
   final String _tratamiento;
   final String _fecha;//un modelo mas llamado horarios, tipo programacion con un solo horario en una emisora de radio
   final String _iddoctor;//tiempo por cita --> es proporcional a la especialidad y tipo de consulta
@@ -16,7 +16,7 @@ class Cita {
 
 
   String get Paciente => _paciente;
-  String get Especialidad => _especialidad;
+  int get Especialidad => _especialidad;
   String get Tratamiento => _tratamiento;
   String get Fecha => _fecha;
   String get IdDoctor=> _iddoctor;

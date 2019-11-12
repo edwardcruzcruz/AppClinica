@@ -1,7 +1,7 @@
 class Horario {
   final int _id_horario;
   final String _fecha;
-  final String _hora;
+  final int _hora;
   final int _id_doctor;
 
   Horario(this._id_horario,this._fecha,this._hora,this._id_doctor);
@@ -13,7 +13,7 @@ class Horario {
 
   int get IdHorario => _id_horario;
   String get Fecha => _fecha;
-  String get Hora => _hora;
+  int get Hora => _hora;
   int get IdDoctor => _id_doctor;
 
   Map<String, dynamic> toJson() {

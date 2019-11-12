@@ -90,7 +90,8 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
         //print(horario.Fecha+"->"+DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
         print(horario.Fecha==DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
         if(fechaTemp.isAfter(temp)){
-          _selectedEvents.add(horario.Hora);
+
+          //_selectedEvents.add(horario.Hora);
           //_selectedEvents.add(horario.Hora);
           _events[fechaTemp.add(Duration(days: fechaTemp.difference(temp).inDays))]=_selectedEvents.toList();
         }else if(fechaTemp.isBefore(temp)){
@@ -98,7 +99,7 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
         }else if(fechaTemp.isAtSameMomentAs(temp)){
           //print("hey");
           //_events.addAll(DateTime.parse(horario.Fecha),List());
-          _selectedEvents.add(horario.Hora);
+          //_selectedEvents.add(horario.Hora);
           //_selectedEvents.add(horario.Hora);
           if(!_events.containsKey(fechaTemp)){
             _events[fechaTemp]=_selectedEvents.toList();
@@ -466,7 +467,7 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
     );
   }
 
-  Widget _buildEventList() {
+  /*Widget _buildEventList() {
     return ListView(
       children: _selectedEvents
           .map((event) => Container(
@@ -522,5 +523,5 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
         );
       },
     );
-  }
+  }*/
 }
