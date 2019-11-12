@@ -21,6 +21,7 @@ class RestDatasource {
   Metodos_http _netUtil = new Metodos_http();
   static final BASE_URL = Constantes.serverdomain;
   static final LOGIN_URL = BASE_URL + Constantes.urilogin;
+  static final LOGINFB_URL = BASE_URL + Constantes.uriloginfb;
   static final PERFIL_URL = BASE_URL + Constantes.uriClientes;
   static final SAVE_URL = BASE_URL + Constantes.uriregistrar;
   static final DOCTORES_URL= BASE_URL + Constantes.uriDoctores;
@@ -77,7 +78,7 @@ class RestDatasource {
       return null;
     });
   }
-  Future<List<Doctor>> doctoresEspecialidad(String especialidad) {
+  Future<List<Doctor>> doctoresEspecialidad(int especialidad) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     return _netUtil.get(DOCTORES_URL,
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
@@ -214,6 +215,22 @@ class RestDatasource {
           "username": username,
           "password": password
         }).then((http.Response response) {
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return response;
+    });
+  }
+  Future<http.Response> postLoginFB(String token) {
+    return http
+        .post(LOGINFB_URL, body: {
+      //"token": _API_KEY,
+      "access_token": token,
+      "code": ""
+    }).then((http.Response response) {
       final String res = response.body;
       final int statusCode = response.statusCode;
 

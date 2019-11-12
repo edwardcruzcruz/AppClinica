@@ -135,7 +135,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                     children: <Widget>[
                       Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
-                        child: this.widget.cita.Especialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):this.widget.cita.Especialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                        child: this.widget.cita.Especialidad==2?new Image.asset('assets/nutricion.png',width: 33,height: 40):this.widget.cita.Especialidad==3?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
                       ),
                     ],
                   ),
@@ -145,7 +145,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                       Padding(
                         padding:
                         const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                        child: Text(cita.Especialidad),
+                        child: Text(this.widget.cita.Especialidad.toString()),
                       ),
                     ],
                   ),
@@ -160,7 +160,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 10),
-                  child: Text((this.widget.cita.Especialidad=="Odontología"?"OD. ":this.widget.cita.Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+cita.IdDoctor),
+                  child: Text((this.widget.cita.Especialidad==3?"OD. ":this.widget.cita.Especialidad==2?"NUT. ":"PSIC. ")+cita.IdDoctor),
                 ),
 
               ],

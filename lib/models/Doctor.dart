@@ -4,8 +4,8 @@ class Doctor {
   final String _apellido;
   final String _noTelefono;
   final String _correo;
-  final String _genero;
-  final String _especialidad;
+  final int _genero;
+  final int _especialidad;
 
 
   Doctor(this._id,this._nombre, this._apellido,this._noTelefono,this._genero,this._correo,this._especialidad);
@@ -22,9 +22,9 @@ class Doctor {
   String get Nombre => _nombre;
   String get Apellido => _apellido;
   String get Telefono => _noTelefono;
-  String get Genero => _genero;
+  int get Genero => _genero;
   String get Correo => _correo;
-  String get Especialidad => _especialidad;
+  int get Especialidad => _especialidad;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

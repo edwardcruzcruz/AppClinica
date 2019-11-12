@@ -168,7 +168,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
                       Padding(
                         padding:
                         const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 3.0),
-                        child: Text((doctores.elementAt(position).Especialidad=="Odontología"?"OD. ":doctores.elementAt(position).Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+doctores.elementAt(position).Nombre+" "+doctores.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                        child: Text((doctores.elementAt(position).Especialidad==3?"OD. ":doctores.elementAt(position).Especialidad==2?"NUT. ":"PSIC. ")+doctores.elementAt(position).Nombre+" "+doctores.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                       ),
                       Padding(
                         padding:

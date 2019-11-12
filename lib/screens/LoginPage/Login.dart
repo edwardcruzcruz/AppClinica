@@ -311,17 +311,22 @@ class _LoginState extends State<Login>
         final graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
         final profile = JSON.jsonDecode(graphResponse.body);
-        storageService.save_email(profile['email']);
+        var response = await RestDatasource().postLoginFB(token);
+        _key.currentState.save();
+        if(response.statusCode==200){
+          String token=response.body;
+          storageService.save_user(token);
+          storageService.save_email(profile['email']);
 
-        /*ojooooooooooooooooooooooooooooo .............................................................*/
-        //storageService.save_user("por ver .... solucionar el api facebook de django");
-        storageService.save_idPadre(0);//guardar cuando se cree la funcion de guardar cliente sin token pero verlo ojo
-        /*ojooooooooooooooooooooooooooooo .............................................................*/
+          storageService.save_idPadre(0);//guardar cuando se cree la funcion de guardar cliente sin token pero verlo ojo
 
-        storageService.save_currentAccount(profile['name']);
-        storageService.save_isuserFace(true);
-        Navigator.of(context).pushReplacement(Home.route());
-        onLoginStatusChanged(true,facebookLoginResult.status);
+          storageService.save_currentAccount(profile['name']);
+          storageService.save_isuserFace(true);
+          Navigator.of(context).pushReplacement(Home.route());
+          onLoginStatusChanged(true,facebookLoginResult.status);
+        }else{
+          _showDialogLogin();
+        }
         break;
     }
   }
