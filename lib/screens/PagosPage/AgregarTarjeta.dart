@@ -25,11 +25,15 @@ class _AgregarTarjetaState extends State<AgregarTarjeta>{
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pagos')
+        title: const Text('Pagos'),
+        backgroundColor: Color(0xFF00d6bc),
       ),
+      backgroundColor: Color(0xFF00d6bc),
+      drawerScrimColor: Color(0xFF00d6bc),
+
       body: //Text("Hola")
       WebView(
-        initialUrl:'https://test.placetopay.ec/redirection/session/130372/51b580bdff7728fe08a3496a4b5276d7',
+        initialUrl:'https://test.placetopay.ec/redirection/session/130575/b1eefadf396395f35d4c5567324bae86',
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
           //_controller.complete(webViewController);

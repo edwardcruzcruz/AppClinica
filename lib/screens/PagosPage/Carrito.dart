@@ -6,6 +6,8 @@ import 'package:flutter_app/models/Carrito.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/theme/style.dart';
 
+import 'AgregarTarjeta.dart';
+
 class Carrito extends StatefulWidget {
   //Listado(tipo, titulo);
 
@@ -106,6 +108,10 @@ class _CarritoState extends State<Carrito> {
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
                     print(snapshot.data);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AgregarTarjeta()),
+                    );
                     // Add your onPressed code here!
                   },
                   child: Icon(Icons.arrow_forward_ios),
