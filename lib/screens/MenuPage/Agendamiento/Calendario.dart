@@ -10,6 +10,7 @@ import 'package:flutter_app/components/table_calendar.dart';
 import 'package:flutter_app/models/Cita.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/models/HorarioRango.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento2.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento3.dart';
@@ -46,11 +47,12 @@ class MyApp extends StatelessWidget {
 }*/
 class CalendarioPage extends StatefulWidget {
   List<Horario> horarios;
+  List<HorarioRango> horariosID;
   Doctor doctor;
   User usuario;
   int idEspecialidadEscogida,idHorario;
   Function callback,callbackloading,callbackfull;
-  CalendarioPage({Key key, this.usuario,this.idEspecialidadEscogida,this.idHorario,this.horarios,this.doctor,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  CalendarioPage({Key key, this.usuario,this.idEspecialidadEscogida,this.idHorario,this.horarios,this.horariosID,this.doctor,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => CalendarioPage(),
@@ -68,6 +70,7 @@ class CalendarioPage extends StatefulWidget {
 class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMixin {
   List<Horario> horarios;
   DateTime _fechaElegida=DateTime.now();
+
   Map<DateTime, List<String>> _events=new HashMap();
   List<String> _selectedEvents= new List();
   AnimationController _animationController;
@@ -89,17 +92,19 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
         DateTime fechaTemp=DateTime.parse(horario.Fecha);
         //print(horario.Fecha+"->"+DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
         print(horario.Fecha==DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
-        if(fechaTemp.isAfter(temp)){
+        if(fechaTemp.isAfter(temp)){//dias posteriores .. si se graba
 
+          _selectedEvents.add(this.widget.horariosID.elementAt(horario.Hora).HorarioInicio+ " "+this.widget.horariosID.elementAt(horario.Hora).Horariofin);
           //_selectedEvents.add(horario.Hora);
-          //_selectedEvents.add(horario.Hora);
-          _events[fechaTemp.add(Duration(days: fechaTemp.difference(temp).inDays))]=_selectedEvents.toList();
-        }else if(fechaTemp.isBefore(temp)){
+          int days=fechaTemp.difference(temp).inDays-1;
+          _events[fechaTemp.add(Duration(days: days))]=_selectedEvents.toList();
+        }else if(fechaTemp.isBefore(temp)){//ntes de ese dia por eso no se graba y se deja en el aire
           print("hola antes");
-        }else if(fechaTemp.isAtSameMomentAs(temp)){
+        }else if(fechaTemp.isAtSameMomentAs(temp)){//en ese dia
           //print("hey");
           //_events.addAll(DateTime.parse(horario.Fecha),List());
           //_selectedEvents.add(horario.Hora);
+          _selectedEvents.add(this.widget.horariosID.elementAt(horario.Hora).HorarioInicio+ " "+this.widget.horariosID.elementAt(horario.Hora).Horariofin);
           //_selectedEvents.add(horario.Hora);
           if(!_events.containsKey(fechaTemp)){
             _events[fechaTemp]=_selectedEvents.toList();
@@ -249,7 +254,7 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
                             children: <Widget>[
                               Container(
                                 margin: EdgeInsets.only(left: 10),
-                                child: Text((this.widget.doctor.Especialidad=="Odontología"?"OD. ":this.widget.doctor.Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+this.widget.doctor.Nombre+" "+this.widget.doctor.Apellido,style: appTheme().textTheme.display4,),
+                                child: Text((this.widget.doctor.Especialidad==3?"OD. ":this.widget.doctor.Especialidad==2?"NUT. ":"PSIC. ")+this.widget.doctor.Nombre+" "+this.widget.doctor.Apellido,style: appTheme().textTheme.display4,),
                               ),
                             ],
                           ),

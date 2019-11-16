@@ -4,6 +4,7 @@ import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/models/HorarioRango.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento1.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Calendario.dart';
@@ -136,12 +137,23 @@ class _Agendamiento2State extends State<Agendamiento2>{
             GestureDetector(
               onTap: () async{
                 this.widget.callbackloading();
+                List<HorarioRango> horariosId=new List();
                 List<Horario> horarios= await RestDatasource().HorarioDoctor(doctores.elementAt(position).Id);
+                if(horarios!=null){
+                  for(int i=0;i<horarios.length;i++){
+                    HorarioRango horarioid=await RestDatasource().HorarioId(horarios.elementAt(i).Hora);
+                    if(horarioid!=null){
+                      horariosId.add(horarioid);
+                    }
+
+                  }
+                }
+                //List<>
                 this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
                 if(horarios.length==0){
                   _showDialogSeleccionNull();
                 }else{
-                  this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                  this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,horariosID: horariosId,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 }
                 /*Navigator.push(
                   context,

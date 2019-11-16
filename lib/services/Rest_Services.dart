@@ -9,6 +9,7 @@ import 'package:flutter_app/models/Cita.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/models/HorarioRango.dart';
 import 'package:flutter_app/models/Noticia.dart';
 import 'package:flutter_app/services/Metodos_http.dart';
 import 'package:flutter_app/models/User.dart';
@@ -25,6 +26,7 @@ class RestDatasource {
   static final PERFIL_URL = BASE_URL + Constantes.uriClientes;
   static final SAVE_URL = BASE_URL + Constantes.uriregistrar;
   static final DOCTORES_URL= BASE_URL + Constantes.uriDoctores;
+  static final HORARIOID_URL= BASE_URL + Constantes.uriHorarioID;
   static final HORARIO_DOCTORES_URL= BASE_URL + Constantes.uriHorariosDoctores;
   static final ESPECIALIDADES_URL=BASE_URL + Constantes.uriEspecialidad;
   static final CITAS_URL=BASE_URL + Constantes.uriCitas;
@@ -122,6 +124,22 @@ class RestDatasource {
       return null;
     });
   }
+  Future<HorarioRango> HorarioId(int id) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+
+    return _netUtil.get(HORARIOID_URL+id.toString()+"/",
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      //print(res.toString());
+      HorarioRango hr=HorarioRango.fromJson(res);
+      //HorarioRango horario=new HorarioRango(int.parse(res.id), res.horaInicio.toString(), res.horaFin.toString());
+      if(hr!=null){
+        return hr;
+      }
+      return null;
+    });
+  }
   Future<http.Response> save_cita(int idPaciente,int idEspecialidad, int idTratamiento,int idHorario,int IdDoctor) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     Map map = {
@@ -130,6 +148,7 @@ class RestDatasource {
         "tratameinto": idTratamiento,
         "fechaHora": idHorario,
         "doctor":IdDoctor
+        //"is_finished":true;
     };
 
     return http.post(CITAS_URL,

@@ -3,6 +3,7 @@ import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/models/HorarioRango.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento3.dart';
 import 'package:flutter_app/models/Cita.dart';
@@ -17,10 +18,11 @@ class Horarios extends StatefulWidget {
   User usuario;
   int idEspecialidadEscogida,idHorario;
   DateTime date;
+  List<HorarioRango> horariosID;
   List<String> selectedEvents;
   Function callback,callbackloading,callbackfull;
 
-  Horarios({Key key, this.usuario,this.idEspecialidadEscogida , this.idHorario,this.doctor,this.date,this.selectedEvents,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  Horarios({Key key, this.usuario,this.idEspecialidadEscogida , this.horariosID,this.idHorario,this.doctor,this.date,this.selectedEvents,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Horarios(),
@@ -90,8 +92,19 @@ class _HorariosState extends State<Horarios>{
                       onTap: () async{
                         this.widget.callbackloading();
                         List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.doctor.Id);
+                        List<HorarioRango> horariosId=new List();
+                        if(horarios!=null){
+                          for(int i=0;i<horarios.length;i++){
+                            HorarioRango horarioid=await RestDatasource().HorarioId(horarios.elementAt(i).Hora);
+                            if(horarioid!=null){
+                              horariosId.add(horarioid);
+                            }
+
+                          }
+                        }
                         this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
-                        this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,idHorario: this.widget.idHorario,horarios: horarios,doctor: this.widget.doctor,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                        //CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,horariosID: horariosId,doctor: doctores.elementAt(position)
+                        this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,idHorario: this.widget.idHorario,horarios: horarios,horariosID: horariosId,doctor: this.widget.doctor,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                       },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),

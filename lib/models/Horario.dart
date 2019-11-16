@@ -9,7 +9,7 @@ class Horario {
         _id_horario= json['horarios_id'],
          _fecha= json['fecha'],
         _hora = json['hora'],
-        _id_doctor= json['persona'];
+        _id_doctor= json['doctor'];
 
   int get IdHorario => _id_horario;
   String get Fecha => _fecha;

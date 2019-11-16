@@ -1,10 +1,10 @@
-class Horario {
+class HorarioRango {
   final int _id;
   final String _horaInicio;
   final String _horaFin;
 
-  Horario(this._id,this._horaInicio,this._horaFin);
-  Horario.fromJson(Map<String, dynamic> json):
+  HorarioRango(this._id,this._horaInicio,this._horaFin);
+  HorarioRango.fromJson(Map<String, dynamic> json):
         _id= json['id'],
         _horaInicio= json['horaInicio'],
         _horaFin = json['horaFin'];
@@ -16,8 +16,8 @@ class Horario {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id']=this._id;
-    data['fecha']=this._horaInicio;
-    data['hora']=this._horaFin;
+    data['horaInicio']=this._horaInicio;
+    data['horaFin']=this._horaFin;
     return data;
   }
 }
