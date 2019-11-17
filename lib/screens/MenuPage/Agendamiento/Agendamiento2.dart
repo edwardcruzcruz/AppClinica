@@ -138,14 +138,17 @@ class _Agendamiento2State extends State<Agendamiento2>{
               onTap: () async{
                 this.widget.callbackloading();
                 List<HorarioRango> horariosId=new List();
+                List<Horario> horariosAvaliable=new List();
+                final temp=DateTime.now();
                 List<Horario> horarios= await RestDatasource().HorarioDoctor(doctores.elementAt(position).Id);
                 if(horarios!=null){
                   for(int i=0;i<horarios.length;i++){
+                    DateTime fechaTemp=DateTime.parse(horarios.elementAt(i).Fecha);
                     HorarioRango horarioid=await RestDatasource().HorarioId(horarios.elementAt(i).Hora);
-                    if(horarioid!=null){
+                    if(horarioid!=null && horarios.elementAt(i).IsAvaliable && (fechaTemp.isAfter(temp)||(fechaTemp.isAtSameMomentAs(temp)&&temp.hour>fechaTemp.hour))){//dias posteriores .. si se graba
                       horariosId.add(horarioid);
+                      horariosAvaliable.add(horarios.elementAt(i));
                     }
-
                   }
                 }
                 //List<>
@@ -153,7 +156,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
                 if(horarios.length==0){
                   _showDialogSeleccionNull();
                 }else{
-                  this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,horariosID: horariosId,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                  this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,horariosID: horariosId,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 }
                 /*Navigator.push(
                   context,

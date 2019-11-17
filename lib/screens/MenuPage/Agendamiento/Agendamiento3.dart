@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Cita.dart';
+import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Horarios.dart';
@@ -90,7 +91,20 @@ class _Agendamiento3State extends State<Agendamiento3>{
                   children: <Widget>[
                     GestureDetector(
                       onTap: () async{
-                        this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: this.widget.idHorario,doctor: this.widget.doctor,date: this.widget.fecha,selectedEvents: this.widget.events,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                        this.widget.callbackloading();
+                        List<Horario> horariosAvaliable=new List();
+                        final temp=DateTime.now();
+                        List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.doctor.Id);
+                        if(horarios!=null){
+                          for(int i=0;i<horarios.length;i++){
+                            DateTime fechaTemp=DateTime.parse(horarios.elementAt(i).Fecha);
+                            if(horarios.elementAt(i).IsAvaliable && (fechaTemp.isAfter(temp)||(fechaTemp.isAtSameMomentAs(temp)&&temp.hour>fechaTemp.hour))){//dias posteriores .. si se graba
+                              horariosAvaliable.add(horarios.elementAt(i));
+                            }
+                          }
+                        }
+                        this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
+                        this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,doctor: this.widget.doctor,date: this.widget.fecha,selectedEvents: this.widget.events,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                       },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
@@ -212,8 +226,10 @@ class _Agendamiento3State extends State<Agendamiento3>{
                         this.widget.callbackloading();
                         print(this.widget.usuario.Id);
                         var respuesta= await RestDatasource().save_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id);
+                        Horario horario=await RestDatasource().HorarioDoctorbyId(this.widget.idHorario);
+                        var respuesta2= await RestDatasource().CambiarDisponibilidadHorarioDoctor(this.widget.idHorario, horario);
                         this.widget.callbackfull();
-                        if(respuesta.statusCode==200){
+                        if(respuesta.statusCode==200 || respuesta.statusCode==201 || respuesta2.statusCode==200 || respuesta2.statusCode==201){
                           _showDialogSave();
                         }else{
                           _showDialogDontSave();

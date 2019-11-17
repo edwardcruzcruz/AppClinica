@@ -16,13 +16,13 @@ import 'package:flutter_app/services/Rest_Services.dart';
 class Horarios extends StatefulWidget {
   Doctor doctor;
   User usuario;
-  int idEspecialidadEscogida,idHorario;
+  int idEspecialidadEscogida;
   DateTime date;
-  List<HorarioRango> horariosID;
+  List<Horario> horarios;
   List<String> selectedEvents;
   Function callback,callbackloading,callbackfull;
 
-  Horarios({Key key, this.usuario,this.idEspecialidadEscogida , this.horariosID,this.idHorario,this.doctor,this.date,this.selectedEvents,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  Horarios({Key key, this.usuario,this.idEspecialidadEscogida , this.horarios,this.doctor,this.date,this.selectedEvents,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Horarios(),
@@ -91,20 +91,23 @@ class _HorariosState extends State<Horarios>{
                     GestureDetector(
                       onTap: () async{
                         this.widget.callbackloading();
-                        List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.doctor.Id);
                         List<HorarioRango> horariosId=new List();
+                        List<Horario> horariosAvaliable=new List();
+                        final temp=DateTime.now();
+                        List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.doctor.Id);
                         if(horarios!=null){
                           for(int i=0;i<horarios.length;i++){
+                            DateTime fechaTemp=DateTime.parse(horarios.elementAt(i).Fecha);
                             HorarioRango horarioid=await RestDatasource().HorarioId(horarios.elementAt(i).Hora);
-                            if(horarioid!=null){
+                            if(horarioid!=null && horarios.elementAt(i).IsAvaliable && (fechaTemp.isAfter(temp)||(fechaTemp.isAtSameMomentAs(temp)&&temp.hour>fechaTemp.hour))){//dias posteriores .. si se graba
                               horariosId.add(horarioid);
+                              horariosAvaliable.add(horarios.elementAt(i));
                             }
-
                           }
                         }
                         this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
                         //CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,horariosID: horariosId,doctor: doctores.elementAt(position)
-                        this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,idHorario: this.widget.idHorario,horarios: horarios,horariosID: horariosId,doctor: this.widget.doctor,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                        this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,horariosID: horariosId,doctor: this.widget.doctor,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                       },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
@@ -149,7 +152,13 @@ class _HorariosState extends State<Horarios>{
             GestureDetector(
               onTap: () async{
                 //print(this.widget.selectedEvents.elementAt(position).toString());
-                this.widget.callback(Agendamiento3(usuario: this.widget.usuario,idEspecialidadEscogida:  this.widget.idEspecialidadEscogida,idHorario: this.widget.idHorario,cita: new Cita(storageService.getEmail,this.widget.idEspecialidadEscogida,"dental",(DateFormat("yyyy-MM-dd").format(this.widget.date).toString()+" "+this.widget.selectedEvents.elementAt(position).toString()),this.widget.doctor.Nombre+' '+this.widget.doctor.Apellido),doctor: this.widget.doctor,fecha: this.widget.date,events: this.widget.selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                /*int idHorario=0;
+                for(final horario in this.widget.horarios){
+                  if(horario.Fecha.compareTo(this.widget.selectedEvents.elementAt(position))==1){
+                    idHorario=horario.Hora;
+                  }
+                }*/
+                this.widget.callback(Agendamiento3(usuario: this.widget.usuario,idEspecialidadEscogida:  this.widget.idEspecialidadEscogida,idHorario: this.widget.horarios.elementAt(position).IdHorario,cita: new Cita(storageService.getEmail,this.widget.idEspecialidadEscogida,"dental",(DateFormat("yyyy-MM-dd").format(this.widget.date).toString()+" "+this.widget.selectedEvents.elementAt(position).toString()),this.widget.doctor.Nombre+' '+this.widget.doctor.Apellido),doctor: this.widget.doctor,fecha: this.widget.date,events: this.widget.selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 //this.widget.callbackloading();
                 //List<Horario> horarios= await RestDatasource().HorarioDoctor(doctores.elementAt(position).Id);
                 //this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa

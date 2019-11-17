@@ -50,9 +50,9 @@ class CalendarioPage extends StatefulWidget {
   List<HorarioRango> horariosID;
   Doctor doctor;
   User usuario;
-  int idEspecialidadEscogida,idHorario;
+  int idEspecialidadEscogida;
   Function callback,callbackloading,callbackfull;
-  CalendarioPage({Key key, this.usuario,this.idEspecialidadEscogida,this.idHorario,this.horarios,this.horariosID,this.doctor,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  CalendarioPage({Key key, this.usuario,this.idEspecialidadEscogida,this.horarios,this.horariosID,this.doctor,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => CalendarioPage(),
@@ -88,23 +88,15 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
     DateTime temp=DateTime.parse(DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
 
     if(horarios!=null){
-      for(final horario in horarios){
-        DateTime fechaTemp=DateTime.parse(horario.Fecha);
-        //print(horario.Fecha+"->"+DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
-        print(horario.Fecha==DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
-        if(fechaTemp.isAfter(temp)){//dias posteriores .. si se graba
-
-          _selectedEvents.add(this.widget.horariosID.elementAt(horario.Hora).HorarioInicio+ " "+this.widget.horariosID.elementAt(horario.Hora).Horariofin);
-          //_selectedEvents.add(horario.Hora);
-          int days=fechaTemp.difference(temp).inDays-1;
-          _events[fechaTemp.add(Duration(days: days))]=_selectedEvents.toList();
-        }else if(fechaTemp.isBefore(temp)){//ntes de ese dia por eso no se graba y se deja en el aire
-          print("hola antes");
-        }else if(fechaTemp.isAtSameMomentAs(temp)){//en ese dia
-          //print("hey");
-          //_events.addAll(DateTime.parse(horario.Fecha),List());
-          //_selectedEvents.add(horario.Hora);
-          _selectedEvents.add(this.widget.horariosID.elementAt(horario.Hora).HorarioInicio+ " "+this.widget.horariosID.elementAt(horario.Hora).Horariofin);
+      //
+      for(int h=0;h<horarios.length;h++){
+        DateTime fechaTemp=DateTime.parse(horarios.elementAt(h).Fecha);
+        _selectedEvents.add(this.widget.horariosID.elementAt(h).HorarioInicio+ " "+this.widget.horariosID.elementAt(h).Horariofin);
+        //_selectedEvents.add(horario.Hora);
+        int days=fechaTemp.difference(temp).inDays-1;
+        _events[fechaTemp.add(Duration(days: days))]=_selectedEvents.toList();
+        /*
+        _selectedEvents.add(this.widget.horariosID.elementAt(h).HorarioInicio+ " "+this.widget.horariosID.elementAt(h).Horariofin);
           //_selectedEvents.add(horario.Hora);
           if(!_events.containsKey(fechaTemp)){
             _events[fechaTemp]=_selectedEvents.toList();
@@ -112,9 +104,7 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
             _events[fechaTemp]=_selectedEvents.toList();
 
           }
-          //_selectedEvents.add(horario.Hora);
-          //print(_selectedEvents.length);
-        }
+        */
       }
     }
 
@@ -135,14 +125,25 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
     super.dispose();
   }
 
-  void _onDaySelected(DateTime day, List events) {
+  Future _onDaySelected(DateTime day, List events) {// async
     print('CALLBACK: _onDaySelected');
     print('$day');
     setState(() {
       _fechaElegida=day;
       _selectedEvents = events;
     });
-    this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: this.widget.idHorario,doctor: this.widget.doctor,date: _fechaElegida,selectedEvents: _selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+    /*this.widget.callbackloading();
+    List<Cita> citas=await RestDatasource().ListarCitas();
+    if(citas!=null){
+      for(int i=0;i<citas.length;i++){
+        if(citas.elementAt(i).Especialidad!=null){
+          //horariosId.add(horarioid);
+        }
+
+      }
+    }
+    this.widget.callbackfull;*/
+    this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: this.widget.horarios,doctor: this.widget.doctor,date: _fechaElegida,selectedEvents: _selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
   }
 
   void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {

@@ -140,6 +140,25 @@ class RestDatasource {
       return null;
     });
   }
+  Future<List<Cita>> ListarCitas() {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+
+    return _netUtil.get(CITAS_URL,
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      //print(res.toString());
+      List<Cita> response=new List<Cita>();
+      if(res!=null){
+        var citas = res.map((i)=>Especialidad.fromJson(i)).toList();
+        for(final cita in citas){
+          response.add(cita);
+        }
+        return response;
+      }
+      return null;
+    });
+  }
   Future<http.Response> save_cita(int idPaciente,int idEspecialidad, int idTratamiento,int idHorario,int IdDoctor) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     Map map = {
@@ -147,7 +166,8 @@ class RestDatasource {
         "especialidad": idEspecialidad,
         "tratameinto": idTratamiento,
         "fechaHora": idHorario,
-        "doctor":IdDoctor
+        "doctor":IdDoctor,
+        "is_finished":false
         //"is_finished":true;
     };
 
@@ -165,17 +185,37 @@ class RestDatasource {
       return res;
     });
   }
-  /*Future<http.Response> save_cita(Cita cita) {
+  Future<Horario> HorarioDoctorbyId(int id) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
-    return http.post(CITAS_URL,
-        body: {
-        "cliente": cita.Paciente,
-        "especialidad": cita.Especialidad,
-        "tratameinto": "Reparación de dientes",
-        "fechaHora": cita.Fecha,
-        "doctor":cita.IdDoctor
-        },
-        headers: {HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded", // or whatever
+
+    return _netUtil.get(HORARIO_DOCTORES_URL+id.toString()+"/",
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      //print(res.toString());
+      Horario hr=Horario.fromJson(res);
+      //HorarioRango horario=new HorarioRango(int.parse(res.id), res.horaInicio.toString(), res.horaFin.toString());
+      if(hr!=null){
+        return hr;
+      }
+      return null;
+    });
+  }
+  /*acaaaaa*/
+
+  Future<http.Response> CambiarDisponibilidadHorarioDoctor(int id,Horario horario) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    Map map = {
+      "fecha": horario.Fecha,
+      "hora": horario.IdHorario,
+      "doctor": horario.IdDoctor,
+      "is_available": horario.IsAvaliable==true?false:true,
+      //"is_finished":true;
+    };
+
+    return http.put(HORARIO_DOCTORES_URL+id.toString()+"/",
+        body: utf8.encode(json.encode(map)),
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
     ).then((dynamic res) {
       final String resp = res.body;
@@ -186,7 +226,8 @@ class RestDatasource {
       }
       return res;
     });
-  }*/
+  }
+
   Future<List<Horario>> HorarioDoctor(int idDoctor) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     return _netUtil.get(HORARIO_DOCTORES_URL,
