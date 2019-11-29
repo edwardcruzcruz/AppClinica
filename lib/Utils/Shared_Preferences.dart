@@ -44,6 +44,13 @@ class Var_shared{//singleton: una clase que solo pueda acceder a una sola instan
     }
     return nombreCuenta;
   }
+  String get getCuentaMaster {
+    var nombreCuenta = _preferences.getString("MasterAccount");
+    if (nombreCuenta == null) {
+      return null;
+    }
+    return nombreCuenta;
+  }
   int get getIdHijo {
     var padre = _preferences.getInt("idHijo");
     if (padre == null) {
@@ -77,6 +84,9 @@ class Var_shared{//singleton: una clase que solo pueda acceder a una sola instan
   void save_currentAccount(String content){
     _preferences.setString("currentAccount", content);
   }
+  void save_MasterAccount(String content){
+    _preferences.setString("MasterAccount", content);
+  }
   void save_email(String content){
     _preferences.setString("email", content);
   }
@@ -103,6 +113,9 @@ class Var_shared{//singleton: una clase que solo pueda acceder a una sola instan
   }
   void delete_currentAccount(){
     _preferences.remove("currentAccount");
+  }
+  void delete_MasterAccount(){
+    _preferences.remove("MasterAccount");
   }
   void delete_username(){
     _preferences.remove("username");

@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
         elevation: 0,
         leading: new IconButton(
           icon: Icon(Icons.note_add),
-          onPressed: () async {
+          onPressed: storageService.getIdHijo==null?() async {
             setState(() {
               //se muestra barra circular de espera
               _saving = true;
@@ -117,6 +117,8 @@ class _HomeState extends State<Home> {
                 callback: this.callback,
                 callbackloading: this.callbackloading,
                 callbackfull: this.callbackfull,);//cambiar a 5 cuando se agregue pgos, etc
+          }:(){
+            this._showDialogWorking();
           },
         ),
         title: new Image.asset(
@@ -126,7 +128,7 @@ class _HomeState extends State<Home> {
         actions: <Widget>[
           new IconButton(
             icon: Icon(Icons.shopping_cart), // Icon(Icons.note_add),
-            onPressed: () async {
+            onPressed: storageService.getIdHijo==null?() async {
               /*setState(() {//se muestra barra circular de espera
                 _saving = true;
               });
@@ -141,6 +143,8 @@ class _HomeState extends State<Home> {
                     //AgregarTarjeta();
                     Pagos();
               });
+            }:(){
+              this._showDialogWorking();
             },
           ),
           new IconButton(
@@ -208,7 +212,7 @@ class _HomeState extends State<Home> {
                 });*/
                 List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
                   return Cuenta(
-                      1,"Jose", "Castillo","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
+                      1,"Jose", "Cruz","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
                   );
                 });//await RestDatasource().ListaEspecialidad() ;
                 /*User usuario= await RestDatasource().perfil(storageService.getEmail) ;
@@ -258,9 +262,11 @@ class _HomeState extends State<Home> {
                     leading: Icon(Icons.exit_to_app),
                     title: Text("Cerrar Sesión"),
                     onTap: () {
-                      if(storageService.IsFacebookUser){
-                        FacebookLogin().logOut();
-                        storageService.delete_userface();
+                      if(storageService.IsFacebookUser!=null){
+                        if(storageService.IsFacebookUser){
+                          FacebookLogin().logOut();
+                          storageService.delete_userface();
+                        }
                       }
                       storageService.delete_user(); //variable de session usuario eliminada
                       storageService.delete_email();
@@ -285,10 +291,11 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentTab,
           onTap: (int index) {
+            storageService.getIdHijo==null?
             setState(() {
               currentTab = index;
               currentPage = pages[index];
-            });
+            }):this._showDialogWorking();
           },
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
@@ -385,6 +392,29 @@ class _HomeState extends State<Home> {
                     ),
             ),
           ]),
+    );
+  }
+  void _showDialogWorking() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Trabajando...."),
+          content: new Text("Esta funcionalidad aun esta en trabajo"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

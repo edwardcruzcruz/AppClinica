@@ -4,6 +4,7 @@ import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/ModifcarCuenta.dart';
+import 'package:flutter_app/screens/MenuPage/Noticias.dart';
 import 'package:flutter_app/theme/style.dart';
 
 class CuentasAsociadas extends StatefulWidget {
@@ -70,7 +71,24 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
 
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-
+                    storageService.getIdHijo!=null?new Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            storageService.delete_idHijo();
+                            storageService.save_currentAccount(storageService.getCuentaMaster);
+                            _showDialogChange();
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+                            child: Row(
+                              children: <Widget>[
+                                Icon(Icons.arrow_back_ios,size: 10,color: appTheme().textTheme.subtitle.color,),
+                                Text(Strings.TextRetrocederCuenta,style: appTheme().textTheme.subtitle,)
+                              ],
+                            ),
+                          ),
+                        ),
+                    ):new Container(),
                     GestureDetector(
                       onTap: () {//async
                         /*this.widget.callbackloading;
@@ -122,6 +140,7 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
       itemBuilder: (context, position) {
         return Column(
           children: <Widget>[
+
             GestureDetector(
               onTap: () {//async
                 /*this.widget.callbackloading();
@@ -133,9 +152,11 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
                   this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 }*/
                 //Navigator.pop(context);
-                storageService.save_idHijo(this.widget.cuentas.elementAt(position).IdCuentaPadre);
-                storageService.save_currentAccount(this.widget.cuentas.elementAt(position).Apellido);
-              },
+                storageService.save_idPadre(this.widget.cuentas.elementAt(position).IdCuentaPadre);
+                storageService.save_idHijo(this.widget.cuentas.elementAt(position).Id);
+                storageService.save_currentAccount(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido);
+                this._showDialogChange();
+                },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -207,5 +228,28 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
       itemCount: this.widget.cuentas.length,
     );
   }
-
+  void _showDialogChange() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Cambio de Cuenta"),
+          content: new Text("Se ha cambiado la cuenta a "+storageService.getCuentaActual),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () {
+                this.widget.callback(Noticias());
+                Navigator.of(context).pop();
+                //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

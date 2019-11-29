@@ -63,6 +63,7 @@ class RestDatasource {
         return null;
     });
   }
+
   Future<List<Especialidad>> ListaEspecialidad() {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     return _netUtil.get(ESPECIALIDADES_URL,
@@ -349,6 +350,54 @@ class RestDatasource {
       return response;
     });*/
   }
+  Future<http.Response> save_userfb(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento, String Genero,String cedula, String correo) {
+    Map<String,dynamic> body=  {
+      "nombre": lastname,
+      "apellido": name,
+      "telefono": NTelefono,
+      "direccion": Direccion,
+      "fechaNacimiento": FeNacimiento,
+      "sexo": Genero,
+      "cedula":cedula,
+      "email": correo,
+    };
+    Map<String,String> headers = {
+      'Content-type' : 'application/x-www-form-urlencoded',
+      'Accept': 'application/x-www-form-urlencoded',
+    };
+    return http.post(SAVE_URL,body: body).then((dynamic response) {
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+      print(statusCode);
+
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return response;
+    });
+    /*return http
+        .post(SAVE_URL,body: {
+          "nombre": lastname,
+          "username": name,
+          "telefono": NTelefono,
+          "direccion": Direccion,
+          "fechaNacimiento": FeNacimiento,
+          "sexo": Genero,
+          "email": correo,
+          "id_padre": id_padre,
+          "password1": password1,
+          "password2": password2
+        }).then((http.Response response) {
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+      print(statusCode);
+
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return response;
+    });*/
+  }
   Future<List<CarritoCompra>> ListaCarritos() {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     return _netUtil.get(CARRITO_URL+storageService.getIdPadre.toString()+"/",
@@ -367,4 +416,5 @@ class RestDatasource {
       return null;
     });
   }
+
 }

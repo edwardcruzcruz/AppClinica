@@ -28,6 +28,7 @@ class Strings {
   static const String AppbarIconoAgregarCita = "AGENDAR CITA";
   static const String CuerpoTituloCarrito = "CARRITO";
   static const String TextRetroceder = "atras";
+  static const String TextRetrocederCuenta = "Regresar a cuenta Master";
   static const String TextAgregarCuentaAsoc = "AGREGAR CUENTA ASOCIADA";
   static const String AgendarTitulo1 = "Elige una Especialidad";
   static const String AgendarTitulo2 = "Elige un/a doctor/a";
