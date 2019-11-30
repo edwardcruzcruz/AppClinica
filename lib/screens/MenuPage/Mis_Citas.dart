@@ -4,6 +4,7 @@ import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:flutter_app/models/CitaCompleta.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class Citas extends StatefulWidget {
   List<CitaCompleta> citasList;
@@ -20,6 +21,7 @@ class Citas extends StatefulWidget {
 }
 
 class _CitasState extends State<Citas>{
+  var rating = 0.0;
   var storageService = locator<Var_shared>();
   @override
   Widget build(BuildContext context) {
@@ -95,7 +97,7 @@ class _CitasState extends State<Citas>{
                     children: <Widget>[new Expanded(child: this.widget.citasList==null?Center(child: Text("Sin contenido que mostrar",textAlign: TextAlign.center),) :formulario())],//Text("Próximos Page")
                   ),
                   new Column(
-                    children: <Widget>[new Expanded(child: this.widget.citasList==null?Center(child: Text("Sin contenido que mostrar",textAlign: TextAlign.center),) :Text("Próximos Page"))],
+                    children: <Widget>[new Expanded(child: this.widget.citasList==null?Center(child: Text("Sin contenido que mostrar",textAlign: TextAlign.center),) :formulario2())],
                   )
                 ],
               ),
@@ -106,8 +108,16 @@ class _CitasState extends State<Citas>{
     );
   }
   Widget formulario(){
+    final temp=DateTime.now();
+    List<CitaCompleta> citasProximas=new List();
+    for(int i=0;i<this.widget.citasList.length;i++){
+      DateTime fechaTemp=DateTime.parse(this.widget.citasList.elementAt(i).Fecha.Fecha);//+" "+this.widget.citasList.elementAt(i).Fecha.Hora.HorarioInicio
+      if(fechaTemp.isAfter(temp) || fechaTemp.isAtSameMomentAs(temp)){
+        citasProximas.add(this.widget.citasList.elementAt(i));
+      }
+    }
     //String especialidad=this.doctores.elementAt(0).Especialidad;
-    return ListView.builder(
+    return ListView.builder(//validar null citasProximas
       shrinkWrap: true,
       itemBuilder: (context, position) {
         return Column(
@@ -115,35 +125,12 @@ class _CitasState extends State<Citas>{
 
             GestureDetector(
               onTap: () {//async
-                /*this.widget.callbackloading();
-                Cuenta cuenta= await RestDatasource().HorarioDoctor(doctores.elementAt(position).Id);
-                this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
-                if(horarios.length==0){
-                  _showDialogSeleccionNull();
-                }else{
-                  this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
-                }*/
-                //Navigator.pop(context);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   new Expanded(child: Column(
                     children: <Widget>[
-                      /*Row(
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(25.0, 2.0, 2.0, 3.0),
-                                child: Text(this.widget.citasList.elementAt(position).Tratamiento,style: appTheme().textTheme.display4,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),*/
                       Row(
                         children: <Widget>[
                           Column(
@@ -175,7 +162,6 @@ class _CitasState extends State<Citas>{
                             children: <Widget>[
                               Container(
                                 margin: const EdgeInsets.fromLTRB(20.0,2.0,1.0,2.0),
-                                //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
                                 child: Icon(Icons.calendar_today),//new Image.asset('assets/avatar.png',width: 43,height: 50),
                               ),
                             ],
@@ -271,7 +257,150 @@ class _CitasState extends State<Citas>{
           ],
         );
       },
-      itemCount: this.widget.citasList.length,
+      itemCount: citasProximas.length,
+    );
+  }
+  Widget formulario2(){
+    final temp=DateTime.now();
+    List<CitaCompleta> citasProximas=new List();
+    for(int i=0;i<this.widget.citasList.length;i++){
+      DateTime fechaTemp=DateTime.parse(this.widget.citasList.elementAt(i).Fecha.Fecha);//+" "+this.widget.citasList.elementAt(i).Fecha.Hora.HorarioInicio
+      if(fechaTemp.isBefore(temp)){
+        citasProximas.add(this.widget.citasList.elementAt(i));
+      }
+    }
+    //String especialidad=this.doctores.elementAt(0).Especialidad;
+    return ListView.builder(//validar null citasProximas
+      shrinkWrap: true,
+      itemBuilder: (context, position) {
+        return Column(
+          children: <Widget>[
+
+            GestureDetector(
+              onTap: () {//async
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  new Expanded(child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(15.0,2.0,1.0,2.0),
+                                //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                child: new Image.asset('assets/avatar.png',width: 33,height: 40),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                const EdgeInsets.fromLTRB(7.0, 12.0, 12.0, 3.0),
+                                child: Text((this.widget.citasList.elementAt(position).Especialidad=="Odontología"?"OD. ":this.widget.citasList.elementAt(position).Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+this.widget.citasList.elementAt(position).IdDoctor.Nombre+" "+this.widget.citasList.elementAt(position).IdDoctor.Apellido,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(20.0,2.0,1.0,2.0),
+                                child: Icon(Icons.calendar_today),//new Image.asset('assets/avatar.png',width: 43,height: 50),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                const EdgeInsets.fromLTRB(10.0, 12.0, 12.0, 3.0),
+                                child: Text(this.widget.citasList.elementAt(position).Fecha.Fecha,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(20.0,2.0,1.0,2.0),
+                                //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                child: Icon(Icons.access_time),//new Image.asset('assets/avatar.png',width: 43,height: 50),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                const EdgeInsets.fromLTRB(10.0, 12.0, 12.0, 3.0),
+                                child: Text(this.widget.citasList.elementAt(position).Fecha.Hora.HorarioInicio+" "+this.widget.citasList.elementAt(position).Fecha.Hora.Horariofin,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          width: 100,
+                          height: 20,
+                          child: SmoothStarRating(
+                              allowHalfRating: true,
+                              onRatingChanged: (v) {
+                                rating = v;
+                                setState(() {});
+                              },
+                              starCount: 5,
+                              rating: rating,
+                              size: 20.0,
+                              color: Colors.yellow,
+                              borderColor: Colors.yellow,
+                              spacing:0.0
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Icon(
+                            Icons.remove_red_eye,
+                            size: 25.0,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              height: 2.0,
+              color: Colors.grey,
+            )
+          ],
+        );
+      },
+      itemCount: citasProximas.length,
     );
   }
 }

@@ -58,11 +58,10 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     // TODO: implement initState
-    List<CitaCompleta> citas= new List<CitaCompleta>.generate(1, (i) {
-      return CitaCompleta(
-          1,User(1,"Edward", "Cruz","edward.cruzcruz@hotmail.com",1,"0938384849","Ronda","1996-04-27"), "Odontología","Limpieza Dental",HorarioCompleto(1,"2019-12-12",HorarioRango(3,"09:00","09:30"),12,false),Doctor(12,"Jose", "Ureta","2789456",1,"jos@gmail.com",3)
-      );
-    });
+    List<CitaCompleta> citas= new List<CitaCompleta>.generate(5, (i) => CitaCompleta(
+          i,User(1,"Edward", "Cruz","edward.cruzcruz@hotmail.com",1,"0938384849","Ronda","1996-04-27"), "Odontología","Limpieza Dental",HorarioCompleto(1,"2019-"+((8+(1*i)).toString().length==1?"0"+(8+(1*i)).toString():8+(1*i)).toString()+"-12",HorarioRango(3,"09:00","09:30"),12,false),Doctor(12,"Jose", "Ureta","2789456",1,"jos@gmail.com",3)
+      )
+    );
     noticiaPage = Noticias();
     citasPage = Citas(citasList: citas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
     historialPage = Historial();

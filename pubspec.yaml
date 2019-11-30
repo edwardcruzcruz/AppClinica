@@ -38,6 +38,7 @@ dependencies:
   ffi: ^0.1.2
   webview_flutter: ^0.3.15+1
   flutter_launcher_icons: "^0.7.3"
+  smooth_star_rating: 1.0.3
 
 
 
