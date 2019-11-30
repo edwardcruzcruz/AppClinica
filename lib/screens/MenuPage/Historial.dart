@@ -72,7 +72,7 @@ class _HistorialState extends State<Historial>{
                     Container(
                       //alignment: Alignment(50, 0),
                         margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),
-                        child: Text("Paciente: "+storageService.getCuentaMaster,style: appTheme().textTheme.subhead,)
+                        child: Text("Paciente: "+storageService.getCuentaActual,style: appTheme().textTheme.subhead,)
                     ),
                   ],
                 ),
