@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
     );
     noticiaPage = Noticias();
     citasPage = Citas(citasList: citas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
-    historialPage = Historial();
+    historialPage = Historial(citasList: citas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
     recetasPage = Recetas();
     agend1Page = Agendamiento();
     carrito = Pagos();

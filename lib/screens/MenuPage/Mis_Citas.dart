@@ -21,7 +21,7 @@ class Citas extends StatefulWidget {
 }
 
 class _CitasState extends State<Citas>{
-  var rating = 0.0;
+  final temp=DateTime.now();
   var storageService = locator<Var_shared>();
   @override
   Widget build(BuildContext context) {
@@ -94,10 +94,10 @@ class _CitasState extends State<Citas>{
               body: new TabBarView(
                 children: <Widget>[
                   new Column(
-                    children: <Widget>[new Expanded(child: this.widget.citasList==null?Center(child: Text("Sin contenido que mostrar",textAlign: TextAlign.center),) :formulario())],//Text("Próximos Page")
+                    children: <Widget>[new Expanded(child: this.widget.citasList==null?Center(child: Text("Sin contenido que mostrar",textAlign: TextAlign.center,style: appTheme().textTheme.subhead,),) :formulario())],//Text("Próximos Page")
                   ),
                   new Column(
-                    children: <Widget>[new Expanded(child: this.widget.citasList==null?Center(child: Text("Sin contenido que mostrar",textAlign: TextAlign.center),) :formulario2())],
+                    children: <Widget>[new Expanded(child: this.widget.citasList==null?Center(child: Text("Sin contenido que mostrar",textAlign: TextAlign.center,style: appTheme().textTheme.subhead),) :formulario2())],
                   )
                 ],
               ),
@@ -108,7 +108,7 @@ class _CitasState extends State<Citas>{
     );
   }
   Widget formulario(){
-    final temp=DateTime.now();
+    //final temp=DateTime.now();
     List<CitaCompleta> citasProximas=new List();
     for(int i=0;i<this.widget.citasList.length;i++){
       DateTime fechaTemp=DateTime.parse(this.widget.citasList.elementAt(i).Fecha.Fecha);//+" "+this.widget.citasList.elementAt(i).Fecha.Hora.HorarioInicio
@@ -261,7 +261,7 @@ class _CitasState extends State<Citas>{
     );
   }
   Widget formulario2(){
-    final temp=DateTime.now();
+    var rating = 0.0;
     List<CitaCompleta> citasProximas=new List();
     for(int i=0;i<this.widget.citasList.length;i++){
       DateTime fechaTemp=DateTime.parse(this.widget.citasList.elementAt(i).Fecha.Fecha);//+" "+this.widget.citasList.elementAt(i).Fecha.Hora.HorarioInicio
