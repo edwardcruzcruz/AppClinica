@@ -37,6 +37,7 @@ dependencies:
   auto_size_text: ^2.1.0
   ffi: ^0.1.2
   webview_flutter: ^0.3.15+1
+  flutter_launcher_icons: "^0.7.3"
 
 
 
@@ -118,3 +119,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/logo_clinica.png"
+  image_path_android: "assets/logo_clinica.png"
+  adaptive_icon_background: "assets/logo_clinica.png"
+  adaptive_icon_foreground: "assets/logo_clinica.png"

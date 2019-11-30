@@ -312,27 +312,31 @@ class _LoginState extends State<Login>
         final graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
         final profile = JSON.jsonDecode(graphResponse.body);
-        var response = await RestDatasource().postLoginFB(token);
+        //var response = await RestDatasource().postLoginFB(token);
         _key.currentState.save();
-        if(response.statusCode==200){
-          String token=response.body;
-          storageService.save_user(token);
+        //if(response.statusCode==200){
+          //String token=response.body;
+          storageService.save_user('{\"token\":\"ed6b300aaed57d62531efedadd8c62b379d9aa56\"}');//token
           storageService.save_email(profile['email']);
 
           storageService.save_idPadre(0);//guardar cuando se cree la funcion de guardar cliente sin token pero verlo ojo
 
           storageService.save_currentAccount(profile['name']);
           storageService.save_MasterAccount(profile['name']);
-          /*User usuario= await RestDatasource().perfil(profile['email'].toString()) ;
+          User usuario= await RestDatasource().perfilfb(profile['email']) ;
           if(usuario==null){
-            await RestDatasource().save_userfb(profile['first_name'],profile['last_name'],"","","","","",profile['email']);
-          }*/
+            dynamic response=await RestDatasource().save_userfb(profile['first_name'],profile['last_name'],"vacio","vacio","1996-10-10","1","vacio",profile['email']);
+
+            print(response.statusCode);
+            print(response.body);
+
+          }
           storageService.save_isuserFace(true);
           Navigator.of(context).pushReplacement(Home.route());
           onLoginStatusChanged(true,facebookLoginResult.status);
-        }else{
-          _showDialogLogin();
-        }
+        //}else{
+          //_showDialogLogin();
+        //}
         break;
     }
   }

@@ -258,12 +258,5 @@ class _Agendamiento2State extends State<Agendamiento2>{
       },
     );
   }
-  List<Doctor> ListamisDoctores() {
-    List<Doctor> list = new List();
-    for(final doctor in doctores){
-      list.add(doctor);
-    }
-    return list ;
-  }
 }
 

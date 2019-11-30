@@ -25,6 +25,7 @@ class RestDatasource {
   static final LOGINFB_URL = BASE_URL + Constantes.uriloginfb;
   static final PERFIL_URL = BASE_URL + Constantes.uriClientes;
   static final SAVE_URL = BASE_URL + Constantes.uriregistrar;
+  static final SAVEFB_URL = BASE_URL + Constantes.uriregistrarFb;
   static final DOCTORES_URL= BASE_URL + Constantes.uriDoctores;
   static final HORARIOID_URL= BASE_URL + Constantes.uriHorarioID;
   static final HORARIO_DOCTORES_URL= BASE_URL + Constantes.uriHorariosDoctores;
@@ -61,6 +62,32 @@ class RestDatasource {
         return response;
       }
         return null;
+    });
+  }
+  Future<User> perfilfb(String email) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    /*return http.get(
+      PERFIL_URL,
+      // Send authorization headers to the backend.
+      headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+        HttpHeaders.authorizationHeader: "token $_API_KEY"},
+    );*/
+    return _netUtil.get(PERFIL_URL,
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}//
+    ).then((dynamic res) {
+      User response=null;
+      if(res!=null){
+        var usuarios = res.map((i)=>User.fromJson(i)).toList();
+        for(final usuario in usuarios){
+          //print(usuario.Correo);
+          if(email==usuario.Correo){
+            response= usuario;
+          }
+        }
+        return response;
+      }
+      return null;
     });
   }
 
@@ -350,31 +377,39 @@ class RestDatasource {
       return response;
     });*/
   }
-  Future<http.Response> save_userfb(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento, String Genero,String cedula, String correo) {
+  Future<http.Response> save_userfb(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento,String Genero,String cedula, String correo) {
     Map<String,dynamic> body=  {
-      "nombre": lastname,
-      "apellido": name,
+      "nombre": name,
+      "apellido": lastname,
+      "email": correo,
+      "sexo": Genero,
       "telefono": NTelefono,
       "direccion": Direccion,
       "fechaNacimiento": FeNacimiento,
-      "sexo": Genero,
       "cedula":cedula,
-      "email": correo,
     };
     Map<String,String> headers = {
       'Content-type' : 'application/x-www-form-urlencoded',
-      'Accept': 'application/x-www-form-urlencoded',
     };
-    return http.post(SAVE_URL,body: body).then((dynamic response) {
-      final String res = response.body;
+    Map<String, String> headers1 = {"Content-type": "application/json",'Accept': 'application/json',};
+    /*return http.post(SAVEFB_URL,headers: headers,body: body).then((dynamic response) {
       final int statusCode = response.statusCode;
-      print(statusCode);
+      //print(statusCode);
 
       if (statusCode < 200 || statusCode > 400 ) {
         throw new Exception("Error while fetching data");
       }
       return response;
-    });
+    });*/
+    return http.post(SAVEFB_URL,headers: headers, body: body)/*.then((http.Response response) {
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+      print(res);
+      if (statusCode < 201 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return response;
+    })*/;
     /*return http
         .post(SAVE_URL,body: {
           "nombre": lastname,

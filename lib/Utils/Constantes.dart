@@ -5,6 +5,7 @@ class Constantes{
   static final String urilogin="/api/v1/api-token-auth/";
   static final String uriloginfb="/api/v1/rest-auth/facebook/";
   static final String uriregistrar="/api/v1/registrarClient/";
+  static final String uriregistrarFb="/api/v1/clientes/";
   static final String urilogOut="/api/";
   static final String uriClientes="/api/v1/clientes/";
   static final String uriDoctores="/api/v1/doctores/";
