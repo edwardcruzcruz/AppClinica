@@ -1,4 +1,4 @@
-class Especialidad {
+class Especialidad{
   final int _id;
   final String _especialidad;
 

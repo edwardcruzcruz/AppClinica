@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_app/models/CitaCompleta.dart';
 import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/User.dart';
@@ -12,8 +13,9 @@ import 'package:flutter_app/screens/MenuPage/Noticias.dart';
 import 'package:flutter_app/screens/MenuPage/Recetas.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/screens/MenuPage/Sugerencia.dart';
-import 'package:flutter_app/screens/PagosPage/AgregarTarjeta.dart';
-import 'package:flutter_app/screens/PagosPage/Carrito.dart';
+import 'package:flutter_app/models/Doctor.dart';
+import 'package:flutter_app/models/HorarioCompleto.dart';
+import 'package:flutter_app/models/HorarioRango.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -56,8 +58,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     // TODO: implement initState
+    List<CitaCompleta> citas= new List<CitaCompleta>.generate(1, (i) {
+      return CitaCompleta(
+          1,User(1,"Edward", "Cruz","edward.cruzcruz@hotmail.com",1,"0938384849","Ronda","1996-04-27"), "Odontología","Limpieza Dental",HorarioCompleto(1,"2019-12-12",HorarioRango(3,"09:00","09:30"),12,false),Doctor(12,"Jose", "Ureta","2789456",1,"jos@gmail.com",3)
+      );
+    });
     noticiaPage = Noticias();
-    citasPage = Citas();
+    citasPage = Citas(citasList: citas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
     historialPage = Historial();
     recetasPage = Recetas();
     agend1Page = Agendamiento();

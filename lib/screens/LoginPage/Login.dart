@@ -325,7 +325,7 @@ class _LoginState extends State<Login>
           storageService.save_MasterAccount(profile['name']);
           User usuario= await RestDatasource().perfilfb(profile['email']) ;
           if(usuario==null){
-            dynamic response=await RestDatasource().save_userfb(profile['first_name'],profile['last_name'],"vacio","vacio","1996-10-10","1","vacio",profile['email']);
+            dynamic response=await RestDatasource().save_userfb(profile['first_name'],profile['last_name'],"","","1996-10-10","1","",profile['email']);
 
             print(response.statusCode);
             print(response.body);
