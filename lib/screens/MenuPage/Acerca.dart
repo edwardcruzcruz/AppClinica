@@ -3,6 +3,7 @@ import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/theme/style.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Acerca extends StatefulWidget {
   static Route<dynamic> route() {
@@ -17,6 +18,12 @@ class Acerca extends StatefulWidget {
 
 class _AcercaState extends State<Acerca>{
   var storageService = locator<Var_shared>();
+  final List<String> _listViewData = [
+    "Inducesmile.com",
+    "Flutter Dev",
+    "Android Dev",
+    "iOS Dev!",
+  ];
   @override
   Widget build(BuildContext context) {
     return  new Column(
@@ -57,8 +64,82 @@ class _AcercaState extends State<Acerca>{
             ),
           ),
         ),
+        /*ListView(
+          padding: EdgeInsets.all(8.0),
+          children: _listViewData
+              .map((data) => ListTile(
+            leading: Icon(Icons.person),
+            title: Text(data),
+            subtitle: Text("a subtitle here"),
+          ))
+              .toList(),
+        ),*/
+        Container(
+          margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(FontAwesomeIcons.facebookF, size: 30,color: Colors.teal,), // Icon(Icons.note_add),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(FontAwesomeIcons.twitter, size: 25,color: Colors.teal,), // Icon(Icons.note_add),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(FontAwesomeIcons.instagram, size: 25,color: Colors.teal,), // Icon(Icons.note_add),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(FontAwesomeIcons.youtube, size: 25,color: Colors.teal,), // Icon(Icons.note_add),
+                //onPressed: () =>openTheDrawer(),
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          height: 2.0,
+          color: Colors.grey,
+        ),
+        Expanded(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(FontAwesomeIcons.phone),
+                    Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
+                    Text("0917612818"),
+                  ],
+                ),
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(FontAwesomeIcons.search),
+                    Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
+                    Text("Av. Amazonas y Pereira"),
+                  ],
+                ),
+                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.email),
+                    Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
+                    Text("info@clinicaesteticadental.com"),
+                  ],
+                )
+              ],
+            ),
+          )
+        )
       ],
     );
   }
-
 }

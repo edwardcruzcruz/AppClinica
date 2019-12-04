@@ -256,7 +256,8 @@ class _HomeState extends State<Home> {
             ListTile(
               leading: Icon(Icons.info),
               title: Text('Acerca de Nosotros'),
-              onTap: () {
+              onTap: () {//async
+
                 setState(() {
                   currentPage = Acerca();
                 });
