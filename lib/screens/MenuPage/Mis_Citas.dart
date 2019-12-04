@@ -301,7 +301,8 @@ class _CitasState extends State<Citas>{
                               color: Colors.grey,
                             ),
                             onPressed: (){
-                              this._eliminar();
+
+                              this._eliminar(position);
                             },
                           )
                         ),
@@ -471,7 +472,7 @@ class _CitasState extends State<Citas>{
     print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
   }*/
 
-  void _eliminar() {
+  void _eliminar(position) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -485,8 +486,9 @@ class _CitasState extends State<Citas>{
                 children: <Widget>[
                   new FlatButton(
                     child: new Text("Aceptar"),
-                    onPressed: () {
+                    onPressed: () async{
                       //this.widget.callback(Citas());
+                      var horarios= await RestDatasource().delete_cita(this.widget.citasList.elementAt(position).Id);
                       Navigator.of(context).pop();
                       //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
                     },
