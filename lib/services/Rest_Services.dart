@@ -305,7 +305,7 @@ class RestDatasource {
         }).then((http.Response response) {
       final String res = response.body;
       final int statusCode = response.statusCode;
-
+      print(res);
       if (statusCode < 200 || statusCode > 400 ) {
         throw new Exception("Error while fetching data");
       }

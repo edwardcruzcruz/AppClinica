@@ -5,6 +5,7 @@ class Strings {
   static const String LabelPassword = "Contraseña";
   static const String HintEmail = "Ingrese su Correo";
   static const String LabelEmail = "Correo Electrónico";
+  static const String LabelSugerencia = "Escriba su sugerencia aquí";
   static const String ButtonLogin = "INICIAR SESIÓN";
   static const String ButtonRegistrarse = "REGISTRARSE";
   static const String LabelRegistroNombre = "Nombre";
@@ -38,4 +39,5 @@ class Strings {
   static const String ModificarTitulo1 = "Modificar datos";
   static const String Tab1Citas = "Próximas";
   static const String Tab2Citas = "Anteriores";
+  static const String Solicitud = "Enviar";
 }

@@ -1,9 +1,11 @@
+import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:flutter_app/models/CitaCompleta.dart';
+//import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class Citas extends StatefulWidget {
@@ -211,10 +213,18 @@ class _CitasState extends State<Citas>{
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.all(2.0),
-                          child: Icon(
-                            Icons.add_alert,
-                            size: 25.0,
-                            color: Colors.grey,
+                          child:new IconButton(
+                            icon: Icon(
+                              Icons.add_alert,
+                              size: 25.0,
+                              color: Colors.grey,
+
+                            ), // Icon(Icons.note_add),
+                            onPressed: () async {
+                              /*final int helloAlarmID = position;
+                              await AndroidAlarmManager.initialize();
+                              await AndroidAlarmManager.periodic(const Duration(minutes: 1), helloAlarmID, printHello);*/
+                            },
                           ),
                         ),
                         Padding(
@@ -403,4 +413,10 @@ class _CitasState extends State<Citas>{
       itemCount: citasProximas.length,
     );
   }
+  /*void printHello() {
+    final DateTime now = DateTime.now();
+    final int isolateId = Isolate.current.hashCode;
+    print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
+  }*/
+
 }

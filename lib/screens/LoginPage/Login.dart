@@ -24,13 +24,13 @@ class Login extends StatefulWidget {
 }
 Widget _logo(){
   return Container(
-    margin: const EdgeInsets.only(top: 30.0,bottom: 10.0),
-    width: 150.0,
-    height: 150.0,
+    margin: const EdgeInsets.only(top: 60.0,bottom: 10.0),
+    width: 170.0,
+    height: 120.0,
     decoration: new BoxDecoration(
       image: DecorationImage(
         image: new AssetImage(
-            'assets/logo_login.jpg'),
+            'assets/logoclinica.png'),
         fit: BoxFit.fill,
       ),
       //shape: BoxShape.circle,
