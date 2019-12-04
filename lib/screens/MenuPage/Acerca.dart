@@ -3,9 +3,15 @@ import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/theme/style.dart';
+import 'package:flutter_app/models/Clinica.dart';
+import 'package:flutter_app/models/RedSocial.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Acerca extends StatefulWidget {
+  Clinica clinica;
+  Function callback,callbackloading,callbackfull;
+  Acerca({Key key,this.clinica,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Acerca(),
@@ -18,12 +24,6 @@ class Acerca extends StatefulWidget {
 
 class _AcercaState extends State<Acerca>{
   var storageService = locator<Var_shared>();
-  final List<String> _listViewData = [
-    "Inducesmile.com",
-    "Flutter Dev",
-    "Android Dev",
-    "iOS Dev!",
-  ];
   @override
   Widget build(BuildContext context) {
     return  new Column(
@@ -76,66 +76,85 @@ class _AcercaState extends State<Acerca>{
         ),*/
         Container(
           margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+          padding: EdgeInsets.fromLTRB(70, 0, 70, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(FontAwesomeIcons.facebookF, size: 30,color: Colors.teal,), // Icon(Icons.note_add),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(FontAwesomeIcons.twitter, size: 25,color: Colors.teal,), // Icon(Icons.note_add),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(FontAwesomeIcons.instagram, size: 25,color: Colors.teal,), // Icon(Icons.note_add),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(FontAwesomeIcons.youtube, size: 25,color: Colors.teal,), // Icon(Icons.note_add),
-                //onPressed: () =>openTheDrawer(),
-                onPressed: () {},
-              ),
-            ],
+            children: this.widget.clinica.redes.map((item) => new IconButton(
+              icon: Icon(item.GetNombre=="Facebook"?FontAwesomeIcons.facebookF:item.GetNombre=="Twitter"?FontAwesomeIcons.twitter:FontAwesomeIcons.instagram, size: 30,color: Colors.teal,), // Icon(Icons.note_add),
+                onPressed: () {
+                  var url=item.GetLink;
+                  launch(url);
+                },//_launchURL(this.widget.clinica.redes.elementAt(index).GetLink),
+              )
+            ).toList(),
           ),
         ),
         Divider(
           height: 2.0,
           color: Colors.grey,
         ),
-        Expanded(
+        this.widget.clinica==null?Center(child: Text("Sin contenido que mostrar",textAlign: TextAlign.center,style: appTheme().textTheme.subhead,),):Expanded(
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(FontAwesomeIcons.phone),
-                    Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
-                    Text("0917612818"),
-                  ],
-                ),
-                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(FontAwesomeIcons.search),
-                    Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
-                    Text("Av. Amazonas y Pereira"),
-                  ],
-                ),
-                Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.email),
-                    Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
-                    Text("info@clinicaesteticadental.com"),
-                  ],
-                )
-              ],
+            child: Container(
+              padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      GestureDetector(
+                       child: Container(
+                         child: Row(
+                           children: <Widget>[
+                             Icon(FontAwesomeIcons.phone),
+                             Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
+                             Text(this.widget.clinica.GetTelefono,style: appTheme().textTheme.headline,),
+                           ],
+                         ),
+                       ),
+                       onTap: ()=> launch("tel:${this.widget.clinica.GetTelefono}"),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Container(
+                          child: Row(
+                            children: <Widget>[
+                              Image.asset("assets/googlemap.png",height: 27,),
+                              Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
+                              Text(this.widget.clinica.GetDireccion,style: appTheme().textTheme.headline,),
+                            ],
+                          ),
+                        ),
+                        onTap: ()=> launch("google.navigation:q=-2.26379, -79.895622"),//"google.navigation:q=${_mapLocation['latitude']},${_mapLocation['longitude']}"
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 10),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Container(
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.email),
+                              Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
+                              Text(this.widget.clinica.GetCorreo,style: appTheme().textTheme.headline,),
+                            ],
+                          ),
+                        ),
+                        onTap: ()=> launch("mailto:${this.widget.clinica.GetCorreo}"),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           )
         )

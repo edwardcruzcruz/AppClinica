@@ -40,6 +40,7 @@ dependencies:
   webview_flutter: ^0.3.15+1
   flutter_launcher_icons: "^0.7.3"
   smooth_star_rating: 1.0.3
+  url_launcher:
   #android_alarm_manager: ^0.4.4+3
 
 
@@ -95,6 +96,7 @@ flutter:
     - assets/reloj.png
     - assets/reloj_disponible.png
     - assets/logoclinica.png
+    - assets/googlemap.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

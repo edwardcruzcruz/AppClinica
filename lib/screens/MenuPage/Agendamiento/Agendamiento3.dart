@@ -159,7 +159,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                       Padding(
                         padding:
                         const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                        child: Text(this.widget.cita.Especialidad.toString()),
+                        child: Text(this.widget.cita.Especialidad==2?"Nutrición":this.widget.cita.Especialidad==3?"Odontología":"Psicología"),
                       ),
                     ],
                   ),

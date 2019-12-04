@@ -14,6 +14,8 @@ import 'package:flutter_app/screens/MenuPage/Recetas.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/screens/MenuPage/Sugerencia.dart';
 import 'package:flutter_app/models/Doctor.dart';
+import 'package:flutter_app/models/Clinica.dart';
+import 'package:flutter_app/models/RedSocial.dart';
 import 'package:flutter_app/models/Receta.dart';
 import 'package:flutter_app/models/HorarioCompleto.dart';
 import 'package:flutter_app/models/HorarioRango.dart';
@@ -257,9 +259,12 @@ class _HomeState extends State<Home> {
               leading: Icon(Icons.info),
               title: Text('Acerca de Nosotros'),
               onTap: () {//async
-
+                List<RedSocial> redes= new List<RedSocial>();
+                redes.add(new RedSocial(0,"Facebook", "https://www.facebook.com/cliesdentsa/"));
+                redes.add(new RedSocial(1,"Instagram", "https://www.instagram.com/clinica.estetica.dental/?hl=es-la"));
+                Clinica clinicainfo=new Clinica(0,"Clinica Estetica Dental","Somos una clinica que piensa en tu salud dental","0995104749","Alborada 5 etapa (9,77 km)","info@clinicaesteticadental.com",redes);
                 setState(() {
-                  currentPage = Acerca();
+                  currentPage = Acerca(clinica: clinicainfo,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
                 });
                 Navigator.pop(context);
               },
