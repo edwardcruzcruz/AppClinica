@@ -52,7 +52,8 @@ class CalendarioPage extends StatefulWidget {
   User usuario;
   int idEspecialidadEscogida;
   Function callback,callbackloading,callbackfull;
-  CalendarioPage({Key key, this.usuario,this.idEspecialidadEscogida,this.horarios,this.horariosID,this.doctor,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  bool agendar;
+  CalendarioPage({Key key, this.usuario,this.idEspecialidadEscogida,this.horarios,this.horariosID,this.doctor,this.callback,this.callbackloading,this.callbackfull,this.agendar}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => CalendarioPage(),
@@ -196,7 +197,8 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
             children: <Widget>[
               // Switch out 2 lines below to play with TableCalendar's settings
               //-----------------------
-              Container(
+              _cabeceraAgendar(),
+              /*Container(
                 child: Row(
                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -224,7 +226,7 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
                     )
                   ],
                 ),
-              ),
+              ),*/
               Divider(
                 height: 2.0,
                 color: Colors.grey,
@@ -530,4 +532,80 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
       },
     );
   }*/
+
+  Widget _cabeceraAgendar() {
+    if (this.widget.agendar) {
+      return new Container(
+        child: new Row(
+          children: <Widget>[
+            GestureDetector(
+              onTap: () async{
+                this.widget.callbackloading();
+                List<Doctor> doctores= await RestDatasource().doctoresEspecialidad(this.widget.doctor.Especialidad);
+                this.widget.callbackfull();
+                this.widget.callback(Agendamiento2(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,doctores: doctores,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+              },
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.arrow_back_ios,size: 10,color: appTheme().textTheme.subtitle.color,),
+                    Text(Strings.TextRetroceder,style: appTheme().textTheme.subtitle,)
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              //alignment: Alignment(50, 0),
+                margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),
+                child: Text(Strings.AgendarTitulo3,style: appTheme().textTheme.title,)
+            )
+          ],
+        ),
+      );
+
+  }else
+    return new Container(
+      child: new Row(
+        children: <Widget>[
+          Container(
+            //alignment: Alignment(50, 0),
+              margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),
+              child: Text(Strings.AgendarTitulo3,style: appTheme().textTheme.title,)
+          )
+        ],
+      ),
+    );
+  }
+  /*if (this.widget.agendar){
+  return new GestureDetector(
+  onTap: () async{
+  this.widget.callbackloading();
+  List<Doctor> doctores= await RestDatasource().doctoresEspecialidad(this.widget.doctor.Especialidad);
+  this.widget.callbackfull();
+  this.widget.callback(Agendamiento2(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,doctores: doctores,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+  },
+  child: Container(
+  margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+  child: Row(
+  children: <Widget>[
+  Icon(Icons.arrow_back_ios,size: 10,color: appTheme().textTheme.subtitle.color,),
+  Text(Strings.TextRetroceder,style: appTheme().textTheme.subtitle,)
+  ],
+  ),
+  ),
+  ),
+  Container(
+  //alignment: Alignment(50, 0),
+  margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),
+  child: Text(Strings.AgendarTitulo3,style: appTheme().textTheme.title,)
+  )
+  }else{
+  return new Container(
+  //alignment: Alignment(50, 0),
+  margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),
+  child: Text(Strings.AgendarTitulo3,style: appTheme().textTheme.title,)
+  )
+  }*/
+
 }

@@ -156,7 +156,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
                 if(horarios.length==0){
                   _showDialogSeleccionNull();
                 }else{
-                  this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,horariosID: horariosId,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                  this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,horariosID: horariosId,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,agendar: true,));
                 }
                 /*Navigator.push(
                   context,

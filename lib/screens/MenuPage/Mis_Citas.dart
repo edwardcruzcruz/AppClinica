@@ -3,10 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/models/HorarioRango.dart';
+import 'package:flutter_app/models/User.dart';
+import 'package:flutter_app/models/Especialidad.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:flutter_app/models/CitaCompleta.dart';
 //import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+
+import 'Calendario.dart';
 
 class Citas extends StatefulWidget {
   List<CitaCompleta> citasList;
@@ -109,6 +116,7 @@ class _CitasState extends State<Citas>{
       ],
     );
   }
+
   Widget formulario(){
     //final temp=DateTime.now();
     List<CitaCompleta> citasProximas=new List();
@@ -221,6 +229,7 @@ class _CitasState extends State<Citas>{
 
                             ), // Icon(Icons.note_add),
                             onPressed: () async {
+                              this._recordatorio();
                               /*final int helloAlarmID = position;
                               await AndroidAlarmManager.initialize();
                               await AndroidAlarmManager.periodic(const Duration(minutes: 1), helloAlarmID, printHello);*/
@@ -233,26 +242,68 @@ class _CitasState extends State<Citas>{
                               Icons.edit,
                               size: 25.0,
                               color: Colors.grey,
-                            ), onPressed: (){
+                            ), onPressed: storageService.getIdHijo==null?() async {
+                              List<HorarioRango> horariosId=new List();
+                              List<Horario> horariosAvaliable=new List();
+                              final temp=DateTime.now();
+                              List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.citasList.elementAt(position).IdDoctor.Id);
+                              if(horarios!=null){
+                                for(int i=0;i<horarios.length;i++){
+                                  DateTime fechaTemp=DateTime.parse(horarios.elementAt(i).Fecha);
+                                  HorarioRango horarioid=await RestDatasource().HorarioId(horarios.elementAt(i).Hora);
+                                  if(horarioid!=null && horarios.elementAt(i).IsAvaliable && (fechaTemp.isAfter(temp)||(fechaTemp.isAtSameMomentAs(temp)&&temp.hour>fechaTemp.hour))){//dias posteriores .. si se graba
+                                    horariosId.add(horarioid);
+                                    horariosAvaliable.add(horarios.elementAt(i));
+                                  }
+                                }
+                              }
+                              User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                              List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad();
+                              int idEspecialidad=0;
+                              for(var especialidad in especialidades){
+                                if(especialidad.NombreEspecialidad==this.widget.citasList.elementAt(position).Especialidad){
+                                  idEspecialidad=especialidad.Id;
+                                }
+                              }
+                              print("--------------------------------------------"+this.widget.citasList.elementAt(position).Especialidad);
                               this.widget.callback(
-                                /*
-                                ModificarCuenta(
+                                  CalendarioPage(
+                                    agendar: false,
+                                    callback: this.widget.callback,
+                                    callbackfull: this.widget.callbackfull,
+                                    callbackloading: this.widget.callbackloading,
+                                    usuario: usuario,
+                                    doctor: this.widget.citasList.elementAt(position).IdDoctor,
+                                    horarios: horariosAvaliable,
+                                    horariosID: horariosId,
+                                    idEspecialidadEscogida: idEspecialidad,
+
+                                  ));
+
+                                /*ModificarCuenta(
                                   cuenta: this.widget.cuentas.elementAt(position),
                                   cuentas: this.widget.cuentas,
                                   callback: this.widget.callback,
                                   callbackloading: this.widget.callbackloading,
-                                  callbackfull: this.widget.callbackfull,)*/
-                              );
-                            }
-                            )
+                                  callbackfull: this.widget.callbackfull,)
+                              );*/
+                            }:(){
+                              print("sdjfhdsjksdf");
+                              },
+                            ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
-                          child: Icon(
-                            Icons.delete,
-                            size: 25.0,
-                            color: Colors.grey,
-                          ),
+                          child:IconButton(
+                            icon:Icon(
+                              Icons.delete,
+                              size: 25.0,
+                              color: Colors.grey,
+                            ),
+                            onPressed: (){
+                              this._eliminar();
+                            },
+                          )
                         ),
                       ],
                     ),
@@ -270,6 +321,7 @@ class _CitasState extends State<Citas>{
       itemCount: citasProximas.length,
     );
   }
+
   Widget formulario2(){
     var rating = 0.0;
     List<CitaCompleta> citasProximas=new List();
@@ -418,5 +470,66 @@ class _CitasState extends State<Citas>{
     final int isolateId = Isolate.current.hashCode;
     print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
   }*/
+
+  void _eliminar() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          content: new Text("¿Desea cancelar la cita seleccionada?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new Center(
+              child: new Row(
+                children: <Widget>[
+                  new FlatButton(
+                    child: new Text("Aceptar"),
+                    onPressed: () {
+                      //this.widget.callback(Citas());
+                      Navigator.of(context).pop();
+                      //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+                    },
+                  ),
+                  new FlatButton(
+                    child: new Text("Cancelar"),
+                    onPressed: () {
+                      //this.widget.callback(Citas());
+                      Navigator.of(context).pop();
+                      //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+                    },
+                  ),
+                ],
+              ),
+            )
+
+          ],
+        );
+      },
+    );
+  }
+
+  void _recordatorio() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Recordatorio"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Aceptar"),
+              onPressed: () {
+                //this.widget.callback(Citas());
+                Navigator.of(context).pop();
+                //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+              },
+            ),
+
+          ],
+        );
+      },
+    );
+  }
 
 }
