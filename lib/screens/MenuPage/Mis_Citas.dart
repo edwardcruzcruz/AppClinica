@@ -294,6 +294,7 @@ class _CitasState extends State<Citas>{
                                     horarios: horariosAvaliable,
                                     horariosID: horariosId,
                                     idEspecialidadEscogida: idEspecialidad,
+                                    idCita:this.widget.citasList.elementAt(position).Id ,
 
                                   ));
 

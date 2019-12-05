@@ -53,7 +53,8 @@ class CalendarioPage extends StatefulWidget {
   int idEspecialidadEscogida;
   Function callback,callbackloading,callbackfull;
   bool agendar;
-  CalendarioPage({Key key, this.usuario,this.idEspecialidadEscogida,this.horarios,this.horariosID,this.doctor,this.callback,this.callbackloading,this.callbackfull,this.agendar}) : super(key: key);
+  int idCita;
+  CalendarioPage({Key key, this.usuario,this.idEspecialidadEscogida,this.horarios,this.horariosID,this.doctor,this.callback,this.callbackloading,this.callbackfull,this.agendar,this.idCita}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => CalendarioPage(),
@@ -144,7 +145,7 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
       }
     }
     this.widget.callbackfull;*/
-    this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: this.widget.horarios,doctor: this.widget.doctor,date: _fechaElegida,selectedEvents: _selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+    this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: this.widget.horarios,doctor: this.widget.doctor,date: _fechaElegida,selectedEvents: _selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,idCita: this.widget.idCita,agendar: this.widget.agendar,));
   }
 
   void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
