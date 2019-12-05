@@ -32,6 +32,7 @@ ThemeData appTheme() {
       display3: TextStyle(fontSize: 25.0,fontFamily: 'Myriad Pro',color: Colors.tealAccent,fontWeight: FontWeight.bold),//Bienvenido de cada template
       display4: TextStyle(fontSize: 20.0,fontFamily: 'Myriad Pro',color: Color(0xFF87868a)),
       subhead: TextStyle(fontSize: 15.0,fontFamily: 'Myriad Pro',color: Color(0xFF87868a)),
+      headline: TextStyle(fontSize: 13.0,fontFamily: 'Myriad Pro',color: Colors.black),
     )
   );
 }
