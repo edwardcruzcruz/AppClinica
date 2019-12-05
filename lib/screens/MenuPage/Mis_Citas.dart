@@ -134,6 +134,7 @@ class _CitasState extends State<Citas>{
   }
 
   Widget formulario(){
+    print("--------------------------------------------------------------------------------------------");
     //final temp=DateTime.now();
     List<CitaCompleta> citasProximas=new List();
     for(int i=0;i<this.widget.citasList.length;i++){
@@ -258,7 +259,7 @@ class _CitasState extends State<Citas>{
                               Icons.edit,
                               size: 25.0,
                               color: Colors.grey,
-                            ), onPressed: storageService.getIdHijo==null?() async {
+                            ), onPressed: () async {
                               List<HorarioRango> horariosId=new List();
                               List<Horario> horariosAvaliable=new List();
                               final temp=DateTime.now();
@@ -303,9 +304,7 @@ class _CitasState extends State<Citas>{
                                   callbackloading: this.widget.callbackloading,
                                   callbackfull: this.widget.callbackfull,)
                               );*/
-                            }:(){
-                              print("sdjfhdsjksdf");
-                              },
+                            }
                             ),
                         ),
                         Padding(
@@ -340,6 +339,7 @@ class _CitasState extends State<Citas>{
   }
 
   Widget formulario2(){
+    print("*****************************************************************************************************");
     var rating = 0.0;
     List<CitaCompleta> citasProximas=new List();
     for(int i=0;i<this.widget.citasList.length;i++){
