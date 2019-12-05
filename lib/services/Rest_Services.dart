@@ -452,4 +452,58 @@ class RestDatasource {
     });
   }
 
+  Future<http.Response> delete_cita(int idCita) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    /*Map map = {
+      "cliente": idPaciente,
+      "especialidad": idEspecialidad,
+      "tratameinto": idTratamiento,
+      "fechaHora": idHorario,
+      "doctor":IdDoctor,
+      "is_finished":false
+      //"is_finished":true;
+    };*/
+
+    return http.delete(CITAS_URL+idCita.toString()+"/",
+        //body: utf8.encode(json.encode(map)),
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      final String resp = res.body;
+      final int statusCode = res.statusCode;
+      print(statusCode);
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return res;
+    });
+  }
+
+  Future<http.Response> update_cita(int idPaciente,int idEspecialidad, int idTratamiento,int idHorario,int IdDoctor,int idCita) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    Map map = {
+      "cita_id":idCita,
+      "cliente": idPaciente,
+      "especialidad": idEspecialidad,
+      "tratameinto": idTratamiento,
+      "fechaHora": idHorario,
+      "doctor":IdDoctor,
+      "is_finished":false
+      //"is_finished":true;
+    };
+
+    return http.put(CITAS_URL+idCita.toString()+"/",
+        body: utf8.encode(json.encode(map)),
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      final String resp = res.body;
+      final int statusCode = res.statusCode;
+      print(statusCode);
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return res;
+    });
+  }
 }

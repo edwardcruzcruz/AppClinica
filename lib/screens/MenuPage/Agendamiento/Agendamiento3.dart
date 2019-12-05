@@ -21,7 +21,9 @@ class Agendamiento3 extends StatefulWidget {
   User usuario;
   List<String> events;
   Function callback,callbackloading,callbackfull;
-  Agendamiento3({Key key,this.usuario,this.idEspecialidadEscogida, this.idHorario,this.cita,this.doctor,this.fecha,this.events,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  int idCita;
+  bool agendar;
+  Agendamiento3({Key key,this.usuario,this.idEspecialidadEscogida, this.idHorario,this.cita,this.doctor,this.fecha,this.events,this.callback,this.callbackloading,this.callbackfull,this.agendar,this.idCita}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Agendamiento3(),
@@ -104,7 +106,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                           }
                         }
                         this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
-                        this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,doctor: this.widget.doctor,date: this.widget.fecha,selectedEvents: this.widget.events,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                        this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,doctor: this.widget.doctor,date: this.widget.fecha,selectedEvents: this.widget.events,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,agendar: this.widget.agendar,idCita: this.widget.idCita,));
                       },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
@@ -224,16 +226,30 @@ class _Agendamiento3State extends State<Agendamiento3>{
                       const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
                       child: FlatButton(onPressed:()async{//async
                         this.widget.callbackloading();
-                        print(this.widget.usuario.Id);
-                        var respuesta= await RestDatasource().save_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id);
-                        Horario horario=await RestDatasource().HorarioDoctorbyId(this.widget.idHorario);
-                        var respuesta2= await RestDatasource().CambiarDisponibilidadHorarioDoctor(this.widget.idHorario, horario);
-                        this.widget.callbackfull();
-                        if(respuesta.statusCode==200 || respuesta.statusCode==201 || respuesta2.statusCode==200 || respuesta2.statusCode==201){
-                          _showDialogSave();
+                        if(this.widget.agendar){
+                          print(this.widget.usuario.Id);
+                          var respuesta= await RestDatasource().save_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id);
+                          Horario horario=await RestDatasource().HorarioDoctorbyId(this.widget.idHorario);
+                          var respuesta2= await RestDatasource().CambiarDisponibilidadHorarioDoctor(this.widget.idHorario, horario);
+                          this.widget.callbackfull();
+                          if(respuesta.statusCode==200 || respuesta.statusCode==201 || respuesta2.statusCode==200 || respuesta2.statusCode==201){
+                            _showDialogSave();
+                          }else{
+                            _showDialogDontSave();
+                          }
                         }else{
-                          _showDialogDontSave();
+                          print(this.widget.usuario.Id);
+                          var respuesta= await RestDatasource().update_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id,this.widget.idCita);
+                          Horario horario=await RestDatasource().HorarioDoctorbyId(this.widget.idHorario);
+                          var respuesta2= await RestDatasource().CambiarDisponibilidadHorarioDoctor(this.widget.idHorario, horario);
+                          this.widget.callbackfull();
+                          if(respuesta.statusCode==200 || respuesta.statusCode==201 || respuesta2.statusCode==200 || respuesta2.statusCode==201){
+                            _showDialogSave();
+                          }else{
+                            _showDialogDontSave();
+                          }
                         }
+
                       },child: Text("confirmar"),),
                     ),
                   ],
@@ -252,6 +268,30 @@ class _Agendamiento3State extends State<Agendamiento3>{
         return AlertDialog(
           title: new Text("Registro Exitoso"),
           content: new Text("Se ha registrado una cita con la cuenta "+storageService.getEmail),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () {
+                this.widget.callback(Noticias());
+                Navigator.of(context).pop();
+                //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showDialogEdit() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Registro Exitoso"),
+          content: new Text("Se ha editado una cita con la cuenta "+storageService.getEmail),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

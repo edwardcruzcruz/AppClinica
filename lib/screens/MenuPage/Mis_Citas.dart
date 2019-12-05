@@ -3,10 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/models/Horario.dart';
+import 'package:flutter_app/models/HorarioRango.dart';
+import 'package:flutter_app/models/User.dart';
+import 'package:flutter_app/models/Especialidad.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:flutter_app/models/CitaCompleta.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+
+import 'Calendario.dart';
 
 class Citas extends StatefulWidget {
   List<CitaCompleta> citasList;
@@ -25,6 +33,21 @@ class Citas extends StatefulWidget {
 class _CitasState extends State<Citas>{
   final temp=DateTime.now();
   var storageService = locator<Var_shared>();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  @override
+  initState() {
+    super.initState();
+    // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+    // If you have skipped STEP 3 then change app_icon to @mipmap/ic_launcher
+    var initializationSettingsAndroid =
+    new AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+  }
   @override
   Widget build(BuildContext context) {
     return  Column(
@@ -109,7 +132,9 @@ class _CitasState extends State<Citas>{
       ],
     );
   }
+
   Widget formulario(){
+    print("--------------------------------------------------------------------------------------------");
     //final temp=DateTime.now();
     List<CitaCompleta> citasProximas=new List();
     for(int i=0;i<this.widget.citasList.length;i++){
@@ -221,6 +246,7 @@ class _CitasState extends State<Citas>{
 
                             ), // Icon(Icons.note_add),
                             onPressed: () async {
+                              this._recordatorio(position);
                               /*final int helloAlarmID = position;
                               await AndroidAlarmManager.initialize();
                               await AndroidAlarmManager.periodic(const Duration(minutes: 1), helloAlarmID, printHello);*/
@@ -233,26 +259,68 @@ class _CitasState extends State<Citas>{
                               Icons.edit,
                               size: 25.0,
                               color: Colors.grey,
-                            ), onPressed: (){
+                            ), onPressed: () async {
+                              List<HorarioRango> horariosId=new List();
+                              List<Horario> horariosAvaliable=new List();
+                              final temp=DateTime.now();
+                              List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.citasList.elementAt(position).IdDoctor.Id);
+                              if(horarios!=null){
+                                for(int i=0;i<horarios.length;i++){
+                                  DateTime fechaTemp=DateTime.parse(horarios.elementAt(i).Fecha);
+                                  HorarioRango horarioid=await RestDatasource().HorarioId(horarios.elementAt(i).Hora);
+                                  if(horarioid!=null && horarios.elementAt(i).IsAvaliable && (fechaTemp.isAfter(temp)||(fechaTemp.isAtSameMomentAs(temp)&&temp.hour>fechaTemp.hour))){//dias posteriores .. si se graba
+                                    horariosId.add(horarioid);
+                                    horariosAvaliable.add(horarios.elementAt(i));
+                                  }
+                                }
+                              }
+                              User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                              List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad();
+                              int idEspecialidad=0;
+                              for(var especialidad in especialidades){
+                                if(especialidad.NombreEspecialidad==this.widget.citasList.elementAt(position).Especialidad){
+                                  idEspecialidad=especialidad.Id;
+                                }
+                              }
+                              print("--------------------------------------------"+this.widget.citasList.elementAt(position).Especialidad);
                               this.widget.callback(
-                                /*
-                                ModificarCuenta(
+                                  CalendarioPage(
+                                    agendar: false,
+                                    callback: this.widget.callback,
+                                    callbackfull: this.widget.callbackfull,
+                                    callbackloading: this.widget.callbackloading,
+                                    usuario: usuario,
+                                    doctor: this.widget.citasList.elementAt(position).IdDoctor,
+                                    horarios: horariosAvaliable,
+                                    horariosID: horariosId,
+                                    idEspecialidadEscogida: idEspecialidad,
+                                    idCita:this.widget.citasList.elementAt(position).Id ,
+
+                                  ));
+
+                                /*ModificarCuenta(
                                   cuenta: this.widget.cuentas.elementAt(position),
                                   cuentas: this.widget.cuentas,
                                   callback: this.widget.callback,
                                   callbackloading: this.widget.callbackloading,
-                                  callbackfull: this.widget.callbackfull,)*/
-                              );
+                                  callbackfull: this.widget.callbackfull,)
+                              );*/
                             }
-                            )
+                            ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
-                          child: Icon(
-                            Icons.delete,
-                            size: 25.0,
-                            color: Colors.grey,
-                          ),
+                          child:IconButton(
+                            icon:Icon(
+                              Icons.delete,
+                              size: 25.0,
+                              color: Colors.grey,
+                            ),
+                            onPressed: (){
+
+                              this._eliminar(position);
+                            },
+                          )
                         ),
                       ],
                     ),
@@ -270,7 +338,9 @@ class _CitasState extends State<Citas>{
       itemCount: citasProximas.length,
     );
   }
+
   Widget formulario2(){
+    print("*****************************************************************************************************");
     var rating = 0.0;
     List<CitaCompleta> citasProximas=new List();
     for(int i=0;i<this.widget.citasList.length;i++){
@@ -418,5 +488,123 @@ class _CitasState extends State<Citas>{
     final int isolateId = Isolate.current.hashCode;
     print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
   }*/
+
+  void _eliminar(position) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+            content: new Text("¿Desea cancelar la cita seleccionada?"),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new Center(
+                  child: new Row(
+                    children: <Widget>[
+                      new FlatButton(
+                        child: new Text("Aceptar"),
+                        onPressed: () async {
+                          //this.widget.callback(Citas());
+                          var horarios = await RestDatasource().delete_cita(this
+                              .widget.citasList
+                              .elementAt(position)
+                              .Id);
+                          Navigator.of(context).pop();
+                          //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+                        },
+                      ),
+                      new FlatButton(
+                        child: new Text("Cancelar"),
+                        onPressed: () {
+                          //this.widget.callback(Citas());
+                          Navigator.of(context).pop();
+                          //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+                        },
+                      ),
+                    ],
+                  ))
+            ]
+        );
+      },
+    );
+  }
+
+  void _recordatorio(i) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("¿Está seguro de agregar alarma?"),
+          actions: <Widget>[
+        new Center(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            new FlatButton(
+              child: new Text("Aceptar"),
+              onPressed: () {
+                print(this.widget.citasList.elementAt(i).Fecha.Fecha);
+                print(this.widget.citasList.elementAt(i).Fecha.Hora.HorarioInicio);
+                DateTime dateparse= DateTime.parse(this.widget.citasList.elementAt(i).Fecha.Fecha.toString()+" "+this.widget.citasList.elementAt(i).Fecha.Hora.HorarioInicio);
+                DateTime fechaReal=dateparse.subtract(new Duration(minutes: 30));
+                print(this.widget.citasList.elementAt(i).IdDoctor.Apellido);
+                String cuerpo="Tiene cita con el doctor "+this.widget.citasList.elementAt(i).IdDoctor.Apellido+" en 30 minutos\n";
+                String especialidad=this.widget.citasList.elementAt(i).Especialidad;
+                String data=this.widget.citasList.elementAt(i).Fecha.Hora.HorarioInicio.toString()+"-"+this.widget.citasList.elementAt(i).IdDoctor.Apellido+"-"+this.widget.citasList.elementAt(i).Especialidad+"-"+this.widget.citasList.elementAt(i).Fecha.Hora.Horariofin.toString();
+                this._programada(fechaReal,cuerpo,especialidad,data);
+                //this.widget.callback(Citas());
+                Navigator.of(context).pop();
+                //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+              },
+            ),
+          ],
+        ),
+        ),
+
+          ],
+        );
+      },
+    );
+  }
+
+  Future onSelectNotification(String payload) async {
+    print("*****************");
+    print(payload);
+    List<String> datos=payload.split("-");
+    showDialog(
+      context: context,
+      builder: (_) {
+        return new AlertDialog(
+          title: Text("Recordatorio"),
+          content: Text("Especialidad: "+datos[2]+"\nHora inicio: "+datos[0]+"\nHora fin: "+datos[3]+"\nDoctor: "+datos[1]),
+        );
+      },
+    );
+  }
+
+
+  Future _programada(fecha,cuerpo,especialidad,data)async{
+
+    var androidPlatformChannelSpecifics =
+    new AndroidNotificationDetails('your other channel id',
+        'your other channel name', 'your other channel description',
+        importance: Importance.Max,
+        priority: Priority.High);
+    var iOSPlatformChannelSpecifics =
+    new IOSNotificationDetails();
+    NotificationDetails platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.schedule(
+        0,
+        especialidad,
+        cuerpo,
+        new DateTime.now().add(Duration(seconds: 10)),//fecha
+        platformChannelSpecifics,
+    payload: data);
+
+  }
+
 
 }
