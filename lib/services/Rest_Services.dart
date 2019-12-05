@@ -464,7 +464,7 @@ class RestDatasource {
       //"is_finished":true;
     };*/
 
-    return http.delete(CITAS_URL+idCita.toString(),
+    return http.delete(CITAS_URL+idCita.toString()+"/",
         //body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
@@ -492,7 +492,7 @@ class RestDatasource {
       //"is_finished":true;
     };
 
-    return http.put(CITAS_URL,
+    return http.put(CITAS_URL+idCita.toString()+"/",
         body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}

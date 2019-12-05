@@ -21,8 +21,9 @@ class Horarios extends StatefulWidget {
   List<Horario> horarios;
   List<String> selectedEvents;
   Function callback,callbackloading,callbackfull;
-
-  Horarios({Key key, this.usuario,this.idEspecialidadEscogida , this.horarios,this.doctor,this.date,this.selectedEvents,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  bool agendar;
+  int idCita;
+  Horarios({Key key, this.usuario,this.idEspecialidadEscogida , this.horarios,this.doctor,this.date,this.selectedEvents,this.callback,this.callbackloading,this.callbackfull,this.agendar,this.idCita}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Horarios(),
@@ -107,7 +108,7 @@ class _HorariosState extends State<Horarios>{
                         }
                         this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
                         //CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,horariosID: horariosId,doctor: doctores.elementAt(position)
-                        this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,horariosID: horariosId,doctor: this.widget.doctor,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                        this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,horariosID: horariosId,doctor: this.widget.doctor,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,agendar: this.widget.agendar,idCita: this.widget.idCita,));
                       },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
@@ -158,7 +159,7 @@ class _HorariosState extends State<Horarios>{
                     idHorario=horario.Hora;
                   }
                 }*/
-                this.widget.callback(Agendamiento3(usuario: this.widget.usuario,idEspecialidadEscogida:  this.widget.idEspecialidadEscogida,idHorario: this.widget.horarios.elementAt(position).IdHorario,cita: new Cita(storageService.getEmail,this.widget.idEspecialidadEscogida,"dental",(DateFormat("yyyy-MM-dd").format(this.widget.date).toString()+" "+this.widget.selectedEvents.elementAt(position).toString()),this.widget.doctor.Nombre+' '+this.widget.doctor.Apellido),doctor: this.widget.doctor,fecha: this.widget.date,events: this.widget.selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                this.widget.callback(Agendamiento3(usuario: this.widget.usuario,idEspecialidadEscogida:  this.widget.idEspecialidadEscogida,idHorario: this.widget.horarios.elementAt(position).IdHorario,cita: new Cita(storageService.getEmail,this.widget.idEspecialidadEscogida,"dental",(DateFormat("yyyy-MM-dd").format(this.widget.date).toString()+" "+this.widget.selectedEvents.elementAt(position).toString()),this.widget.doctor.Nombre+' '+this.widget.doctor.Apellido),doctor: this.widget.doctor,fecha: this.widget.date,events: this.widget.selectedEvents,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,agendar: this.widget.agendar,idCita: this.widget.idCita,));
                 //this.widget.callbackloading();
                 //List<Horario> horarios= await RestDatasource().HorarioDoctor(doctores.elementAt(position).Id);
                 //this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
