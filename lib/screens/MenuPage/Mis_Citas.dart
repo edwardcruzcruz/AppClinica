@@ -599,7 +599,7 @@ class _CitasState extends State<Citas>{
         0,
         especialidad,
         cuerpo,
-        fecha,
+        new DateTime.now().add(Duration(seconds: 10)),//fecha
         platformChannelSpecifics,
     payload: data);
 
