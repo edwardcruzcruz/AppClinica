@@ -116,17 +116,13 @@ class _ListadoState extends State<Listado> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       InkWell(
-                        // When the user taps the button, show a snackbar.
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Elemento_Lista(noticia: item,),
                               ),
-                            );/*
-                        Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text('Tap'),
-                        ));*/
+                            );
                           },
                           child: Column(
                             //padding: EdgeInsets.all(12.0),
@@ -151,7 +147,7 @@ class _ListadoState extends State<Listado> {
                                   ),
                                   SizedBox(width: 8.0),
                                   Text(
-                                    item.Titulo,
+                                    item.Titulo.length>12?item.Titulo.substring(0, 12):item.Titulo,
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 18.0,

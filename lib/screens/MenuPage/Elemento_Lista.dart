@@ -23,6 +23,7 @@ class _Elemento_Lista extends State<Elemento_Lista>{
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: Color(0xFF00a18d),
+        title: Text("Noticias"),
       ),
       body: new Container(
         margin: new EdgeInsets.all(10.0),
