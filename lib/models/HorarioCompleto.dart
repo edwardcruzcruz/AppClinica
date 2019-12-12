@@ -10,7 +10,7 @@ class HorarioCompleto {
   HorarioCompleto.fromJson(Map<String, dynamic> json):
         _id_horario= json['horarios_id'],
          _fecha= json['fecha'],
-        _hora = json['hora'],
+        _hora = HorarioRango.fromJson(json['hora']),
         _id_doctor= json['doctor'],
         _is_avaliable= json['is_available'];
 

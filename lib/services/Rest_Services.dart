@@ -6,11 +6,13 @@ import 'package:flutter_app/Utils/Constantes.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Carrito.dart';
 import 'package:flutter_app/models/Cita.dart';
+import 'package:flutter_app/models/CitaCompleta.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/models/HorarioRango.dart';
 import 'package:flutter_app/models/Noticia.dart';
+import 'package:flutter_app/models/Receta.dart';
 import 'package:flutter_app/services/Metodos_http.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter/services.dart';
@@ -31,8 +33,10 @@ class RestDatasource {
   static final HORARIO_DOCTORES_URL= BASE_URL + Constantes.uriHorariosDoctores;
   static final ESPECIALIDADES_URL=BASE_URL + Constantes.uriEspecialidad;
   static final CITAS_URL=BASE_URL + Constantes.uriCitas;
+  static final CITA_URL=BASE_URL + Constantes.uriCita;
   static final NOTICIAS_URL=BASE_URL + Constantes.uriNoticias;
   static final CARRITO_URL=BASE_URL + Constantes.uriCarrito;
+  static final RECETA_USUARIO_URL=BASE_URL + Constantes.uriRecetaUsuario;
 
   String _API_KEY = "";
   final JsonDecoder _decoder = new JsonDecoder();
@@ -64,6 +68,7 @@ class RestDatasource {
         return null;
     });
   }
+
   Future<User> perfilfb(String email) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     /*return http.get(
@@ -108,6 +113,7 @@ class RestDatasource {
       return null;
     });
   }
+
   Future<List<Doctor>> doctoresEspecialidad(int especialidad) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     return _netUtil.get(DOCTORES_URL,
@@ -131,6 +137,7 @@ class RestDatasource {
       return null;
     });
   }
+
   Future<Doctor> doctoresId(int id) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     return _netUtil.get(DOCTORES_URL,
@@ -152,6 +159,7 @@ class RestDatasource {
       return null;
     });
   }
+
   Future<HorarioRango> HorarioId(int id) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
 
@@ -168,17 +176,18 @@ class RestDatasource {
       return null;
     });
   }
-  Future<List<Cita>> ListarCitas() {
+
+  Future<List<CitaCompleta>> ListarCitas() {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
 
     return _netUtil.get(CITAS_URL,
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
     ).then((dynamic res) {
-      //print(res.toString());
-      List<Cita> response=new List<Cita>();
+      print(res);
+      List<CitaCompleta> response=new List<CitaCompleta>();
       if(res!=null){
-        var citas = res.map((i)=>Especialidad.fromJson(i)).toList();
+        var citas = res.map((i)=>CitaCompleta.fromJson(i)).toList();
         for(final cita in citas){
           response.add(cita);
         }
@@ -187,6 +196,7 @@ class RestDatasource {
       return null;
     });
   }
+
   Future<http.Response> save_cita(int idPaciente,int idEspecialidad, int idTratamiento,int idHorario,int IdDoctor) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     Map map = {
@@ -199,7 +209,7 @@ class RestDatasource {
         //"is_finished":true;
     };
 
-    return http.post(CITAS_URL,
+    return http.post(CITA_URL,
         body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
@@ -213,6 +223,7 @@ class RestDatasource {
       return res;
     });
   }
+
   Future<Horario> HorarioDoctorbyId(int id) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
 
@@ -279,6 +290,7 @@ class RestDatasource {
       return null;
     });
   }
+
   Future<List<Noticia>> ListaNoticias() {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     return _netUtil.get(NOTICIAS_URL,
@@ -296,6 +308,7 @@ class RestDatasource {
       return null;
     });
   }
+
   Future<http.Response> postLogin(String username, String password) {
     return http
         .post(LOGIN_URL, body: {
@@ -312,6 +325,7 @@ class RestDatasource {
       return response;
     });
   }
+
   Future<http.Response> postLoginFB(String token) {
     return http
         .post(LOGINFB_URL, body: {
@@ -328,6 +342,7 @@ class RestDatasource {
       return response;
     });
   }
+
   Future<http.Response> save_user(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento, String Genero,String cedula, String correo,String password1) {
       Map<String,dynamic> body=  {
         "nombre": lastname,
@@ -377,6 +392,7 @@ class RestDatasource {
       return response;
     });*/
   }
+
   Future<http.Response> save_userfb(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento,String Genero,String cedula, String correo) {
     Map<String,dynamic> body=  {
       "nombre": name,
@@ -433,6 +449,7 @@ class RestDatasource {
       return response;
     });*/
   }
+
   Future<List<CarritoCompra>> ListaCarritos() {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     return _netUtil.get(CARRITO_URL+storageService.getIdPadre.toString()+"/",
@@ -464,7 +481,7 @@ class RestDatasource {
       //"is_finished":true;
     };*/
 
-    return http.delete(CITAS_URL+idCita.toString()+"/",
+    return http.delete(CITA_URL+idCita.toString()+"/",
         //body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
@@ -492,7 +509,7 @@ class RestDatasource {
       //"is_finished":true;
     };
 
-    return http.put(CITAS_URL+idCita.toString()+"/",
+    return http.put(CITA_URL+idCita.toString()+"/",
         body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
@@ -506,4 +523,42 @@ class RestDatasource {
       return res;
     });
   }
+
+  Future<List<Receta>> ListarRecetas(int idUsuario) {
+    var queryParameters = {
+      'usuario': '6',
+    };
+    Uri uri =
+    Uri.https('jacelly.pythonanywhere.com','/api/v1/receta/', queryParameters);
+    print("*************************URI**********************************");
+    print(uri);
+    print("***********************************************************");
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    return _netUtil.get2(uri,//idUsuario.toString()+"/",
+        headers: {
+          HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"
+        }
+    ).then((dynamic res) {
+      List<Receta> response=new List<Receta>();
+
+      if(res!=null){
+        print("*************************RES**********************************");
+        print(res);
+        var recetas = res.map((i)=>Receta.fromJson(i)).toList();
+        print("*************************RECETAS**********************************");
+        print(recetas);
+        for(final receta in recetas){
+          print(receta);
+          response.add(receta);
+        }
+        print("***********************************************************");
+        print(response);
+        return response;
+      }
+      print("***************************NULL********************************");
+      return null;
+    });
+  }
+
 }

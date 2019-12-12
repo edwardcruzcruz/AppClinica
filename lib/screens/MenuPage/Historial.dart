@@ -131,7 +131,7 @@ class _HistorialState extends State<Historial>{
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(7.0, 12.0, 12.0, 3.0),
-                                child: Text((this.widget.citasList.elementAt(position).Especialidad=="Odontología"?"OD. ":this.widget.citasList.elementAt(position).Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+this.widget.citasList.elementAt(position).IdDoctor.Nombre+" "+this.widget.citasList.elementAt(position).IdDoctor.Apellido,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                child: Text((this.widget.citasList.elementAt(position).IDEspecialidad.NombreEspecialidad=="Odontología"?"OD. ":this.widget.citasList.elementAt(position).IDEspecialidad.NombreEspecialidad=="Nutrición"?"NUT. ":"PSIC. ")+this.widget.citasList.elementAt(position).IdDoctor.Nombre+" "+this.widget.citasList.elementAt(position).IdDoctor.Apellido,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
                             ],
                           ),
