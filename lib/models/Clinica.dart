@@ -4,26 +4,40 @@ import 'package:flutter_app/models/RedSocial.dart';
 
 class Clinica {
   final int _id;
-  final String _nombre;
-  final String _descripcion;
+  final String _celular;
+  final String _proposito;
+  final String _mision;
+  final String _vision;
   final String _telefono;
   final String _direccion;
   final String _correo;
   final List<RedSocial> redes;
 
-  Clinica(this._id,this._nombre, this._descripcion,this._telefono,this._direccion,this._correo,this.redes);
-  Clinica.fromJson(Map<String, dynamic> json)
-      : _id = json['id'],
-        _nombre = json['nombre'],
-        _descripcion = json['Contenido'],
-        _telefono=json['imagen'],
-        _direccion=json['direccion'],
-        _correo=json['email'],
-        redes=json['redsocial'];
+  Clinica(this._id,this._direccion,this._telefono,this._celular,this._correo, this._proposito,this._vision,this._mision,this.redes);
+  factory Clinica.fromJson(Map<String, dynamic> json){
+
+    var list = json['redesSocial'] as List;
+    print(list.runtimeType);
+    List<RedSocial> redes = list.map((i) => RedSocial.fromJson(i)).toList();
 
 
-  String get GetNombre => _nombre;
-  String get Descripcion => _descripcion;
+    return Clinica(
+        json['id'],
+        json['direccion'],
+        json['telefono'],
+        json['celular'],
+        json['correo'],
+        json['proposito'],
+        json['mision'],
+        json['vision'],
+        redes
+    );
+  }
+
+  String get GetCelular => _celular;
+  String get Proposito => _proposito;
+  String get Mision => _mision;
+  String get Vision => _vision;
   String get GetTelefono =>_telefono;
   String get GetDireccion=>_direccion;
   String get GetCorreo=>_correo;
@@ -31,8 +45,8 @@ class Clinica {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['nombe']=this._nombre;
-    data['descripcion']=this._descripcion;
+    data['nombe']=this._celular;
+    data['descripcion']=this._proposito;
     data['telefono']=this._telefono;
     data['direccion']=this._direccion;
     data['correo']=this._correo;

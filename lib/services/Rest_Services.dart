@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter_app/Utils/Constantes.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Carrito.dart';
-import 'package:flutter_app/models/Cita.dart';
+import 'package:flutter_app/models/Clinica.dart';
 import 'package:flutter_app/models/CitaCompleta.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Cuenta.dart';
@@ -34,6 +34,7 @@ class RestDatasource {
   static final ESPECIALIDADES_URL=BASE_URL + Constantes.uriEspecialidad;
   static final CITAS_URL=BASE_URL + Constantes.uriCitas;
   static final CITA_URL=BASE_URL + Constantes.uriCita;
+  static final INFO_URL=BASE_URL + Constantes.uriInfo;
   static final SUGERENCIA_URL=BASE_URL + Constantes.uriSugerncia;
   static final NOTICIAS_URL=BASE_URL + Constantes.uriNoticias;
   static final CARRITO_URL=BASE_URL + Constantes.uriCarrito;
@@ -354,6 +355,28 @@ class RestDatasource {
         return acc;
       }
       return null;
+    });
+  }
+  Future<List<Clinica>> InfoClinica() {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    return _netUtil.get(INFO_URL,
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      List<Clinica> response=new List<Clinica>();
+      if(res!=null){
+        var infos = res.map((i)=>Clinica.fromJson(i)).toList();
+        for(final info in infos){
+          //print(especialidad);
+          //print(doctor.Especialidad);
+          response.add(info);
+        }
+        return response;
+      }
+      return null;
+      //print(res.body);
+      Clinica acc=null;
+      return res.map((i)=>Clinica.fromJson(i)).toList();
     });
   }
   Future<List<Noticia>> ListaNoticias() {

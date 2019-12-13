@@ -261,13 +261,27 @@ class _HomeState extends State<Home> {
             ListTile(
               leading: Icon(Icons.info),
               title: Text('Acerca de Nosotros'),
-              onTap: () {//async
-                List<RedSocial> redes= new List<RedSocial>();
+              onTap: () async{//
+                setState(() {
+                  //se muestra barra circular de espera
+                  _saving = true;
+                });
+                /*List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
+                  return Cuenta(
+                      1,"Jose", "Cruz","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
+                  );
+                });*/
+                List<Clinica> info=await RestDatasource().InfoClinica();
+                //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                setState(() {//se oculta barra circular de espera
+                  _saving = false;
+                });
+                /*List<RedSocial> redes= new List<RedSocial>();
                 redes.add(new RedSocial(0,"Facebook", "https://www.facebook.com/cliesdentsa/"));
                 redes.add(new RedSocial(1,"Instagram", "https://www.instagram.com/clinica.estetica.dental/?hl=es-la"));
-                Clinica clinicainfo=new Clinica(0,"Clinica Estetica Dental","Somos una clinica que piensa en tu salud dental","0995104749","Alborada 5 etapa (9,77 km)","info@clinicaesteticadental.com",redes);
+                Clinica clinicainfo=new Clinica(0,"Clinica Estetica Dental","Somos una clinica que piensa en tu salud dental","0995104749","Alborada 5 etapa (9,77 km)","info@clinicaesteticadental.com",redes);*/
                 setState(() {
-                  currentPage = Acerca(clinica: clinicainfo,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
+                  currentPage = Acerca(clinica: info.elementAt(0),callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
                 });
                 Navigator.pop(context);
               },
