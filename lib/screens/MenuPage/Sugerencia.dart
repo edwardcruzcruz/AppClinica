@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/theme/style.dart';
 
 class Sugerencia extends StatefulWidget {
+  Function callback,callbackloading,callbackfull;
+  Sugerencia({Key key,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Sugerencia(),
@@ -155,7 +158,19 @@ class _SugerenciaState extends State<Sugerencia>{
                 child:
                 RaisedButton(
 
-                  onPressed: () {if(_formKey.currentState.validate()){_showSuccessGuardar();}},
+                  onPressed: () async{if(_formKey.currentState.validate())
+                      {
+                        this.widget.callbackloading;
+                        var respuesta= await RestDatasource().save_sugerencia(storageService.getIdPadre,"modelo prueba",Sugerencia.text);
+                        print(respuesta.body);
+                        this.widget.callbackfull;
+                        if(respuesta.statusCode==200 || respuesta.statusCode==201){
+                          _showSuccessGuardar();
+                        }else{
+                          _showDialogDontSave();
+                        }
+                      }
+                    },
                   child: Text(Strings.Solicitud),
                   color: Colors.teal,
                   textColor: Colors.white,
@@ -180,6 +195,28 @@ class _SugerenciaState extends State<Sugerencia>{
         return AlertDialog(
           title: new Text("Enviado"),
           content: new Text("Se ha enviado la sugerencia satisfactoriamente"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showDialogDontSave() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Error"),
+          content: new Text("Ha ocurrido un problema al enviar la sugerencia, por favor intente mas tarde."),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

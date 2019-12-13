@@ -27,8 +27,11 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
   var storageService = locator<Var_shared>();
   String dropdownValue = '1';
   final _formKey = GlobalKey<FormState>();
+  RegExp emailRegExp =
+  new RegExp(r'^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$');
   TextEditingController username = new TextEditingController();
   TextEditingController lastname = new TextEditingController();
+  TextEditingController email = new TextEditingController();
   TextEditingController CIController= new TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -108,6 +111,33 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
               ),
               Expanded(
                 child: formulario(this.widget.cuenta),//formulario()
+              ),
+              RaisedButton(
+
+                onPressed:()async{//async
+                  if(_formKey.currentState.validate()){
+                    this.widget.callbackloading();
+                    User usuario= await RestDatasource().perfilfbByFLName(username.text,lastname.text);
+                    this.widget.callbackfull();
+                    if(usuario==null){
+                      dynamic response=await RestDatasource().save_userfb(username.text,lastname.text,"","","1996-10-10","1","",email.text,storageService.getIdPadre.toString());
+                      print(response.body);
+                      if(response.statusCode==200 || response.statusCode==201){
+                        _showDialogSave();
+                      }else{
+                        _showDialogErrorAddAccount(response.body.toString());
+                      }
+                    }else{
+                      _showDialogAddAccount();
+                    }
+                  }
+                },child: Text("confirmar"),
+                color: Colors.teal,
+                textColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(18.0),
+                ),
+                padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
               ),
             ],
           ),
@@ -207,6 +237,30 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                                 return "El formato para contraseña no es correcto";
                               }*/
                   return null;
+                  },
+                ),
+                //decoration: underlineTextField(),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(50,5,50,5),
+                child: TextFormField(
+                  controller: email,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: appTheme().buttonColor,
+                          width: 1.0),
+                    ),
+                    labelText: Strings.LabelEmail,
+                    labelStyle: appTheme().textTheme.title,
+                    hintText: this.widget.cuenta==null?"":this.widget.cuenta.Correo,
+                  ),
+                  validator: (text) {
+                    if (text.length == 0) {
+                      return "Este campo contraseña es requerido";
+                    }else if (!emailRegExp.hasMatch(text)) {
+                      return "El formato para correo no es correcto";
+                    }
+                    return null;
                   },
                 ),
                 //decoration: underlineTextField(),
@@ -323,25 +377,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
             ],
           ),
         ),
-        FlatButton(
-          onPressed:()async{//async
-            if(_formKey.currentState.validate()){
-              this.widget.callbackloading();
-              User usuario= await RestDatasource().perfilfbByFLName(username.text,lastname.text);
-              this.widget.callbackfull();
-              if(usuario==null){
-                dynamic response=await RestDatasource().save_userfb(username.text,lastname.text,"","","1996-10-10","1","","dummie@dummie.com",storageService.getIdPadre.toString());
-                if(response.statusCode==200 || response.statusCode==201){
-                  print(response.body);
-                  _showDialogSave();
-                }else{
-                  _showDialogErrorAddAccount();
-                }
-              }else{
-                _showDialogAddAccount();
-              }
-            }
-          },child: Text("confirmar"),),
+
       ]);
   }
   /*
@@ -451,7 +487,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
       },
     );
   }
-  void _showDialogErrorAddAccount() {//todos estos mensajes se tendrian que poner en una clase externa
+  void _showDialogErrorAddAccount(String problema) {//todos estos mensajes se tendrian que poner en una clase externa
     // flutter defined function
     showDialog(
       context: context,
@@ -459,7 +495,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Error"),
-          content: new Text("No se pudo registrar al usuario"),
+          content: new Text("No se pudo registrar al usuario, Causa: "+problema.split("[").elementAt(1).split("]").elementAt(0)),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

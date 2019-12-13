@@ -205,16 +205,15 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
                             Icons.edit,
                             size: 25.0,
                             color: Colors.grey,
-                          ), onPressed: (){
-                            this.widget.callback(
-                                /*
-                                ModificarCuenta(
-                                  cuenta: this.widget.cuentas.elementAt(position),
-                                  cuentas: this.widget.cuentas,
-                                  callback: this.widget.callback,
-                                  callbackloading: this.widget.callbackloading,
-                                  callbackfull: this.widget.callbackfull,)*/
-                                );
+                              ), onPressed: (){
+                                /*this.widget.callback(
+
+                                    ModificarCuenta(
+                                      cuenta: this.widget.cuentas.ListCuentasAsociads.elementAt(position),
+                                      callback: this.widget.callback,
+                                      callbackloading: this.widget.callbackloading,
+                                      callbackfull: this.widget.callbackfull,)
+                                );*/
                               }
                           )
                         ),

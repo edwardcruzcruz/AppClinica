@@ -250,7 +250,7 @@ class _HomeState extends State<Home> {
               title: Text('Sugerencia'),
               onTap: () {
                 setState(() {
-                  currentPage = Sugerencia();
+                  currentPage = Sugerencia(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
                 });
                 Navigator.pop(context);
               },

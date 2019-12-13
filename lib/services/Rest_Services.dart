@@ -34,6 +34,7 @@ class RestDatasource {
   static final ESPECIALIDADES_URL=BASE_URL + Constantes.uriEspecialidad;
   static final CITAS_URL=BASE_URL + Constantes.uriCitas;
   static final CITA_URL=BASE_URL + Constantes.uriCita;
+  static final SUGERENCIA_URL=BASE_URL + Constantes.uriSugerncia;
   static final NOTICIAS_URL=BASE_URL + Constantes.uriNoticias;
   static final CARRITO_URL=BASE_URL + Constantes.uriCarrito;
   static final RECETA_USUARIO_URL=BASE_URL + Constantes.uriRecetaUsuario;
@@ -112,7 +113,7 @@ class RestDatasource {
         var usuarios = res.map((i)=>User.fromJson(i)).toList();
         for(final usuario in usuarios){
           //print(usuario.Correo);
-          if(FName==usuario.Nombre&&LName==usuario.Apellido){
+          if(FName==usuario.Nombre && LName==usuario.Apellido){
             response= usuario;
           }
         }
@@ -236,6 +237,30 @@ class RestDatasource {
     };
 
     return http.post(CITA_URL,
+        body: utf8.encode(json.encode(map)),
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      final String resp = res.body;
+      final int statusCode = res.statusCode;
+      print(statusCode);
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return res;
+    });
+  }
+
+  Future<http.Response> save_sugerencia(int idPaciente,String modelo, String Sugerencia) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    Map map = {
+      "id_Cliente": idPaciente,
+      "modeloCelular": modelo,
+      "sugerencia": Sugerencia,
+      //"is_finished":true;
+    };
+
+    return http.post(SUGERENCIA_URL,
         body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
@@ -438,7 +463,7 @@ class RestDatasource {
       "nombre": name,
       "apellido": lastname,
       "email": correo,
-      "sexo": Genero,
+      "id_Sexo": Genero,
       "telefono": NTelefono,
       "direccion": Direccion,
       "fechaNacimiento": FeNacimiento,

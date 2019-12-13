@@ -1,9 +1,10 @@
+import 'package:flutter_app/models/Sexo.dart';
 class User {
   final int _idUsuario;
   final String _nombre;
   final String _apellido;
   final String _correo;
-  final int _sexo;
+  final Genero _sexo;
   final String _noTelefono;
   final String _direccion;
   final String _fecha_nacimiento;
@@ -12,12 +13,13 @@ class User {
 
 
   User(this._idUsuario,this._nombre, this._apellido,this._correo,this._sexo,this._noTelefono,this._direccion,this._fecha_nacimiento,this._cedula,this._id_Padre);
+
   User.fromJson(Map<String, dynamic> json)
       : _idUsuario = json['id'],
         _nombre = json['nombre'],
         _apellido = json['apellido'],
         _correo = json['email'],
-        _sexo = json['sexo'],
+        _sexo = Genero.fromJson(json['sexo']),
         _noTelefono = json['telefono'],
         _direccion = json['direccion'],
         _fecha_nacimiento = json['fechaNacimiento'],
@@ -30,7 +32,7 @@ class User {
   String get Telefono => _noTelefono;
   String get FechaNacimiento => _fecha_nacimiento;
   String get Correo => _correo;
-  int get Sexo => _sexo;
+  Genero get Sexo => _sexo;
   String get Direccion => _direccion;
   String get Cedula => _cedula;
   int get IdPadre => _id_Padre;

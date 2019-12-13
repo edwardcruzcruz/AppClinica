@@ -16,6 +16,7 @@ class Metodos_http {
       //final String res = response.body;
       final int statusCode = response.statusCode;
       print(statusCode);
+      print(response.body);
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw new Exception("Error while fetching data");
       }
