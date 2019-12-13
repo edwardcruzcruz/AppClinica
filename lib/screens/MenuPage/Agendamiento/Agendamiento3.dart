@@ -84,56 +84,144 @@ class _Agendamiento3State extends State<Agendamiento3>{
             ),
           ),
         ),
-        new Expanded(
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () async{
-                        this.widget.callbackloading();
-                        List<Horario> horariosAvaliable=new List();
-                        final temp=DateTime.now();
-                        List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.doctor.Id);
-                        if(horarios!=null){
-                          for(int i=0;i<horarios.length;i++){
-                            DateTime fechaTemp=DateTime.parse(horarios.elementAt(i).Fecha);
-                            if(horarios.elementAt(i).IsAvaliable && (fechaTemp.isAfter(temp)||(fechaTemp.isAtSameMomentAs(temp)&&temp.hour>fechaTemp.hour))){//dias posteriores .. si se graba
-                              horariosAvaliable.add(horarios.elementAt(i));
-                            }
+        Column(
+          children: <Widget>[
+            Container(
+              child: Row(
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () async{
+                      this.widget.callbackloading();
+                      List<Horario> horariosAvaliable=new List();
+                      final temp=DateTime.now();
+                      List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.doctor.Id);
+                      if(horarios!=null){
+                        for(int i=0;i<horarios.length;i++){
+                          DateTime fechaTemp=DateTime.parse(horarios.elementAt(i).Fecha);
+                          if(horarios.elementAt(i).IsAvaliable && (fechaTemp.isAfter(temp)||(fechaTemp.isAtSameMomentAs(temp)&&temp.hour>fechaTemp.hour))){//dias posteriores .. si se graba
+                            horariosAvaliable.add(horarios.elementAt(i));
                           }
                         }
-                        this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
-                        this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,doctor: this.widget.doctor,date: this.widget.fecha,selectedEvents: this.widget.events,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,agendar: this.widget.agendar,idCita: this.widget.idCita,));
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.arrow_back_ios,size: 10,color: appTheme().textTheme.subtitle.color,),
-                            Text(Strings.TextRetroceder,style: appTheme().textTheme.subtitle,)
-                          ],
-                        ),
+                      }
+                      this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
+                      this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,doctor: this.widget.doctor,date: this.widget.fecha,selectedEvents: this.widget.events,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,agendar: this.widget.agendar,idCita: this.widget.idCita,));
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.arrow_back_ios,size: 10,color: appTheme().textTheme.subtitle.color,),
+                          Text(Strings.TextRetroceder,style: appTheme().textTheme.subtitle,)
+                        ],
                       ),
                     ),
+                  ),
+                  Container(
+                    //alignment: Alignment(50, 0),
+                      margin: const EdgeInsets.fromLTRB(90.0,20.0,10.0,10.0),
+                      child: Text(Strings.AgendarTitulo5,style: appTheme().textTheme.title,)
+                  )
+                ],
+              ),
+            ),
+            Divider(
+              height: 2.0,
+              color: Colors.grey,
+            ),
+            formulario(),
+          ],
+        ),
+        Expanded(
+          child: Container(
+            margin: EdgeInsets.fromLTRB(70, 10, 70, 10),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+            decoration: BoxDecoration(
+              //color: Colors.green,
+              border: Border.all(color: Colors.teal),
+            ),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  //mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
                     Container(
-                      //alignment: Alignment(50, 0),
-                        margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),
-                        child: Text(Strings.AgendarTitulo5,style: appTheme().textTheme.title,)
-                    )
+                      margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+                      child: new Image.asset('assets/avatar.png',width: 43,height: 50),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text((this.widget.cita.Especialidad==3?"OD. ":this.widget.cita.Especialidad==2?"NUT. ":"PSIC. ")+cita.IdDoctor,style: appTheme().textTheme.headline),
+                    ),
+
                   ],
                 ),
-              ),
-              Divider(
-                height: 2.0,
-                color: Colors.grey,
-              ),
-              formulario(),
-            ],
+                Row(
+                  //mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(12.0, 5.0, 0.0, 5.0),
+                      child: Icon(Icons.calendar_today),
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(17.0, 10.0, 10.0, 10.0),
+                      child: Text(cita.Fecha.split("-")[0]+' de '+cita.Fecha.split("-")[1]+' del '+cita.Fecha.split("-")[2].split(" ")[0],style: appTheme().textTheme.headline,),
+                    ),
+                  ],
+                ),
+                Row(
+                  //mainAxisAlignment: MainAxisAlignment.center,
+
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(12.0, 5.0, 0.0, 5.0),
+                      child: new Image.asset('assets/reloj.png',width: 23,height: 30),
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(17.0, 10.0, 10.0, 10.0),
+                      child: Text(cita.Fecha.split(" ")[1].split(":")[0] +' : '+cita.Fecha.split(" ")[1].split(":")[1]+" - "+cita.Fecha.split(" ")[1].split(":")[0] +' : '+cita.Fecha.split(" ")[1].split(":")[0],style: appTheme().textTheme.headline),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        )
+        ),
+        RaisedButton(
+
+          onPressed:()async{//async
+            this.widget.callbackloading();
+            if(this.widget.agendar){
+              print(this.widget.usuario.Id);
+              var respuesta= await RestDatasource().save_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id);
+              Horario horario=await RestDatasource().HorarioDoctorbyId(this.widget.idHorario);
+              var respuesta2= await RestDatasource().CambiarDisponibilidadHorarioDoctor(this.widget.idHorario, horario);
+              this.widget.callbackfull();
+              if(respuesta.statusCode==200 || respuesta.statusCode==201 || respuesta2.statusCode==200 || respuesta2.statusCode==201){
+                _showDialogSave();
+              }else{
+                _showDialogDontSave();
+              }
+            }else{
+              print(this.widget.usuario.Id);
+              var respuesta= await RestDatasource().update_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id,this.widget.idCita);
+              Horario horario=await RestDatasource().HorarioDoctorbyId(this.widget.idHorario);
+              var respuesta2= await RestDatasource().CambiarDisponibilidadHorarioDoctor(this.widget.idHorario, horario);
+              this.widget.callbackfull();
+              if(respuesta.statusCode==200 || respuesta.statusCode==201 || respuesta2.statusCode==200 || respuesta2.statusCode==201){
+                _showDialogSave();
+              }else{
+                _showDialogDontSave();
+              }
+            }
+          },child: Text("confirmar"),
+          color: Colors.teal,
+          textColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(18.0),
+          ),
+          padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+        ),
         //),
       ],
     );
@@ -141,123 +229,40 @@ class _Agendamiento3State extends State<Agendamiento3>{
 
   Widget formulario(){
     //String especialidad=this.doctores.elementAt(0).Especialidad;
-    return Column(
-          children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+    return Container(
+      /*decoration: BoxDecoration(
+        color: Colors.green,
+        border: Border.all(),
+      ),*/
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
-                        child: this.widget.cita.Especialidad==2?new Image.asset('assets/nutricion.png',width: 33,height: 40):this.widget.cita.Especialidad==3?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                        child: Text(this.widget.cita.Especialidad==2?"Nutrición":this.widget.cita.Especialidad==3?"Odontología":"Psicología"),
-                      ),
-                    ],
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(20.0,10.0,10.0,10.0),
+                    child: this.widget.cita.Especialidad==2?new Image.asset('assets/nutricion.png',width: 33,height: 40):this.widget.cita.Especialidad==3?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
                   ),
                 ],
               ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  //padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                  child: new Image.asset('assets/avatar.png',width: 43,height: 50),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text((this.widget.cita.Especialidad==3?"OD. ":this.widget.cita.Especialidad==2?"NUT. ":"PSIC. ")+cita.IdDoctor),
-                ),
-
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  //padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                  child: Icon(Icons.calendar_today),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(cita.Fecha.split("-")[0]+' de '+cita.Fecha.split("-")[1]+' del '+cita.Fecha.split("-")[2].split(" ")[0]),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-
-              children: <Widget>[
-                Container(
-                  //padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                  child: new Image.asset('assets/reloj.png',width: 23,height: 30),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(cita.Fecha.split(" ")[1].split(":")[0] +' : '+cita.Fecha.split(" ")[1].split(":")[1]+" - "+cita.Fecha.split(" ")[1].split(":")[0] +' : '+cita.Fecha.split(" ")[1].split(":")[0]),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    /*Padding(
-                      padding:
-                      const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                      child: FlatButton(onPressed:(){
-                        Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
-                      },child: Text("cancelar"),),
-                    ),*/
-                    Padding(
-                      padding:
-                      const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
-                      child: FlatButton(onPressed:()async{//async
-                        this.widget.callbackloading();
-                        if(this.widget.agendar){
-                          print(this.widget.usuario.Id);
-                          var respuesta= await RestDatasource().save_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id);
-                          Horario horario=await RestDatasource().HorarioDoctorbyId(this.widget.idHorario);
-                          var respuesta2= await RestDatasource().CambiarDisponibilidadHorarioDoctor(this.widget.idHorario, horario);
-                          this.widget.callbackfull();
-                          if(respuesta.statusCode==200 || respuesta.statusCode==201 || respuesta2.statusCode==200 || respuesta2.statusCode==201){
-                            _showDialogSave();
-                          }else{
-                            _showDialogDontSave();
-                          }
-                        }else{
-                          print(this.widget.usuario.Id);
-                          var respuesta= await RestDatasource().update_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id,this.widget.idCita);
-                          Horario horario=await RestDatasource().HorarioDoctorbyId(this.widget.idHorario);
-                          var respuesta2= await RestDatasource().CambiarDisponibilidadHorarioDoctor(this.widget.idHorario, horario);
-                          this.widget.callbackfull();
-                          if(respuesta.statusCode==200 || respuesta.statusCode==201 || respuesta2.statusCode==200 || respuesta2.statusCode==201){
-                            _showDialogSave();
-                          }else{
-                            _showDialogDontSave();
-                          }
-                        }
-
-                      },child: Text("confirmar"),),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        );
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding:
+                    const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 6.0),
+                    child: Text(this.widget.cita.Especialidad==2?"NUTRICIÓN":this.widget.cita.Especialidad==3?"ODONTOLOGÍA":"PSICOLOGÍA",style: appTheme().textTheme.caption,),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
   void _showDialogSave() {//todos estos mensajes se tendrian que poner en una clase externa
     // flutter defined function

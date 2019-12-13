@@ -33,6 +33,7 @@ ThemeData appTheme() {
       display4: TextStyle(fontSize: 20.0,fontFamily: 'Myriad Pro',color: Color(0xFF87868a)),
       subhead: TextStyle(fontSize: 15.0,fontFamily: 'Myriad Pro',color: Color(0xFF87868a)),
       headline: TextStyle(fontSize: 13.0,fontFamily: 'Myriad Pro',color: Colors.black),
+      caption: TextStyle(fontSize: 15.0,fontFamily: 'Myriad Pro',color: Colors.black),
     )
   );
 }

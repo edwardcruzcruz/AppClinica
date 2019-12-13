@@ -15,7 +15,7 @@ class Constantes{
   static final String uriHorarioDoctorId="/api/v1/horariosDoctor/1";
   static final String uriEspecialidad="/api/v1/especialidades/";
   static final String uriCitas="/api/v1/ListarCitas/";
-  static final String uriCita="/api/v1/citas/";
+  static final String uriCita="/api/v1/AgendarCitas/";
   static final String uriInfo="/api/v1/AcercaDe/";
   static final String uriSugerncia="/api/v1/sugerencia/";
   static final String uriNoticias="/api/v1/noticias/";

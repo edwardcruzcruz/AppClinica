@@ -233,8 +233,8 @@ class RestDatasource {
         "tratameinto": idTratamiento,
         "fechaHora": idHorario,
         "doctor":IdDoctor,
-        "is_finished":false
-        //"is_finished":true;
+        "is_finished":false,
+        "recordatorio":false
     };
 
     return http.post(CITA_URL,
@@ -242,9 +242,9 @@ class RestDatasource {
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
     ).then((dynamic res) {
-      final String resp = res.body;
       final int statusCode = res.statusCode;
       print(statusCode);
+      print(res.body);
       if (statusCode < 200 || statusCode > 400 ) {
         throw new Exception("Error while fetching data");
       }

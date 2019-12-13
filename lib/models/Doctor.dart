@@ -1,10 +1,11 @@
+import 'package:flutter_app/models/Sexo.dart';
 class Doctor {
   final int _id;
   final String _nombre;
   final String _apellido;
   final String _noTelefono;
   final String _correo;
-  final int _genero;
+  final Genero _genero;
   final int _especialidad;
 
 
@@ -15,14 +16,14 @@ class Doctor {
         _apellido = json['apellido'],
         _noTelefono = json['telefono'],
         _correo = json['email'],
-        _genero = json['sexo'],
+        _genero = Genero.fromJson(json['sexo']),
         _especialidad = json['especialidad'];
 
   int get Id => _id;
   String get Nombre => _nombre;
   String get Apellido => _apellido;
   String get Telefono => _noTelefono;
-  int get Genero => _genero;
+  Genero get Sexo => _genero;
   String get Correo => _correo;
   int get Especialidad => _especialidad;
 
