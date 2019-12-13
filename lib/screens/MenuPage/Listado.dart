@@ -138,7 +138,7 @@ class _ListadoState extends State<Listado> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        item.Titulo.substring(0, 1),
+                                        item.Titulo.length>1?item.Titulo.substring(0, 1):"",
                                         style: TextStyle(
                                           color: Colors.white,
                                         ),

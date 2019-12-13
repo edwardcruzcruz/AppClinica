@@ -8,7 +8,7 @@ class Noticia {
   final String _fechaPublicacion;
   Noticia(this._titulo, this._descripcion,this._imagen,this._fechaPublicacion);
   Noticia.fromJson(Map<String, dynamic> json)
-      : _titulo = json['Descripción'],
+      : _titulo = json['Descripcion'],
         _descripcion = json['Contenido'],
         _imagen=json['imagen'],
         _fechaPublicacion=json['fechaPublicacion'];
