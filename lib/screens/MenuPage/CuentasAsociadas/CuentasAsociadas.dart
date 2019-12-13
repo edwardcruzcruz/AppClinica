@@ -8,7 +8,7 @@ import 'package:flutter_app/screens/MenuPage/Noticias.dart';
 import 'package:flutter_app/theme/style.dart';
 
 class CuentasAsociadas extends StatefulWidget {
-  List<Cuenta> cuentas;
+  Cuenta cuentas;
   Function callback,callbackloading,callbackfull;
   CuentasAsociadas({Key key,this.cuentas,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
@@ -99,12 +99,26 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
                         },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(0.0,20.0,20.0,20.0),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.add,size: 10,color: appTheme().textTheme.subtitle.color,),
-                            Text(Strings.TextAgregarCuentaAsoc,style: appTheme().textTheme.subtitle,)
-                          ],
+                        child:
+                        GestureDetector(
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.add,size: 10,color: appTheme().textTheme.subtitle.color,),
+                              Text(Strings.TextAgregarCuentaAsoc,style: appTheme().textTheme.subtitle,)
+                            ],
+                          ),
+                          onTap: (){
+                            this.widget.callback(
+
+                                ModificarCuenta(
+                                  cuenta: null,
+                                  callback: this.widget.callback,
+                                  callbackloading: this.widget.callbackloading,
+                                  callbackfull: this.widget.callbackfull,)
+                            );
+                          }
                         ),
+
                       ),
                     ),
                   ],
@@ -115,7 +129,7 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
                 color: Colors.grey,
               ),
               Expanded(
-                child: this.widget.cuentas==null?SinCuentas():formulario(),//formulario()
+                child: this.widget.cuentas.ListCuentasAsociads==null?SinCuentas():formulario(),//formulario()
               ),
             ],
           ),
@@ -128,7 +142,7 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text("No hay clientes"),
+            Text("No hay clientes",textAlign: TextAlign.center,style: appTheme().textTheme.subhead,),
           ],
         )
     );
@@ -152,9 +166,9 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
                   this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 }*/
                 //Navigator.pop(context);
-                storageService.save_idPadre(this.widget.cuentas.elementAt(position).IdCuentaPadre);
-                storageService.save_idHijo(this.widget.cuentas.elementAt(position).Id);
-                storageService.save_currentAccount(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido);
+                //storageService.save_idPadre(this.widget.cuentas.elementAt(position).IdCuentaPadre);
+                storageService.save_idHijo(this.widget.cuentas.ListCuentasAsociads.elementAt(position).Id);
+                storageService.save_currentAccount(this.widget.cuentas.ListCuentasAsociads.elementAt(position).Nombre+" "+this.widget.cuentas.ListCuentasAsociads.elementAt(position).Apellido);
                 this._showDialogChange();
                 },
               child: Row(
@@ -176,7 +190,7 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
                       Padding(
                         padding:
                         const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 3.0),
-                        child: Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                        child: Text(this.widget.cuentas.ListCuentasAsociads.elementAt(position).Nombre+" "+this.widget.cuentas.ListCuentasAsociads.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                       ),
                     ],
                   ),
@@ -225,7 +239,7 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
           ],
         );
       },
-      itemCount: this.widget.cuentas.length,
+      itemCount: this.widget.cuentas.ListCuentasAsociads.length,
     );
   }
   void _showDialogChange() {//todos estos mensajes se tendrian que poner en una clase externa

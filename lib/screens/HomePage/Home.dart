@@ -218,20 +218,21 @@ class _HomeState extends State<Home> {
             ListTile(
               leading: Icon(Icons.people),
               title: Text('Cuentas Asociadas'),
-              onTap: () {//async
-                /*setState(() {
+              onTap: () async{//
+                setState(() {
                   //se muestra barra circular de espera
                   _saving = true;
-                });*/
-                List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
+                });
+                /*List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
                   return Cuenta(
                       1,"Jose", "Cruz","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
                   );
-                });//await RestDatasource().ListaEspecialidad() ;
-                /*User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                });*/
+                Cuenta cuentas=await RestDatasource().CuentasByMaster(int.parse(storageService.getIdPadre.toString()));
+                //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
                 setState(() {//se oculta barra circular de espera
                   _saving = false;
-                });*/
+                });
                 setState(() {
                   currentPage = CuentasAsociadas(cuentas: cuentas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);
                 });

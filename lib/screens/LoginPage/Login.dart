@@ -1,4 +1,5 @@
 import 'package:flutter_app/models/User.dart';
+import 'package:flutter_app/models/UserFB.dart';
 import 'package:flutter_app/screens/HomePage/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/RegistroPage/Registro.dart';
@@ -319,17 +320,22 @@ class _LoginState extends State<Login>
           storageService.save_user('{\"token\":\"ed6b300aaed57d62531efedadd8c62b379d9aa56\"}');//token
           storageService.save_email(profile['email']);
 
-          storageService.save_idPadre(0);//guardar cuando se cree la funcion de guardar cliente sin token pero verlo ojo
+
 
           storageService.save_currentAccount(profile['name']);
           storageService.save_MasterAccount(profile['name']);
-          User usuario= await RestDatasource().perfilfb(profile['email']) ;
+          User usuario= await RestDatasource().perfilfb(profile['email']);
           if(usuario==null){
-            dynamic response=await RestDatasource().save_userfb(profile['first_name'],profile['last_name'],"","","1996-10-10","1","",profile['email']);
+            dynamic response=await RestDatasource().save_userfb(profile['first_name'],profile['last_name'],"","","1996-10-10","1","",profile['email'],"");
 
             print(response.statusCode);
             print(response.body);
-
+            if(response.statusCode==200 ||response.statusCode==201){
+              UserFB acc=UserFB.fromJson(JSON.jsonDecode(response.body));
+              storageService.save_idPadre(acc.Id);//guardar cuando se cree la funcion de guardar cliente sin token pero verlo ojo
+            }
+          }else{
+            storageService.save_idPadre(usuario.Id);
           }
           storageService.save_isuserFace(true);
           Navigator.of(context).pushReplacement(Home.route());

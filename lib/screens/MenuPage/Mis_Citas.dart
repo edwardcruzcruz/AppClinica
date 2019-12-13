@@ -176,7 +176,7 @@ class _CitasState extends State<Citas>{
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(7.0, 12.0, 12.0, 3.0),
-                                child: Text((this.widget.citasList.elementAt(position).Especialidad=="Odontología"?"OD. ":this.widget.citasList.elementAt(position).Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+this.widget.citasList.elementAt(position).IdDoctor.Nombre+" "+this.widget.citasList.elementAt(position).IdDoctor.Apellido,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                child: Text((citasProximas.elementAt(position).Especialidad=="Odontología"?"OD. ":citasProximas.elementAt(position).Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+citasProximas.elementAt(position).IdDoctor.Nombre+" "+citasProximas.elementAt(position).IdDoctor.Apellido,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
                             ],
                           ),
@@ -199,7 +199,7 @@ class _CitasState extends State<Citas>{
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(10.0, 12.0, 12.0, 3.0),
-                                child: Text(this.widget.citasList.elementAt(position).Fecha.Fecha,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                child: Text(citasProximas.elementAt(position).Fecha.Fecha,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
                             ],
                           ),
@@ -223,7 +223,7 @@ class _CitasState extends State<Citas>{
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(10.0, 12.0, 12.0, 3.0),
-                                child: Text(this.widget.citasList.elementAt(position).Fecha.Hora.HorarioInicio+" "+this.widget.citasList.elementAt(position).Fecha.Hora.Horariofin,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                child: Text(citasProximas.elementAt(position).Fecha.Hora.HorarioInicio+" "+citasProximas.elementAt(position).Fecha.Hora.Horariofin,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
                             ],
                           ),
@@ -260,7 +260,7 @@ class _CitasState extends State<Citas>{
                               size: 25.0,
                               color: Colors.grey,
                             ), onPressed: () async {
-                              List<HorarioRango> horariosId=new List();
+                              /*List<HorarioRango> horariosId=new List();
                               List<Horario> horariosAvaliable=new List();
                               final temp=DateTime.now();
                               List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.citasList.elementAt(position).IdDoctor.Id);
@@ -298,14 +298,8 @@ class _CitasState extends State<Citas>{
 
                                   ));
 
-                                /*ModificarCuenta(
-                                  cuenta: this.widget.cuentas.elementAt(position),
-                                  cuentas: this.widget.cuentas,
-                                  callback: this.widget.callback,
-                                  callbackloading: this.widget.callbackloading,
-                                  callbackfull: this.widget.callbackfull,)
-                              );*/
-                            }
+
+                            */}
                             ),
                         ),
                         Padding(
@@ -318,7 +312,7 @@ class _CitasState extends State<Citas>{
                             ),
                             onPressed: (){
 
-                              this._eliminar(position);
+                              //this._eliminar(position);
                             },
                           )
                         ),
@@ -342,11 +336,11 @@ class _CitasState extends State<Citas>{
   Widget formulario2(){
     print("*****************************************************************************************************");
     var rating = 0.0;
-    List<CitaCompleta> citasProximas=new List();
+    List<CitaCompleta> citasAnteriores=new List();
     for(int i=0;i<this.widget.citasList.length;i++){
       DateTime fechaTemp=DateTime.parse(this.widget.citasList.elementAt(i).Fecha.Fecha);//+" "+this.widget.citasList.elementAt(i).Fecha.Hora.HorarioInicio
       if(fechaTemp.isBefore(temp)){
-        citasProximas.add(this.widget.citasList.elementAt(i));
+        citasAnteriores.add(this.widget.citasList.elementAt(i));
       }
     }
     //String especialidad=this.doctores.elementAt(0).Especialidad;
@@ -382,7 +376,7 @@ class _CitasState extends State<Citas>{
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(7.0, 12.0, 12.0, 3.0),
-                                child: Text((this.widget.citasList.elementAt(position).Especialidad=="Odontología"?"OD. ":this.widget.citasList.elementAt(position).Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+this.widget.citasList.elementAt(position).IdDoctor.Nombre+" "+this.widget.citasList.elementAt(position).IdDoctor.Apellido,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                child: Text((citasAnteriores.elementAt(position).Especialidad=="Odontología"?"OD. ":citasAnteriores.elementAt(position).Especialidad=="Nutrición"?"NUT. ":"PSIC. ")+citasAnteriores.elementAt(position).IdDoctor.Nombre+" "+citasAnteriores.elementAt(position).IdDoctor.Apellido,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
                             ],
                           ),
@@ -405,7 +399,7 @@ class _CitasState extends State<Citas>{
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(10.0, 12.0, 12.0, 3.0),
-                                child: Text(this.widget.citasList.elementAt(position).Fecha.Fecha,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                child: Text(citasAnteriores.elementAt(position).Fecha.Fecha,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
                             ],
                           ),
@@ -429,7 +423,7 @@ class _CitasState extends State<Citas>{
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(10.0, 12.0, 12.0, 3.0),
-                                child: Text(this.widget.citasList.elementAt(position).Fecha.Hora.HorarioInicio+" "+this.widget.citasList.elementAt(position).Fecha.Hora.Horariofin,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                child: Text(citasAnteriores.elementAt(position).Fecha.Hora.HorarioInicio+" "+citasAnteriores.elementAt(position).Fecha.Hora.Horariofin,style: appTheme().textTheme.subhead,),//Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
                             ],
                           ),
@@ -480,7 +474,7 @@ class _CitasState extends State<Citas>{
           ],
         );
       },
-      itemCount: citasProximas.length,
+      itemCount: citasAnteriores.length,
     );
   }
   /*void printHello() {
@@ -600,7 +594,7 @@ class _CitasState extends State<Citas>{
         0,
         especialidad,
         cuerpo,
-        new DateTime.now().add(Duration(seconds: 10)),//fecha
+        new DateTime.now().add(Duration(seconds: 10)),//fecha ->
         platformChannelSpecifics,
     payload: data);
 

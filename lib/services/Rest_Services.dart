@@ -1,19 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:dio/dio.dart';
 import 'dart:io';
 import 'package:flutter_app/Utils/Constantes.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Carrito.dart';
 import 'package:flutter_app/models/Cita.dart';
 import 'package:flutter_app/models/Doctor.dart';
+import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/models/HorarioRango.dart';
 import 'package:flutter_app/models/Noticia.dart';
 import 'package:flutter_app/services/Metodos_http.dart';
 import 'package:flutter_app/models/User.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 
@@ -29,6 +28,7 @@ class RestDatasource {
   static final DOCTORES_URL= BASE_URL + Constantes.uriDoctores;
   static final HORARIOID_URL= BASE_URL + Constantes.uriHorarioID;
   static final HORARIO_DOCTORES_URL= BASE_URL + Constantes.uriHorariosDoctores;
+  static final CUENTAS_ASOCIADAS_URL= BASE_URL + Constantes.uriCuentasAsociadas;
   static final ESPECIALIDADES_URL=BASE_URL + Constantes.uriEspecialidad;
   static final CITAS_URL=BASE_URL + Constantes.uriCitas;
   static final NOTICIAS_URL=BASE_URL + Constantes.uriNoticias;
@@ -90,6 +90,32 @@ class RestDatasource {
       return null;
     });
   }
+  Future<User> perfilfbByFLName(String FName,String LName) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    /*return http.get(
+      PERFIL_URL,
+      // Send authorization headers to the backend.
+      headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+        HttpHeaders.authorizationHeader: "token $_API_KEY"},
+    );*/
+    return _netUtil.get(PERFIL_URL,
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}//
+    ).then((dynamic res) {
+      User response=null;
+      if(res!=null){
+        var usuarios = res.map((i)=>User.fromJson(i)).toList();
+        for(final usuario in usuarios){
+          //print(usuario.Correo);
+          if(FName==usuario.Nombre&&LName==usuario.Apellido){
+            response= usuario;
+          }
+        }
+        return response;
+      }
+      return null;
+    });
+  }
 
   Future<List<Especialidad>> ListaEspecialidad() {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
@@ -131,6 +157,7 @@ class RestDatasource {
       return null;
     });
   }
+
   Future<Doctor> doctoresId(int id) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     return _netUtil.get(DOCTORES_URL,
@@ -187,6 +214,7 @@ class RestDatasource {
       return null;
     });
   }
+
   Future<http.Response> save_cita(int idPaciente,int idEspecialidad, int idTratamiento,int idHorario,int IdDoctor) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     Map map = {
@@ -275,6 +303,21 @@ class RestDatasource {
           }
         }
         return response;
+      }
+      return null;
+    });
+  }
+  Future<Cuenta> CuentasByMaster(int idPadre) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    return _netUtil.get(CUENTAS_ASOCIADAS_URL+idPadre.toString()+"/",
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      //print(res.toString());
+      Cuenta acc=Cuenta.fromJson(res);
+      //HorarioRango horario=new HorarioRango(int.parse(res.id), res.horaInicio.toString(), res.horaFin.toString());
+      if(acc!=null){
+        return acc;
       }
       return null;
     });
@@ -377,7 +420,7 @@ class RestDatasource {
       return response;
     });*/
   }
-  Future<http.Response> save_userfb(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento,String Genero,String cedula, String correo) {
+  Future<http.Response> save_userfb(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento,String Genero,String cedula, String correo,String id_padre) {
     Map<String,dynamic> body=  {
       "nombre": name,
       "apellido": lastname,
@@ -387,6 +430,7 @@ class RestDatasource {
       "direccion": Direccion,
       "fechaNacimiento": FeNacimiento,
       "cedula":cedula,
+      "id_Padre":id_padre,
     };
     Map<String,String> headers = {
       'Content-type' : 'application/x-www-form-urlencoded',
