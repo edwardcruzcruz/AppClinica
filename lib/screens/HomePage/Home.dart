@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
   Historial historialPage;
   Recetas recetasPage;
   Agendamiento agend1Page;
-  Pagos carrito;
+  Pagos carrito;  
   List<Widget> pages;
   Widget currentPage;
 
