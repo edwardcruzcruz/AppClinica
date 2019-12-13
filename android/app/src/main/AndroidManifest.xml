@@ -1,8 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.clinicaesteticadental.flutter_app">
-    <uses-permission android:name="android.permission.INTERNET"/>//listo dale
+
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/> en el mio no esta-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that

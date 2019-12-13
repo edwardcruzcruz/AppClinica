@@ -7,10 +7,11 @@ class User {
   final String _noTelefono;
   final String _direccion;
   final String _fecha_nacimiento;
-  //final String _contrasena;
+  final String _cedula;
+  final int _id_Padre;
 
 
-  User(this._idUsuario,this._nombre, this._apellido,this._correo,this._sexo,this._noTelefono,this._direccion,this._fecha_nacimiento);
+  User(this._idUsuario,this._nombre, this._apellido,this._correo,this._sexo,this._noTelefono,this._direccion,this._fecha_nacimiento,this._cedula,this._id_Padre);
   User.fromJson(Map<String, dynamic> json)
       : _idUsuario = json['id'],
         _nombre = json['nombre'],
@@ -19,7 +20,9 @@ class User {
         _sexo = json['sexo'],
         _noTelefono = json['telefono'],
         _direccion = json['direccion'],
-        _fecha_nacimiento = json['fechaNacimiento'];
+        _fecha_nacimiento = json['fechaNacimiento'],
+        _cedula = json['cedula'],
+        _id_Padre = json['id_Padre'];
 
   int get Id => _idUsuario;
   String get Nombre => _nombre;
@@ -29,6 +32,8 @@ class User {
   String get Correo => _correo;
   int get Sexo => _sexo;
   String get Direccion => _direccion;
+  String get Cedula => _cedula;
+  int get IdPadre => _id_Padre;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -39,6 +44,8 @@ class User {
     data['telefono'] = this._noTelefono;
     data['direccion'] = this._direccion;
     data['fechaNacimiento'] = this._fecha_nacimiento;
+    data['cedula'] = this._cedula;
+    data['id_Padre'] = this._id_Padre;
     return data;
   }
 }

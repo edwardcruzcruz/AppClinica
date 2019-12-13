@@ -78,7 +78,7 @@ class _ListadoState extends State<Listado> {
                 Container(
                   width: double.infinity,
                   height: backgroundHeight,
-                  color: swatch_3.withOpacity(0.5),
+                  color: swatch_1.withOpacity(0.5),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 32.0),
@@ -105,90 +105,99 @@ class _ListadoState extends State<Listado> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child:Column(
           children: <Widget>[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  InkWell(
-                      // When the user taps the button, show a snackbar.
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Elemento_Lista(noticia: item,),
-                          ),
-                        );/*
-                        Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text('Tap'),
-                        ));*/
-                      },
-                      child: Column(
-                        //padding: EdgeInsets.all(12.0),
-                        children: <Widget>[
-                          Row(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Elemento_Lista(noticia: item,),
+                              ),
+                            );
+                          },
+                          child: Column(
+                            //padding: EdgeInsets.all(12.0),
                             children: <Widget>[
-                              Container(
-                                width: 42.0,
-                                height: 42.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(21.0),
-                                  color: swatch_5,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    item.Titulo.substring(0, 1),
-                                    style: TextStyle(
-                                      color: Colors.white,
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: 42.0,
+                                    height: 42.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(21.0),
+                                      color: swatch_5,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        item.Titulo.substring(0, 1),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  SizedBox(width: 8.0),
+                                  Text(
+                                    item.Titulo.length>12?item.Titulo.substring(0, 12):item.Titulo,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Divider(
+                                    height: 2.0,
+                                    color: Colors.grey,
+                                  )
+                                ],
                               ),
-                              SizedBox(width: 8.0),
                               Text(
-                                item.Titulo,
+                                item.Descripcion.substring(0, 80),
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
                                 ),
                               ),
+                              Text(
+                                item.FechaPublicacion,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: swatch_4,
+                                ),
+                              )
                             ],
-                          ),
-                          Text(
-                            item.Descripcion.substring(0, 80),
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          Text(
-                            item.FechaPublicacion,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: swatch_4,
-                            ),
-                          )
-                        ],
-                      ) // Text('Flat Button'),
+                          ) // Text('Flat Button'),
                       ),
-                ],
-              ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 16.0),
+                mediaUrl != null
+                    ? Image.network(
+                  mediaUrl,
+                  fit: BoxFit.cover,
+                  width: 120,
+                  height: 120,
+                )
+                    : SizedBox(width: 0.0),
+              ],
             ),
-            SizedBox(width: 16.0),
-            mediaUrl != null
-                ? Image.network(
-                    mediaUrl,
-                    fit: BoxFit.cover,
-                    width: 120,
-                    height: 120,
-                  )
-                : SizedBox(width: 0.0),
+            Divider(
+              height: 2.0,
+              color: Colors.teal,
+            )
           ],
-        ),
+        )
+
       ),
     );
   }

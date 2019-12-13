@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_app/models/CitaCompleta.dart';
 import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/models/Especialidad.dart';
+import 'package:flutter_app/models/Tratamiento.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Acerca.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/CuentasAsociadas.dart';
@@ -49,6 +50,7 @@ class _HomeState extends State<Home> {
   bool _saving = false; //to circular progress bar
   int currentTab = 0; //bottom Navigation menu bar choice
 
+
   Noticias noticiaPage;
   Citas citasPage;
   Historial historialPage;
@@ -61,18 +63,19 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     // TODO: implement initState
-    List<CitaCompleta> citas= new List<CitaCompleta>.generate(5, (i) => CitaCompleta(
-          i,User(1,"Edward", "Cruz","edward.cruzcruz@hotmail.com",1,"0938384849","Ronda","1996-04-27"), "Odontología","Limpieza Dental",HorarioCompleto(1,"2019-"+((8+(1*i)).toString().length==1?"0"+(8+(1*i)).toString():8+(1*i)).toString()+"-12",HorarioRango(3,"09:00","09:30"),12,false),Doctor(12,"Jose", "Ureta","2789456",1,"jos@gmail.com",3)
-      )
-    );
-    List<Receta> recetas= new List<Receta>.generate(5, (i) => Receta(
-        i,"Receta $i",CitaCompleta(i,User(1,"Edward", "Cruz","edward.cruzcruz@hotmail.com",1,"0938384849","Ronda","1996-04-27"), "Odontología","Limpieza Dental",HorarioCompleto(1,"2019-"+((8+(1*i)).toString().length==1?"0"+(8+(1*i)).toString():8+(1*i)).toString()+"-12",HorarioRango(3,"09:00","09:30"),12,false),Doctor(12,"Jose", "Ureta","2789456",1,"jos@gmail.com",3))
-    )
-    );
+
+    super.initState();
+    List<CitaCompleta> citas= new List<CitaCompleta>();//.generate(5, (i) => CitaCompleta(
+        //i,User(1,"Edward", "Cruz","edward.cruzcruz@hotmail.com",1,"0938384849","Ronda","1996-04-27"), "Odontología","Limpieza Dental",HorarioCompleto(1,"2019-"+((8+(1*i)).toString().length==1?"0"+(8+(1*i)).toString():8+(1*i)).toString()+"-12",HorarioRango(3,"09:00","09:30"),12,false),Doctor(12,"Jose", "Ureta","2789456",1,"jos@gmail.com",3)
+    //));
+    List<Receta> recetas= new List<Receta>();//.generate(5, (i) => Receta(
+    //i,"Receta $i",CitaCompleta(i,User(1,"Edward", "Cruz","edward.cruzcruz@hotmail.com",1,"0938384849","Ronda","1996-04-27"),Tratamiento(1,) "Odontología","Limpieza Dental",HorarioCompleto(1,"2019-"+((8+(1*i)).toString().length==1?"0"+(8+(1*i)).toString():8+(1*i)).toString()+"-12",HorarioRango(3,"09:00","09:30"),12,false),Doctor(12,"Jose", "Ureta","2789456",1,"jos@gmail.com",3))
+    //)
+    //);
     noticiaPage = Noticias();
-    citasPage = Citas(citasList: citas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
+    citasPage = Citas(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
     historialPage = Historial(citasList: citas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
-    recetasPage = Recetas(recetas: recetas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
+    recetasPage = Recetas(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
     agend1Page = Agendamiento();
     carrito = Pagos();
     pages = [
@@ -83,7 +86,6 @@ class _HomeState extends State<Home> {
       agend1Page
     ]; //,pagosPage
     currentPage = noticiaPage;
-    super.initState();
   }
 
   void callback(Widget nextPage) {
@@ -412,6 +414,7 @@ class _HomeState extends State<Home> {
           ]),
     );
   }
+
   void _showDialogWorking() {//todos estos mensajes se tendrian que poner en una clase externa
     // flutter defined function
     showDialog(
