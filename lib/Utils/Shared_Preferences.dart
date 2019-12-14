@@ -51,6 +51,13 @@ class Var_shared{//singleton: una clase que solo pueda acceder a una sola instan
     }
     return nombreCuenta;
   }
+  int get getIdCuentaMaster {
+    var nombreCuenta = _preferences.getInt("idMaster");
+    if (nombreCuenta == null) {
+      return null;
+    }
+    return nombreCuenta;
+  }
   int get getIdHijo {
     var padre = _preferences.getInt("idHijo");
     if (padre == null) {
@@ -92,6 +99,9 @@ class Var_shared{//singleton: una clase que solo pueda acceder a una sola instan
   }
   void save_idPadre(int content){
     _preferences.setInt("idPadre", content);
+  }
+  void save_idPadreMaster(int content){
+    _preferences.setInt("idMaster", content);
   }
   void save_idHijo(int content){
     _preferences.setInt("idHijo", content);

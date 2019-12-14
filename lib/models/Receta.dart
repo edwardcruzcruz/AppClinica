@@ -1,34 +1,60 @@
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/CitaCompleta.dart';
+
+import 'Especialidad.dart';
+import 'HorarioCompleto.dart';
+import 'RecetaxCita.dart';
+import 'Tratamiento.dart';
+import 'User.dart';
 class Receta{
-  final String _medicina;
-  final int _hora_Tratamiento;
-  final int _duracion_Tratamiento_Dias;
-  final CitaCompleta _id_Cita;
-  final bool _recordatorio;
+  final int _id;
+  final User _paciente;
+  final Tratamiento _tratamiento;
+  final HorarioCompleto _fecha;//un modelo mas llamado horarios, tipo programacion con un solo horario en una emisora de radio
+  final Doctor _iddoctor;//tiempo por cita --> es proporcional a la especialidad y tipo de consulta
+  final Especialidad _idespecialidad;
+  final List<RecetaxCita> _recetaxCita;
 
-  Receta(this._medicina,this._hora_Tratamiento,this._duracion_Tratamiento_Dias,this._id_Cita,this._recordatorio);
-  Receta.fromJson(Map<String, dynamic> json)
-      : _medicina = json['medicina'],
-        _hora_Tratamiento = json['hora_Tratamiento'],
-        _duracion_Tratamiento_Dias = json['duración_Tratamiento_Dias'],
-        _id_Cita = CitaCompleta.fromJson(json['id_Cita']),
-        _recordatorio = json['recordatorio'];
+  Receta(this._id,this._paciente, this._idespecialidad,this._tratamiento,this._fecha,this._iddoctor,this._recetaxCita);
 
+  factory Receta.fromJson(Map<String, dynamic> json){
+    var list = json['RecetaxCita'] as List;
+    print(list.runtimeType);
+    List<RecetaxCita> ListRecetas = list.map((i) => RecetaxCita.fromJson(i)).toList();
 
-  String get Medicina => _medicina;
-  int get HoraTratamiento=>_hora_Tratamiento;
-  int get TratamientoDias=>_duracion_Tratamiento_Dias;
-  CitaCompleta get GetCita => _id_Cita;
-  bool get Recordatorio => _recordatorio;
+    return Receta(
+      json['cita_id'],
+      User.fromJson(json['cliente']),
+      Especialidad.fromJson(json['especialidad']),
+      json['tratamiento']==null? Tratamiento.fromJson({
+        "tratam_id": 0,
+        "descripcion": "",
+        "precio": "00.00",
+        "duracion": "00:00"
+      }) :Tratamiento.fromJson(json['tratamiento']),
+        HorarioCompleto.fromJson(json['fechaHora']),
+        Doctor.fromJson(json['doctor']),
+        ListRecetas
+    );
+  }
+
+  int get Id => _id;
+  User get Paciente => _paciente;
+  Especialidad get IDEspecialidad => _idespecialidad;
+  Tratamiento get IDTratamiento => _tratamiento;
+  HorarioCompleto get Fecha => _fecha;
+  Doctor get IdDoctor=> _iddoctor;
+  List<RecetaxCita> get RecetaPorCita=> _recetaxCita;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['medicina'] = this._medicina;
-    data['hora_Tratamiento'] = this._hora_Tratamiento;
-    data['duración_Tratamiento_Dias'] = this._duracion_Tratamiento_Dias;
-    data['id_Cita'] = this._id_Cita;
-    data['recordatorio'] = this._recordatorio;
+    data['id']=this._id;
+    data['cliente']=this._paciente;
+    data['especialidad']=this._idespecialidad;
+    data['tratamiento']=this._tratamiento;
+    data['fechaHora']=this._fecha;
+    data['Doctor']=this._iddoctor;
+    data['RecetaxCita']=this._recetaxCita;
     return data;
   }
 }

@@ -1,8 +1,8 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Receta.dart';
+import 'package:flutter_app/models/RecetaxCita.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Agendamiento2.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
@@ -12,11 +12,20 @@ import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
+import 'Recetas.dart';
+
 class RecetaView extends StatefulWidget {
-  List<Receta> especialidades;
-  User usuario;
-  Function callback,callbackloading,callbackfull;
-  RecetaView({Key key,this.usuario, this.especialidades,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  List<RecetaxCita> recetas;
+  Function callback, callbackloading, callbackfull;
+
+  RecetaView(
+      {Key key,
+      this.recetas,
+      this.callback,
+      this.callbackloading,
+      this.callbackfull})
+      : super(key: key);
+
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => RecetaView(),
@@ -24,23 +33,24 @@ class RecetaView extends StatefulWidget {
   }
 
   @override
-  _RecetaViewState createState() => _RecetaViewState(this.especialidades);
-
+  _RecetaViewState createState() => _RecetaViewState(this.recetas);
 }
 
-class _RecetaViewState extends State<RecetaView>{
-  bool _saving = false;//to circular progress bar
+class _RecetaViewState extends State<RecetaView> {
+  bool _saving = false; //to circular progress bar
 
-  List<Receta> recetas;
+  List<RecetaxCita> recetas;
+
   _RecetaViewState(this.recetas);
+
   var storageService = locator<Var_shared>();
-  User usuario;
+
   //List<Doctor> _doctor;//estos son modelos
   //Horario _horario;//estos son modelos
 
-
   final _formKey = GlobalKey<FormState>();
   List data = List();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,7 +58,6 @@ class _RecetaViewState extends State<RecetaView>{
         new Container(
           height: 100.0,
           decoration: new BoxDecoration(
-
               gradient: new LinearGradient(
                 colors: [
                   Color(0xFF00a18d),
@@ -59,23 +68,33 @@ class _RecetaViewState extends State<RecetaView>{
               ),
               borderRadius: new BorderRadius.vertical(
                   bottom: new Radius.elliptical(
-                      MediaQuery.of(context).size.width, 120.0))
-          ),
+                      MediaQuery.of(context).size.width, 120.0))),
           child: Align(
             alignment: Alignment.center,
             child: Column(
               children: <Widget>[
                 Align(
-                  child: Text(Strings.CuerpoTituloBienvenido,style: appTheme().textTheme.display1,),
+                  child: Text(
+                    Strings.CuerpoTituloBienvenido,
+                    style: appTheme().textTheme.display1,
+                  ),
                   alignment: Alignment(-0.80, 0),
                 ),
                 Align(
-                  child: new Text(storageService.getCuentaActual,style: appTheme().textTheme.display2,),
+                  child: new Text(
+                    storageService.getCuentaActual,
+                    style: appTheme().textTheme.display2,
+                  ),
                   alignment: Alignment(-0.80, 0),
                 ),
-                Padding(padding: EdgeInsets.only(bottom: 10),),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                ),
                 Align(
-                  child: Text(Strings.AppbarIconoAgregarCita,style: appTheme().textTheme.display3,),
+                  child: Text(
+                    Strings.AppbarIconoAgregarCita,
+                    style: appTheme().textTheme.display3,
+                  ),
                 ),
               ],
             ),
@@ -89,28 +108,29 @@ class _RecetaViewState extends State<RecetaView>{
                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () async{
+                      onTap: () async {
                         this.widget.callbackloading();
-                        List<Horario> horariosAvaliable=new List();
-                        final temp=DateTime.now();
-                        List<Horario> horarios= await RestDatasource().HorarioDoctor(this.widget.doctor.Id);
-                        if(horarios!=null){
-                          for(int i=0;i<horarios.length;i++){
-                            DateTime fechaTemp=DateTime.parse(horarios.elementAt(i).Fecha);
-                            if(horarios.elementAt(i).IsAvaliable && (fechaTemp.isAfter(temp)||(fechaTemp.isAtSameMomentAs(temp)&&temp.hour>fechaTemp.hour))){//dias posteriores .. si se graba
-                              horariosAvaliable.add(horarios.elementAt(i));
-                            }
-                          }
-                        }
-                        this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
-                        this.widget.callback(Horarios(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,doctor: this.widget.doctor,date: this.widget.fecha,selectedEvents: this.widget.events,callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,agendar: this.widget.agendar,idCita: this.widget.idCita,));
+                        this.widget
+                            .callbackfull();
+                        this.widget.callback(Recetas(
+                            callback: this.widget.callback,
+                            callbackloading: this.widget.callbackloading,
+                            callbackfull: this.widget.callbackfull));
                       },
                       child: Container(
-                        margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+                        margin:
+                            const EdgeInsets.fromLTRB(20.0, 20.0, 10.0, 20.0),
                         child: Row(
                           children: <Widget>[
-                            Icon(Icons.arrow_back_ios,size: 10,color: appTheme().textTheme.subtitle.color,),
-                            Text(Strings.TextRetroceder,style: appTheme().textTheme.subtitle,)
+                            Icon(
+                              Icons.arrow_back_ios,
+                              size: 10,
+                              color: appTheme().textTheme.subtitle.color,
+                            ),
+                            Text(
+                              Strings.TextRetroceder,
+                              style: appTheme().textTheme.subtitle,
+                            )
                           ],
                         ),
                       ),
@@ -131,35 +151,68 @@ class _RecetaViewState extends State<RecetaView>{
     );
   }
 
-  Widget formulario(){
-    return ListView.builder( //validar null citasProximas
+  Widget formulario() {
+    return ListView.builder(
+      //validar null citasProximas
       shrinkWrap: true,
-      itemCount: recetas.length,
+      itemCount: this.recetas.length,
       itemBuilder: (context, position) {
         return Column(
           children: <Widget>[
-
             GestureDetector(
-              onTap: () { //async
+              onTap: () {
+                //async
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  new Expanded(child: Column(
+                  new Expanded(
+                      child: Column(
                     children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(
+                                    20.0, 2.0, 1.0, 2.0),
+                                child: new Image.asset(
+                                    'assets/recetas_activo.png',
+                                    width: 33,
+                                    height:
+                                    40), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    10.0, 12.0, 12.0, 3.0),
+                                child: Text(
+                                  recetas.elementAt(position).Medicina,
+                                  style: appTheme().textTheme.subhead,
+                                ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                       Row(
                         children: <Widget>[
                           Column(
                             crossAxisAlignment: CrossAxisAlignment
                                 .start,
                             children: <Widget>[
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(
-                                    15.0, 2.0, 1.0, 2.0),
-                                //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
-                                child: new Image.asset(
-                                    'assets/avatar.png', width: 33,
-                                    height: 40),
+                              Padding(
+                                padding:
+                                const EdgeInsets.fromLTRB(
+                                    10.0, 12.0, 12.0, 3.0),
+                                child: Text("Duración: ",
+                                  style: appTheme().textTheme
+                                      .subhead,), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
                             ],
                           ),
@@ -170,28 +223,8 @@ class _RecetaViewState extends State<RecetaView>{
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(
-                                    7.0, 12.0, 12.0, 3.0),
-                                child: Text((recetas.
-                                    .elementAt(position)
-                                    .GetCita
-                                    .IDEspecialidad
-                                    .NombreEspecialidad == "Odontología"
-                                    ? "OD. "
-                                    : snapshot.data
-                                    .elementAt(position)
-                                    .GetCita
-                                    .IDEspecialidad
-                                    .NombreEspecialidad == "Nutrición"
-                                    ? "NUT. "
-                                    : "PSIC. ") + snapshot.data
-                                    .elementAt(position)
-                                    .GetCita
-                                    .IdDoctor
-                                    .Nombre + " " + snapshot.data
-                                    .elementAt(position)
-                                    .GetCita
-                                    .IdDoctor
-                                    .Apellido,
+                                    10.0, 12.0, 12.0, 3.0),
+                                child: Text(recetas.elementAt(position).DuracionTratamiento.toString()+" días",
                                   style: appTheme().textTheme
                                       .subhead,), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
@@ -199,8 +232,41 @@ class _RecetaViewState extends State<RecetaView>{
                           ),
                         ],
                       ),
-                      */
-/*Row(
+                      Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment
+                                .start,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                const EdgeInsets.fromLTRB(
+                                    10.0, 12.0, 12.0, 3.0),
+                                child: Text("Frecuencia: ",
+                                  style: appTheme().textTheme
+                                      .subhead,), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment
+                                .start,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                const EdgeInsets.fromLTRB(
+                                    10.0, 12.0, 12.0, 3.0),
+                                child: Text("Cada "+recetas.elementAt(position).HoraTratamiento.toString()+" horas",
+                                  style: appTheme().textTheme
+                                      .subhead,), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+
+
+                      /*Row(
                                 children: <Widget>[
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment
@@ -273,7 +339,7 @@ class _RecetaViewState extends State<RecetaView>{
                                     ],
                                   ),
                                 ],
-                              ),*//*
+                              ),
 
                       Row(
                         children: <Widget>[
@@ -306,26 +372,10 @@ class _RecetaViewState extends State<RecetaView>{
                             ],
                           ),
                         ],
-                      ),
+                      ),*/
                     ],
                   )),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                              0.0, 0.0, 25.0, 0.0),
-                          child: Icon(
-                            Icons.remove_red_eye,
-                            size: 25.0,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+
                 ],
               ),
             ),
@@ -338,7 +388,9 @@ class _RecetaViewState extends State<RecetaView>{
       },
     );
   }
-  void _showDialogSeleccionNull() {//todos estos mensajes se tendrian que poner en una clase externa
+
+  void _showDialogSeleccionNull() {
+    //todos estos mensajes se tendrian que poner en una clase externa
     // flutter defined function
     showDialog(
       context: context,
@@ -346,7 +398,8 @@ class _RecetaViewState extends State<RecetaView>{
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Sin contenido"),
-          content: new Text("No hay doctores en esta especialidad, trabajando..."),
+          content:
+              new Text("No hay doctores en esta especialidad, trabajando..."),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -361,5 +414,3 @@ class _RecetaViewState extends State<RecetaView>{
     );
   }
 }
-
-*/

@@ -6,9 +6,14 @@ import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:flutter_app/models/Receta.dart';
 
+import 'RecetaView.dart';
+
 class Recetas extends StatefulWidget {
-  Function callback,callbackloading,callbackfull;
-  Recetas({Key key,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  Function callback, callbackloading, callbackfull;
+
+  Recetas({Key key, this.callback, this.callbackloading, this.callbackfull})
+      : super(key: key);
+
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Recetas(),
@@ -19,16 +24,18 @@ class Recetas extends StatefulWidget {
   _RecetasState createState() => _RecetasState();
 }
 
-class _RecetasState extends State<Recetas>{
-  final temp=DateTime.now();
+class _RecetasState extends State<Recetas> {
+  final temp = DateTime.now();
   var storageService = locator<Var_shared>();
   Future<List<Receta>> future;
 
   @override
   void initState() {
     super.initState();
+    print("***********************--------------------------------*********************************");
+    print(storageService.getIdPadre);
+    print("***********************--------------------------------*********************************");
     future = RestDatasource().ListarRecetas(storageService.getIdPadre);
-
   }
 
   @override
@@ -38,7 +45,6 @@ class _RecetasState extends State<Recetas>{
         Container(
           height: 100.0,
           decoration: new BoxDecoration(
-
               gradient: new LinearGradient(
                 colors: [
                   Color(0xFF00a18d),
@@ -49,29 +55,33 @@ class _RecetasState extends State<Recetas>{
               ),
               borderRadius: new BorderRadius.vertical(
                   bottom: new Radius.elliptical(
-                      MediaQuery
-                          .of(context)
-                          .size
-                          .width, 120.0))
-          ),
+                      MediaQuery.of(context).size.width, 120.0))),
           child: Align(
             alignment: Alignment.center,
             child: Column(
               children: <Widget>[
                 Align(
-                  child: Text(Strings.CuerpoTituloBienvenido,
-                    style: appTheme().textTheme.display1,),
+                  child: Text(
+                    Strings.CuerpoTituloBienvenido,
+                    style: appTheme().textTheme.display1,
+                  ),
                   alignment: Alignment(-0.80, 0),
                 ),
                 Align(
-                  child: new Text(storageService.getCuentaActual,
-                    style: appTheme().textTheme.display2,),
+                  child: new Text(
+                    storageService.getCuentaActual,
+                    style: appTheme().textTheme.display2,
+                  ),
                   alignment: Alignment(-0.80, 0),
                 ),
-                Padding(padding: EdgeInsets.only(bottom: 10),),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                ),
                 Align(
-                  child: Text(Strings.CuerpoTituloPaginaRecetas,
-                    style: appTheme().textTheme.display3,),
+                  child: Text(
+                    Strings.CuerpoTituloPaginaRecetas,
+                    style: appTheme().textTheme.display3,
+                  ),
                 ),
               ],
             ),
@@ -85,13 +95,13 @@ class _RecetasState extends State<Recetas>{
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      //alignment: Alignment(50, 0),
-                        margin: const EdgeInsets.fromLTRB(
-                            65.0, 20.0, 10.0, 20.0),
+                        //alignment: Alignment(50, 0),
+                        margin:
+                            const EdgeInsets.fromLTRB(65.0, 20.0, 10.0, 20.0),
                         child: Text(
                           "Paciente: " + storageService.getCuentaActual,
-                          style: appTheme().textTheme.subhead,)
-                    ),
+                          style: appTheme().textTheme.subhead,
+                        )),
                   ],
                 ),
               ),
@@ -101,11 +111,11 @@ class _RecetasState extends State<Recetas>{
               ),
               Expanded(
                 child:
-                /*this.widget.recetas == null ? Center(child: Text(
+                    /*this.widget.recetas == null ? Center(child: Text(
                         "Sin contenido que mostrar",
                         textAlign: TextAlign.center, style: appTheme().textTheme
                           .subhead,),) :*/
-                formulario(),
+                    formulario(),
               )
             ],
           ),
@@ -113,6 +123,7 @@ class _RecetasState extends State<Recetas>{
       ],
     );
   }
+
   Widget formulario() {
     /*List<Receta> recetasAnteriores=new List();
     for(int i=0;i<data.length;i++){
@@ -138,76 +149,81 @@ class _RecetasState extends State<Recetas>{
                 style: appTheme().textTheme.display4,
               ); //'Error: ${snapshot.error}'
 
-
             //String especialidad=this.doctores.elementAt(0).Especialidad;
-            return ListView.builder( //validar null citasProximas
+            return snapshot.data.length>0?
+              ListView.builder(
+              //validar null citasProximas
               shrinkWrap: true,
               itemCount: snapshot.data.length,
               itemBuilder: (context, position) {
                 return Column(
                   children: <Widget>[
-
                     GestureDetector(
-                      onTap: () { //async
+                      onTap: () {
+                        //async
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          new Expanded(child: Column(
+                          new Expanded(
+                              child: Column(
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
                                         margin: const EdgeInsets.fromLTRB(
                                             15.0, 2.0, 1.0, 2.0),
                                         //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
                                         child: new Image.asset(
-                                            'assets/avatar.png', width: 33,
+                                            'assets/avatar.png',
+                                            width: 33,
                                             height: 40),
                                       ),
                                     ],
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                        const EdgeInsets.fromLTRB(
+                                        padding: const EdgeInsets.fromLTRB(
                                             7.0, 12.0, 12.0, 3.0),
-                                        child: Text((snapshot.data
-                                            .elementAt(position)
-                                            .GetCita
-                                            .IDEspecialidad
-                                            .NombreEspecialidad == "Odontología"
-                                            ? "OD. "
-                                            : snapshot.data
-                                            .elementAt(position)
-                                            .GetCita
-                                            .IDEspecialidad
-                                            .NombreEspecialidad == "Nutrición"
-                                            ? "NUT. "
-                                            : "PSIC. ") + snapshot.data
-                                            .elementAt(position)
-                                            .GetCita
-                                            .IdDoctor
-                                            .Nombre + " " + snapshot.data
-                                            .elementAt(position)
-                                            .GetCita
-                                            .IdDoctor
-                                            .Apellido,
-                                          style: appTheme().textTheme
-                                              .subhead,), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                        child: Text(
+                                          (snapshot.data
+                                                          .elementAt(position)
+                                                          .IDEspecialidad
+                                                          .NombreEspecialidad ==
+                                                      "Odontología"
+                                                  ? "OD. "
+                                                  : snapshot.data
+                                                              .elementAt(
+                                                                  position)
+                                                              .IDEspecialidad
+                                                              .NombreEspecialidad ==
+                                                          "Nutrición"
+                                                      ? "NUT. "
+                                                      : "PSIC. ") +
+                                              snapshot.data
+                                                  .elementAt(position)
+                                                  .IdDoctor
+                                                  .Nombre +
+                                              " " +
+                                              snapshot.data
+                                                  .elementAt(position)
+                                                  .IdDoctor
+                                                  .Apellido,
+                                          style: appTheme().textTheme.subhead,
+                                        ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                              Row(
+                              /*Row(
                                 children: <Widget>[
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment
@@ -238,7 +254,7 @@ class _RecetasState extends State<Recetas>{
                                   ),
                                 ],
                               ),
-                              /*Row(
+                              Row(
                                 children: <Widget>[
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment
@@ -282,8 +298,8 @@ class _RecetasState extends State<Recetas>{
                               Row(
                                 children: <Widget>[
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
                                         margin: const EdgeInsets.fromLTRB(
@@ -294,18 +310,19 @@ class _RecetasState extends State<Recetas>{
                                     ],
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                        const EdgeInsets.fromLTRB(
+                                        padding: const EdgeInsets.fromLTRB(
                                             10.0, 12.0, 12.0, 3.0),
-                                        child: Text(snapshot.data
-                                            .elementAt(position)
-                                            .GetCita.IDEspecialidad.NombreEspecialidad,
-                                          style: appTheme().textTheme
-                                              .subhead,), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                        child: Text(
+                                          snapshot.data
+                                              .elementAt(position)
+                                              .IDEspecialidad
+                                              .NombreEspecialidad,
+                                          style: appTheme().textTheme.subhead,
+                                        ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                                       ),
                                     ],
                                   ),
@@ -313,21 +330,38 @@ class _RecetasState extends State<Recetas>{
                               ),
                             ],
                           )),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      0.0, 0.0, 25.0, 0.0),
-                                  child: Icon(
-                                    Icons.remove_red_eye,
-                                    size: 25.0,
-                                    color: Colors.grey,
+                          GestureDetector(
+                            onTap: () {
+                              //async
+                              this.widget.callbackloading();
+                              this.widget.callbackfull();
+                              this.widget.callback(RecetaView(
+                                    recetas: snapshot.data
+                                        .elementAt(position)
+                                        .RecetaPorCita,
+                                    callback: this.widget.callback,
+                                    callbackloading:
+                                        this.widget.callbackloading,
+                                    callbackfull: this.widget.callbackfull,
+                                  ));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        0.0, 0.0, 25.0, 0.0),
+                                    child: Icon(
+                                      Icons.remove_red_eye,
+                                      size: 25.0,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -340,11 +374,16 @@ class _RecetasState extends State<Recetas>{
                   ],
                 );
               },
-            );
+            )
+            :Text(
+              "No hay recetas",
+              textAlign: TextAlign.center,
+              style: appTheme().textTheme.display4,
+            )
+            ;
         }
         return null;
       },
     );
   }
-
 }

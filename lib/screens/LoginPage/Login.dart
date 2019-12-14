@@ -233,6 +233,7 @@ class _LoginState extends State<Login>
                       storageService.save_user(token);
                       User usuario= await RestDatasource().perfil(storageService.getEmail) ;
                       storageService.save_idPadre(usuario.Id);//guardamos de manera general el id padre
+                      storageService.save_idPadreMaster(usuario.Id);//guardamos de manera general el id padre
                       storageService.save_currentAccount(usuario.Apellido+" "+usuario.Nombre);
                       storageService.save_MasterAccount(usuario.Apellido+" "+usuario.Nombre);
                       setState(() {//se oculta barra circular de espera
@@ -333,9 +334,11 @@ class _LoginState extends State<Login>
             if(response.statusCode==200 ||response.statusCode==201){
               UserFB acc=UserFB.fromJson(JSON.jsonDecode(response.body));
               storageService.save_idPadre(acc.Id);//guardar cuando se cree la funcion de guardar cliente sin token pero verlo ojo
+              storageService.save_idPadreMaster(acc.Id);
             }
           }else{
             storageService.save_idPadre(usuario.Id);
+            storageService.save_idPadreMaster(usuario.Id);
           }
           storageService.save_isuserFace(true);
           Navigator.of(context).pushReplacement(Home.route());

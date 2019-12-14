@@ -230,7 +230,7 @@ class _HomeState extends State<Home> {
                       1,"Jose", "Cruz","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
                   );
                 });*/
-                Cuenta cuentas=await RestDatasource().CuentasByMaster(int.parse(storageService.getIdPadre.toString()));
+                Cuenta cuentas=await RestDatasource().CuentasByMaster(int.parse(storageService.getIdCuentaMaster.toString()));
                 //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
                 setState(() {//se oculta barra circular de espera
                   _saving = false;

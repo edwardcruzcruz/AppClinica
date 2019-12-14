@@ -75,6 +75,7 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
                         child: GestureDetector(
                           onTap: () {
                             storageService.delete_idHijo();
+                            storageService.save_idPadre(storageService.getIdCuentaMaster);
                             storageService.save_currentAccount(storageService.getCuentaMaster);
                             _showDialogChange();
                           },
@@ -166,7 +167,8 @@ class _CuentasAsociadasState extends State<CuentasAsociadas>{
                   this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida, idHorario: horarios.elementAt(position).IdHorario,horarios: horarios,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 }*/
                 //Navigator.pop(context);
-                //storageService.save_idPadre(this.widget.cuentas.elementAt(position).IdCuentaPadre);
+                //storageService.save_idPadreTemporal(storageService.getIdPadre);
+                storageService.save_idPadre(this.widget.cuentas.ListCuentasAsociads.elementAt(position).Id);
                 storageService.save_idHijo(this.widget.cuentas.ListCuentasAsociads.elementAt(position).Id);
                 storageService.save_currentAccount(this.widget.cuentas.ListCuentasAsociads.elementAt(position).Nombre+" "+this.widget.cuentas.ListCuentasAsociads.elementAt(position).Apellido);
                 this._showDialogChange();
