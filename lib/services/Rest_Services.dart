@@ -34,6 +34,7 @@ class RestDatasource {
   static final ESPECIALIDADES_URL=BASE_URL + Constantes.uriEspecialidad;
   static final CITAS_URL=BASE_URL + Constantes.uriCitas;
   static final CITA_URL=BASE_URL + Constantes.uriCita;
+  static final CITA_URL_UPDATE=BASE_URL + Constantes.uriCitaId;
   static final INFO_URL=BASE_URL + Constantes.uriInfo;
   static final SUGERENCIA_URL=BASE_URL + Constantes.uriSugerncia;
   static final NOTICIAS_URL=BASE_URL + Constantes.uriNoticias;
@@ -342,6 +343,7 @@ class RestDatasource {
       return null;
     });
   }
+
   Future<Cuenta> CuentasByMaster(int idPadre) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     return _netUtil.get(CUENTAS_ASOCIADAS_URL+idPadre.toString()+"/",
@@ -570,7 +572,7 @@ class RestDatasource {
       //"is_finished":true;
     };*/
 
-    return http.delete(CITA_URL+idCita.toString()+"/",
+    return http.delete(CITA_URL_UPDATE+idCita.toString()+"/",
         //body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
@@ -588,17 +590,32 @@ class RestDatasource {
   Future<http.Response> update_cita(int idPaciente,int idEspecialidad, int idTratamiento,int idHorario,int IdDoctor,int idCita) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     Map map = {
-      "cita_id":idCita,
-      "cliente": idPaciente,
-      "especialidad": idEspecialidad,
-      "tratameinto": idTratamiento,
       "fechaHora": idHorario,
-      "doctor":IdDoctor,
-      "is_finished":false
       //"is_finished":true;
     };
 
-    return http.put(CITA_URL+idCita.toString()+"/",
+    return http.patch(CITA_URL_UPDATE+idCita.toString()+"/",
+        body: utf8.encode(json.encode(map)),
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      final String resp = res.body;
+      final int statusCode = res.statusCode;
+      print(statusCode);
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return res;
+    });
+  }
+  Future<http.Response> update_cita_recordatorio(int idCita,bool recordatorio) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    Map map = {
+      "recordatorio": recordatorio,
+      //"is_finished":true;
+    };
+
+    return http.patch(CITA_URL_UPDATE+idCita.toString()+"/",
         body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
@@ -615,7 +632,7 @@ class RestDatasource {
 
   Future<List<Receta>> ListarRecetas(int idUsuario) {
     var queryParameters = {
-      'usuario': '6',
+      'usuario': '8',
     };
     Uri uri =
     Uri.https('jacelly.pythonanywhere.com','/api/v1/receta/', queryParameters);
@@ -623,7 +640,7 @@ class RestDatasource {
     print(uri);
     print("***********************************************************");
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
-    return _netUtil.get2(uri,//idUsuario.toString()+"/",
+    return _netUtil.get(RECETA_USUARIO_URL+idUsuario.toString(),//idUsuario.toString()+"/",
         headers: {
           HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"
