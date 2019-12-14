@@ -5,6 +5,7 @@ import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/models/HorarioRango.dart';
+import 'package:flutter_app/models/Receta.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
@@ -37,12 +38,13 @@ class _CitasState extends State<Citas> {
   final temp = DateTime.now();
   var storageService = locator<Var_shared>();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-  Future<List<CitaCompleta>> citasList;
+  Future<List<Receta>> citasList;
 
   @override
   initState() {
     super.initState();
-    citasList = RestDatasource().ListarCitas();
+    //citasList = RestDatasource().ListarCitas();
+    citasList = RestDatasource().ListarRecetasCitas(storageService.getIdPadre);
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
     // If you have skipped STEP 3 then change app_icon to @mipmap/ic_launcher
     var initializationSettingsAndroid =
@@ -190,7 +192,7 @@ class _CitasState extends State<Citas> {
     return FutureBuilder(
       future: citasList,
       builder:
-          (BuildContext context, AsyncSnapshot<List<CitaCompleta>> snapshot) {
+          (BuildContext context, AsyncSnapshot<List<Receta>> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.active:
@@ -204,7 +206,9 @@ class _CitasState extends State<Citas> {
                 style: appTheme().textTheme.display4,
               ); //'Error: ${snapshot.error}'
             //String especialidad=this.doctores.elementAt(0).Especialidad;
-            return ListView.builder(
+            return
+              snapshot.data.length>0?
+              ListView.builder(
               //validar null citasProximas
               shrinkWrap: true,
               itemCount: snapshot.data.length,
@@ -367,12 +371,12 @@ class _CitasState extends State<Citas> {
                                         ? Icon(
                                             Icons.add_alert,
                                             size: 25.0,
-                                            color: Colors.grey,
+                                            color: Colors.yellow,
                                           )
                                         : Icon(
                                             Icons.add_alert,
                                             size: 25.0,
-                                            color: Colors.yellow,
+                                            color: Colors.grey,
                                           ), // Icon(Icons.note_add),
                                     onPressed: () async {
                                       this._recordatorio(
@@ -512,7 +516,13 @@ class _CitasState extends State<Citas> {
                   ],
                 );
               },
-            );
+            )
+            :Text(
+                "No hay citas nuevas",
+                textAlign: TextAlign.center,
+                style: appTheme().textTheme.display4,
+              )
+            ;
         }
         return null;
       },
@@ -536,7 +546,7 @@ class _CitasState extends State<Citas> {
     return FutureBuilder(
       future: citasList,
       builder:
-          (BuildContext context, AsyncSnapshot<List<CitaCompleta>> snapshot) {
+          (BuildContext context, AsyncSnapshot<List<Receta>> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.active:
@@ -550,7 +560,9 @@ class _CitasState extends State<Citas> {
                 style: appTheme().textTheme.display4,
               ); //'Error: ${snapshot.error}'
 
-            return ListView.builder(
+            return
+              snapshot.data.length>0?
+              ListView.builder(
               //validar null citasProximas
               shrinkWrap: true,
               itemCount: snapshot.data.length,
@@ -740,7 +752,13 @@ class _CitasState extends State<Citas> {
                   ],
                 );
               },
-            );
+            )
+            :Text(
+                "No hay citas nuevas",
+                textAlign: TextAlign.center,
+                style: appTheme().textTheme.display4,
+              )
+            ;
         }
         return null;
       },

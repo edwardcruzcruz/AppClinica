@@ -14,8 +14,10 @@ class Receta{
   final Doctor _iddoctor;//tiempo por cita --> es proporcional a la especialidad y tipo de consulta
   final Especialidad _idespecialidad;
   final List<RecetaxCita> _recetaxCita;
+  final bool _is_finished;
+  final bool _recordatorio;
 
-  Receta(this._id,this._paciente, this._idespecialidad,this._tratamiento,this._fecha,this._iddoctor,this._recetaxCita);
+  Receta(this._id,this._paciente, this._idespecialidad,this._tratamiento,this._fecha,this._iddoctor,this._recetaxCita,this._recordatorio,this._is_finished);
 
   factory Receta.fromJson(Map<String, dynamic> json){
     var list = json['RecetaxCita'] as List;
@@ -34,7 +36,9 @@ class Receta{
       }) :Tratamiento.fromJson(json['tratamiento']),
         HorarioCompleto.fromJson(json['fechaHora']),
         Doctor.fromJson(json['doctor']),
-        ListRecetas
+        ListRecetas,
+        json['is_finished'],
+        json['recordatorio']
     );
   }
 
@@ -45,6 +49,8 @@ class Receta{
   HorarioCompleto get Fecha => _fecha;
   Doctor get IdDoctor=> _iddoctor;
   List<RecetaxCita> get RecetaPorCita=> _recetaxCita;
+  bool get IsFinished=>_is_finished;
+  bool get Recordatorio=>_recordatorio;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -55,6 +61,8 @@ class Receta{
     data['fechaHora']=this._fecha;
     data['Doctor']=this._iddoctor;
     data['RecetaxCita']=this._recetaxCita;
+    data['is_finished']=this._is_finished;
+    data['recordatorio']=this._recordatorio;
     return data;
   }
 }

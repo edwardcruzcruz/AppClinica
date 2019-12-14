@@ -656,7 +656,9 @@ class RestDatasource {
         print(recetas);
         for(final receta in recetas){
           print(receta);
-          response.add(receta);
+          if(receta._recetaxCita.length>0){
+            response.add(receta);
+          }
         }
         print("***********************************************************");
         print(response);
@@ -667,4 +669,42 @@ class RestDatasource {
     });
   }
 
+  Future<List<Receta>> ListarRecetasCitas(int idUsuario) {
+    var queryParameters = {
+      'usuario': idUsuario.toString(),
+    };
+    Uri uri =
+    Uri.https('jacelly.pythonanywhere.com','/api/v1/receta/', queryParameters);
+    print("*************************URI**********************************");
+    print(uri);
+    print("***********************************************************");
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    return _netUtil.get(RECETA_USUARIO_URL+idUsuario.toString(),//idUsuario.toString()+"/",
+        headers: {
+          HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"
+        }
+    ).then((dynamic res) {
+      List<Receta> response=new List<Receta>();
+
+      if(res!=null){
+        print("*************************RES**********************************");
+        print(res);
+        var recetas = res.map((i)=>Receta.fromJson(i)).toList();
+        print("*************************RECETAS**********************************");
+        print(recetas);
+        for(final receta in recetas){
+          print(receta.IsFinished);
+          if(!receta.IsFinished){
+            response.add(receta);
+          }
+        }
+        print("***********************************************************");
+        print(response);
+        return response;
+      }
+      print("***************************NULL********************************");
+      return null;
+    });
+  }
 }
