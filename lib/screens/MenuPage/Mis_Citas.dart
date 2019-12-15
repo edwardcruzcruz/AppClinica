@@ -39,16 +39,18 @@ class _CitasState extends State<Citas> {
   var storageService = locator<Var_shared>();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   Future<List<Receta>> citasList;
+  Future<List<Receta>> citasList2;
 
   @override
   initState() {
     super.initState();
     //citasList = RestDatasource().ListarCitas();
     citasList = RestDatasource().ListarRecetasCitas(storageService.getIdPadre);
+    citasList2= RestDatasource().ListarRecetasCitasAnteriores(storageService.getIdPadre);
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
     // If you have skipped STEP 3 then change app_icon to @mipmap/ic_launcher
     var initializationSettingsAndroid =
-        new AndroidInitializationSettings('app_icon');
+    new AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
@@ -146,26 +148,26 @@ class _CitasState extends State<Citas> {
                     children: <Widget>[
                       new Expanded(
                           child:
-                              /*this.widget.citasList == null
+                          /*this.widget.citasList == null
                                       ? Center(
                                     child: Text("Sin contenido que mostrar",
                                       textAlign: TextAlign.center,
                                       style: appTheme().textTheme.subhead,),)
                                       : */
-                              formulario())
+                          formulario())
                     ], //Text("Próximos Page")
                   ),
                   new Column(
                     children: <Widget>[
                       new Expanded(
                           child:
-                              /*this.widget.citasList == null
+                          /*this.widget.citasList == null
                                       ? Center(
                                     child: Text("Sin contenido que mostrar",
                                         textAlign: TextAlign.center,
                                         style: appTheme().textTheme.subhead),)
                                       :*/
-                              formulario2())
+                          formulario2())
                     ],
                   )
                 ],
@@ -209,315 +211,315 @@ class _CitasState extends State<Citas> {
             return
               snapshot.data.length>0?
               ListView.builder(
-              //validar null citasProximas
-              shrinkWrap: true,
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, position) {
-                return Column(
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        //async
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          new Expanded(
-                              child: Column(
-                            children: <Widget>[
-                              Row(
+                //validar null citasProximas
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, position) {
+                  return Column(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          //async
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            new Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  15.0, 2.0, 1.0, 2.0),
+                                              //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                              child: new Image.asset(
+                                                  'assets/avatar.png',
+                                                  width: 33,
+                                                  height: 40),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  7.0, 12.0, 12.0, 3.0),
+                                              child: Text(
+                                                (snapshot.data
+                                                    .elementAt(position)
+                                                    .IDEspecialidad
+                                                    .NombreEspecialidad ==
+                                                    "Odontología"
+                                                    ? "OD. "
+                                                    : snapshot.data
+                                                    .elementAt(
+                                                    position)
+                                                    .IDEspecialidad
+                                                    .NombreEspecialidad ==
+                                                    "Nutrición"
+                                                    ? "NUT. "
+                                                    : "PSIC. ") +
+                                                    snapshot.data
+                                                        .elementAt(position)
+                                                        .IdDoctor
+                                                        .Nombre +
+                                                    " " +
+                                                    snapshot.data
+                                                        .elementAt(position)
+                                                        .IdDoctor
+                                                        .Apellido,
+                                                style: appTheme().textTheme.subhead,
+                                              ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  20.0, 2.0, 1.0, 2.0),
+                                              child: Icon(Icons
+                                                  .calendar_today), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  10.0, 12.0, 12.0, 3.0),
+                                              child: Text(
+                                                snapshot.data
+                                                    .elementAt(position)
+                                                    .Fecha
+                                                    .Fecha,
+                                                style: appTheme().textTheme.subhead,
+                                              ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  20.0, 2.0, 1.0, 2.0),
+                                              //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                              child: Icon(Icons
+                                                  .access_time), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  10.0, 12.0, 12.0, 3.0),
+                                              child: Text(
+                                                snapshot.data
+                                                    .elementAt(position)
+                                                    .Fecha
+                                                    .Hora
+                                                    .HorarioInicio +
+                                                    " " +
+                                                    snapshot.data
+                                                        .elementAt(position)
+                                                        .Fecha
+                                                        .Hora
+                                                        .Horariofin,
+                                                style: appTheme().textTheme.subhead,
+                                              ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            15.0, 2.0, 1.0, 2.0),
-                                        //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
-                                        child: new Image.asset(
-                                            'assets/avatar.png',
-                                            width: 33,
-                                            height: 40),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            7.0, 12.0, 12.0, 3.0),
-                                        child: Text(
-                                          (snapshot.data
-                                                          .elementAt(position)
-                                                          .IDEspecialidad
-                                                          .NombreEspecialidad ==
-                                                      "Odontología"
-                                                  ? "OD. "
-                                                  : snapshot.data
-                                                              .elementAt(
-                                                                  position)
-                                                              .IDEspecialidad
-                                                              .NombreEspecialidad ==
-                                                          "Nutrición"
-                                                      ? "NUT. "
-                                                      : "PSIC. ") +
-                                              snapshot.data
-                                                  .elementAt(position)
-                                                  .IdDoctor
-                                                  .Nombre +
-                                              " " +
-                                              snapshot.data
-                                                  .elementAt(position)
-                                                  .IdDoctor
-                                                  .Apellido,
-                                          style: appTheme().textTheme.subhead,
-                                        ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            20.0, 2.0, 1.0, 2.0),
-                                        child: Icon(Icons
-                                            .calendar_today), //new Image.asset('assets/avatar.png',width: 43,height: 50),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10.0, 12.0, 12.0, 3.0),
-                                        child: Text(
-                                          snapshot.data
-                                              .elementAt(position)
-                                              .Fecha
-                                              .Fecha,
-                                          style: appTheme().textTheme.subhead,
-                                        ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            20.0, 2.0, 1.0, 2.0),
-                                        //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
-                                        child: Icon(Icons
-                                            .access_time), //new Image.asset('assets/avatar.png',width: 43,height: 50),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10.0, 12.0, 12.0, 3.0),
-                                        child: Text(
-                                          snapshot.data
-                                                  .elementAt(position)
-                                                  .Fecha
-                                                  .Hora
-                                                  .HorarioInicio +
-                                              " " +
-                                              snapshot.data
-                                                  .elementAt(position)
-                                                  .Fecha
-                                                  .Hora
-                                                  .Horariofin,
-                                          style: appTheme().textTheme.subhead,
-                                        ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: new IconButton(
-                                    icon: snapshot.data
-                                                .elementAt(position)
-                                                .Recordatorio ==
-                                            true
-                                        ? Icon(
-                                            Icons.add_alert,
-                                            size: 25.0,
-                                            color: Colors.yellow,
-                                          )
-                                        : Icon(
-                                            Icons.add_alert,
-                                            size: 25.0,
-                                            color: Colors.grey,
-                                          ), // Icon(Icons.note_add),
-                                    onPressed: () async {
-                                      this._recordatorio(
-                                          snapshot.data.elementAt(position),
-                                          !snapshot.data
-                                              .elementAt(position)
-                                              .Recordatorio);
-
-                                      /*final int helloAlarmID = position;
-                              await AndroidAlarmManager.initialize();
-                              await AndroidAlarmManager.periodic(const Duration(minutes: 1), helloAlarmID, printHello);*/
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: IconButton(
-                                      icon: Icon(
-                                        Icons.edit,
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: new IconButton(
+                                      icon: snapshot.data
+                                          .elementAt(position)
+                                          .Recordatorio ==
+                                          true
+                                          ? Icon(
+                                        Icons.add_alert,
+                                        size: 25.0,
+                                        color: Colors.yellow,
+                                      )
+                                          : Icon(
+                                        Icons.add_alert,
                                         size: 25.0,
                                         color: Colors.grey,
-                                      ),
+                                      ), // Icon(Icons.note_add),
                                       onPressed: () async {
-                                        List<HorarioRango> horariosId =
-                                            new List();
-                                        List<Horario> horariosAvaliable =
-                                            new List();
-                                        final temp = DateTime.now();
-                                        List<Horario> horarios =
-                                            await RestDatasource()
-                                                .HorarioDoctor(snapshot.data
-                                                    .elementAt(position)
-                                                    .IdDoctor
-                                                    .Id);
-                                        if (horarios != null) {
-                                          for (int i = 0;
-                                              i < horarios.length;
-                                              i++) {
-                                            DateTime fechaTemp = DateTime.parse(
-                                                horarios.elementAt(i).Fecha);
-                                            HorarioRango horarioid =
-                                                await RestDatasource()
-                                                    .HorarioId(horarios
-                                                        .elementAt(i)
-                                                        .Hora);
-                                            if (horarioid != null &&
-                                                horarios
-                                                    .elementAt(i)
-                                                    .IsAvaliable &&
-                                                (fechaTemp.isAfter(temp) ||
-                                                    (fechaTemp.isAtSameMomentAs(
-                                                            temp) &&
-                                                        temp.hour >
-                                                            fechaTemp.hour))) {
-                                              //dias posteriores .. si se graba
-                                              horariosId.add(horarioid);
-                                              horariosAvaliable
-                                                  .add(horarios.elementAt(i));
+                                        this._recordatorio(
+                                            snapshot.data.elementAt(position),
+                                            !snapshot.data
+                                                .elementAt(position)
+                                                .Recordatorio);
+
+                                        /*final int helloAlarmID = position;
+                              await AndroidAlarmManager.initialize();
+                              await AndroidAlarmManager.periodic(const Duration(minutes: 1), helloAlarmID, printHello);*/
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: IconButton(
+                                        icon: Icon(
+                                          Icons.edit,
+                                          size: 25.0,
+                                          color: Colors.grey,
+                                        ),
+                                        onPressed: () async {
+                                          List<HorarioRango> horariosId =
+                                          new List();
+                                          List<Horario> horariosAvaliable =
+                                          new List();
+                                          final temp = DateTime.now();
+                                          List<Horario> horarios =
+                                          await RestDatasource()
+                                              .HorarioDoctor(snapshot.data
+                                              .elementAt(position)
+                                              .IdDoctor
+                                              .Id);
+                                          if (horarios != null) {
+                                            for (int i = 0;
+                                            i < horarios.length;
+                                            i++) {
+                                              DateTime fechaTemp = DateTime.parse(
+                                                  horarios.elementAt(i).Fecha);
+                                              HorarioRango horarioid =
+                                              await RestDatasource()
+                                                  .HorarioId(horarios
+                                                  .elementAt(i)
+                                                  .Hora);
+                                              if (horarioid != null &&
+                                                  horarios
+                                                      .elementAt(i)
+                                                      .IsAvaliable &&
+                                                  (fechaTemp.isAfter(temp) ||
+                                                      (fechaTemp.isAtSameMomentAs(
+                                                          temp) &&
+                                                          temp.hour >
+                                                              fechaTemp.hour))) {
+                                                //dias posteriores .. si se graba
+                                                horariosId.add(horarioid);
+                                                horariosAvaliable
+                                                    .add(horarios.elementAt(i));
+                                              }
                                             }
                                           }
-                                        }
-                                        User usuario = await RestDatasource()
-                                            .perfil(storageService.getEmail);
-                                        List<Especialidad> especialidades =
-                                            await RestDatasource()
-                                                .ListaEspecialidad();
-                                        int idEspecialidad = 0;
-                                        for (var especialidad
-                                            in especialidades) {
-                                          if (especialidad.NombreEspecialidad ==
-                                              snapshot.data
-                                                  .elementAt(position)
-                                                  .IDEspecialidad
-                                                  .NombreEspecialidad) {
-                                            idEspecialidad = especialidad.Id;
-                                          }
-                                        }
-                                        print(
-                                            "--------------------------------------------" +
+                                          User usuario = await RestDatasource()
+                                              .perfil(storageService.getEmail);
+                                          List<Especialidad> especialidades =
+                                          await RestDatasource()
+                                              .ListaEspecialidad();
+                                          int idEspecialidad = 0;
+                                          for (var especialidad
+                                          in especialidades) {
+                                            if (especialidad.NombreEspecialidad ==
                                                 snapshot.data
                                                     .elementAt(position)
                                                     .IDEspecialidad
-                                                    .NombreEspecialidad);
-                                        this.widget.callback(CalendarioPage(
-                                              agendar: false,
-                                              callback: this.widget.callback,
-                                              callbackfull:
-                                                  this.widget.callbackfull,
-                                              callbackloading:
-                                                  this.widget.callbackloading,
-                                              usuario: usuario,
-                                              doctor: snapshot.data
-                                                  .elementAt(position)
-                                                  .IdDoctor,
-                                              horarios: horariosAvaliable,
-                                              horariosID: horariosId,
-                                              idEspecialidadEscogida:
-                                                  idEspecialidad,
-                                              idCita: snapshot.data
-                                                  .elementAt(position)
-                                                  .Id,
-                                            ));
+                                                    .NombreEspecialidad) {
+                                              idEspecialidad = especialidad.Id;
+                                            }
+                                          }
+                                          print(
+                                              "--------------------------------------------" +
+                                                  snapshot.data
+                                                      .elementAt(position)
+                                                      .IDEspecialidad
+                                                      .NombreEspecialidad);
+                                          this.widget.callback(CalendarioPage(
+                                            agendar: false,
+                                            callback: this.widget.callback,
+                                            callbackfull:
+                                            this.widget.callbackfull,
+                                            callbackloading:
+                                            this.widget.callbackloading,
+                                            usuario: usuario,
+                                            doctor: snapshot.data
+                                                .elementAt(position)
+                                                .IdDoctor,
+                                            horarios: horariosAvaliable,
+                                            horariosID: horariosId,
+                                            idEspecialidadEscogida:
+                                            idEspecialidad,
+                                            idCita: snapshot.data
+                                                .elementAt(position)
+                                                .Id,
+                                          ));
 
-                                        /*ModificarCuenta(
+                                          /*ModificarCuenta(
                                   cuenta: this.widget.cuentas.elementAt(position),
                                   cuentas: this.widget.cuentas,
                                   callback: this.widget.callback,
                                   callbackloading: this.widget.callbackloading,
                                   callbackfull: this.widget.callbackfull,)
                               );*/
-                                      }),
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.delete,
-                                        size: 25.0,
-                                        color: Colors.grey,
-                                      ),
-                                      onPressed: () {
-                                        this._eliminar(snapshot.data
-                                            .elementAt(position)
-                                            .Id);
-                                      },
-                                    )),
-                              ],
+                                        }),
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.delete,
+                                          size: 25.0,
+                                          color: Colors.grey,
+                                        ),
+                                        onPressed: () {
+                                          this._eliminar(snapshot.data
+                                              .elementAt(position)
+                                              .Id);
+                                        },
+                                      )),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Divider(
-                      height: 2.0,
-                      color: Colors.grey,
-                    )
-                  ],
-                );
-              },
-            )
-            :Text(
+                      Divider(
+                        height: 2.0,
+                        color: Colors.grey,
+                      )
+                    ],
+                  );
+                },
+              )
+                  :Text(
                 "No hay citas nuevas",
                 textAlign: TextAlign.center,
                 style: appTheme().textTheme.display4,
@@ -544,7 +546,7 @@ class _CitasState extends State<Citas> {
     }*/
     //String especialidad=this.doctores.elementAt(0).Especialidad;
     return FutureBuilder(
-      future: citasList,
+      future: citasList2,
       builder:
           (BuildContext context, AsyncSnapshot<List<Receta>> snapshot) {
         switch (snapshot.connectionState) {
@@ -563,197 +565,197 @@ class _CitasState extends State<Citas> {
             return
               snapshot.data.length>0?
               ListView.builder(
-              //validar null citasProximas
-              shrinkWrap: true,
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, position) {
-                return Column(
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        //async
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          new Expanded(
-                              child: Column(
-                            children: <Widget>[
-                              Row(
+                //validar null citasProximas
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, position) {
+                  return Column(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          //async
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            new Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  15.0, 2.0, 1.0, 2.0),
+                                              //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                              child: new Image.asset(
+                                                  'assets/avatar.png',
+                                                  width: 33,
+                                                  height: 40),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  7.0, 12.0, 12.0, 3.0),
+                                              child: Text(
+                                                (snapshot.data
+                                                    .elementAt(position)
+                                                    .IDEspecialidad
+                                                    .NombreEspecialidad ==
+                                                    "Odontología"
+                                                    ? "OD. "
+                                                    : snapshot.data
+                                                    .elementAt(
+                                                    position)
+                                                    .IDEspecialidad
+                                                    .NombreEspecialidad ==
+                                                    "Nutrición"
+                                                    ? "NUT. "
+                                                    : "PSIC. ") +
+                                                    snapshot.data
+                                                        .elementAt(position)
+                                                        .IdDoctor
+                                                        .Nombre +
+                                                    " " +
+                                                    snapshot.data
+                                                        .elementAt(position)
+                                                        .IdDoctor
+                                                        .Apellido,
+                                                style: appTheme().textTheme.subhead,
+                                              ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  20.0, 2.0, 1.0, 2.0),
+                                              child: Icon(Icons
+                                                  .calendar_today), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  10.0, 12.0, 12.0, 3.0),
+                                              child: Text(
+                                                snapshot.data
+                                                    .elementAt(position)
+                                                    .Fecha
+                                                    .Fecha,
+                                                style: appTheme().textTheme.subhead,
+                                              ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  20.0, 2.0, 1.0, 2.0),
+                                              //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                              child: Icon(Icons
+                                                  .access_time), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  10.0, 12.0, 12.0, 3.0),
+                                              child: Text(
+                                                snapshot.data
+                                                    .elementAt(position)
+                                                    .Fecha
+                                                    .Hora
+                                                    .HorarioInicio +
+                                                    " " +
+                                                    snapshot.data
+                                                        .elementAt(position)
+                                                        .Fecha
+                                                        .Hora
+                                                        .Horariofin,
+                                                style: appTheme().textTheme.subhead,
+                                              ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            15.0, 2.0, 1.0, 2.0),
-                                        //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
-                                        child: new Image.asset(
-                                            'assets/avatar.png',
-                                            width: 33,
-                                            height: 40),
-                                      ),
-                                    ],
+                                  Container(
+                                    width: 100,
+                                    height: 20,
+                                    child: SmoothStarRating(
+                                        allowHalfRating: true,
+                                        onRatingChanged: (v) {
+                                          rating = v;
+                                          setState(() {});
+                                        },
+                                        starCount: 5,
+                                        rating: rating,
+                                        size: 20.0,
+                                        color: Colors.yellow,
+                                        borderColor: Colors.yellow,
+                                        spacing: 0.0),
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            7.0, 12.0, 12.0, 3.0),
-                                        child: Text(
-                                          (snapshot.data
-                                                          .elementAt(position)
-                                                          .IDEspecialidad
-                                                          .NombreEspecialidad ==
-                                                      "Odontología"
-                                                  ? "OD. "
-                                                  : snapshot.data
-                                                              .elementAt(
-                                                                  position)
-                                                              .IDEspecialidad
-                                                              .NombreEspecialidad ==
-                                                          "Nutrición"
-                                                      ? "NUT. "
-                                                      : "PSIC. ") +
-                                              snapshot.data
-                                                  .elementAt(position)
-                                                  .IdDoctor
-                                                  .Nombre +
-                                              " " +
-                                              snapshot.data
-                                                  .elementAt(position)
-                                                  .IdDoctor
-                                                  .Apellido,
-                                          style: appTheme().textTheme.subhead,
-                                        ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                                      ),
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Icon(
+                                      Icons.remove_red_eye,
+                                      size: 25.0,
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                 ],
                               ),
-                              Row(
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            20.0, 2.0, 1.0, 2.0),
-                                        child: Icon(Icons
-                                            .calendar_today), //new Image.asset('assets/avatar.png',width: 43,height: 50),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10.0, 12.0, 12.0, 3.0),
-                                        child: Text(
-                                          snapshot.data
-                                              .elementAt(position)
-                                              .Fecha
-                                              .Fecha,
-                                          style: appTheme().textTheme.subhead,
-                                        ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            20.0, 2.0, 1.0, 2.0),
-                                        //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
-                                        child: Icon(Icons
-                                            .access_time), //new Image.asset('assets/avatar.png',width: 43,height: 50),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10.0, 12.0, 12.0, 3.0),
-                                        child: Text(
-                                          snapshot.data
-                                                  .elementAt(position)
-                                                  .Fecha
-                                                  .Hora
-                                                  .HorarioInicio +
-                                              " " +
-                                              snapshot.data
-                                                  .elementAt(position)
-                                                  .Fecha
-                                                  .Hora
-                                                  .Horariofin,
-                                          style: appTheme().textTheme.subhead,
-                                        ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Container(
-                                  width: 100,
-                                  height: 20,
-                                  child: SmoothStarRating(
-                                      allowHalfRating: true,
-                                      onRatingChanged: (v) {
-                                        rating = v;
-                                        setState(() {});
-                                      },
-                                      starCount: 5,
-                                      rating: rating,
-                                      size: 20.0,
-                                      color: Colors.yellow,
-                                      borderColor: Colors.yellow,
-                                      spacing: 0.0),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Icon(
-                                    Icons.remove_red_eye,
-                                    size: 25.0,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Divider(
-                      height: 2.0,
-                      color: Colors.grey,
-                    )
-                  ],
-                );
-              },
-            )
-            :Text(
+                      Divider(
+                        height: 2.0,
+                        color: Colors.grey,
+                      )
+                    ],
+                  );
+                },
+              )
+                  :Text(
                 "No hay citas nuevas",
                 textAlign: TextAlign.center,
                 style: appTheme().textTheme.display4,
@@ -787,30 +789,30 @@ class _CitasState extends State<Citas> {
               // usually buttons at the bottom of the dialog
               new Center(
                   child: new Row(
-                children: <Widget>[
-                  new FlatButton(
-                    child: new Text("Aceptar"),
-                    onPressed: () async {
-                      //this.widget.callbackloading;
-                      await RestDatasource().delete_cita(position);
-                      //this.widget.callbackfull();
-                      this.widget.callback(Citas(
-                          callback: this.widget.callback,
-                          callbackloading: this.widget.callbackloading,
-                          callbackfull: this.widget.callbackfull));
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  new FlatButton(
-                    child: new Text("Cancelar"),
-                    onPressed: () {
-                      //this.widget.callback(Citas());
-                      Navigator.of(context).pop();
-                      //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
-                    },
-                  ),
-                ],
-              ))
+                    children: <Widget>[
+                      new FlatButton(
+                        child: new Text("Aceptar"),
+                        onPressed: () async {
+                          //this.widget.callbackloading;
+                          await RestDatasource().delete_cita(position);
+                          //this.widget.callbackfull();
+                          this.widget.callback(Citas(
+                              callback: this.widget.callback,
+                              callbackloading: this.widget.callbackloading,
+                              callbackfull: this.widget.callbackfull));
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      new FlatButton(
+                        child: new Text("Cancelar"),
+                        onPressed: () {
+                          //this.widget.callback(Citas());
+                          Navigator.of(context).pop();
+                          //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+                        },
+                      ),
+                    ],
+                  ))
             ]);
       },
     );
@@ -822,75 +824,75 @@ class _CitasState extends State<Citas> {
       builder: (BuildContext context) {
         return recordatorio == false
             ? AlertDialog(
-                title: new Text("¿Está seguro de agregar alarma?"),
-                actions: <Widget>[
-                  new Center(
-                    child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        new FlatButton(
-                          child: new Text("Aceptar"),
-                          onPressed: () async {
-                            print(i.Fecha.Fecha);
-                            print(i.Fecha.Hora.HorarioInicio);
-                            DateTime dateparse = DateTime.parse(
-                                i.Fecha.Fecha.toString() +
-                                    " " +
-                                    i.Fecha.Hora.HorarioInicio);
-                            DateTime fechaReal =
-                                dateparse.subtract(new Duration(minutes: 30));
-                            print(i.IdDoctor.Apellido);
-                            String cuerpo = "Tiene cita con el doctor " +
-                                i.IdDoctor.Apellido +
-                                " en 30 minutos\n";
-                            String especialidad =
-                                i.IDEspecialidad.NombreEspecialidad;
-                            String data =
-                                i.Fecha.Hora.HorarioInicio.toString() +
-                                    "-" +
-                                    i.IdDoctor.Apellido +
-                                    "-" +
-                                    i.IDEspecialidad.NombreEspecialidad +
-                                    "-" +
-                                    i.Fecha.Hora.Horariofin.toString();
-                            await RestDatasource()
-                                .update_cita_recordatorio(i.Id, recordatorio);
-                            this._programada(
-                                fechaReal, cuerpo, especialidad, data);
-                            this.widget.callback(Citas());
-                            Navigator.of(context).pop();
-                            //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
-                          },
-                        ),
-                      ],
-                    ),
+          title: new Text("¿Está seguro de agregar alarma?"),
+          actions: <Widget>[
+            new Center(
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  new FlatButton(
+                    child: new Text("Aceptar"),
+                    onPressed: () async {
+                      print(i.Fecha.Fecha);
+                      print(i.Fecha.Hora.HorarioInicio);
+                      DateTime dateparse = DateTime.parse(
+                          i.Fecha.Fecha.toString() +
+                              " " +
+                              i.Fecha.Hora.HorarioInicio);
+                      DateTime fechaReal =
+                      dateparse.subtract(new Duration(minutes: 30));
+                      print(i.IdDoctor.Apellido);
+                      String cuerpo = "Tiene cita con el doctor " +
+                          i.IdDoctor.Apellido +
+                          " en 30 minutos\n";
+                      String especialidad =
+                          i.IDEspecialidad.NombreEspecialidad;
+                      String data =
+                          i.Fecha.Hora.HorarioInicio.toString() +
+                              "-" +
+                              i.IdDoctor.Apellido +
+                              "-" +
+                              i.IDEspecialidad.NombreEspecialidad +
+                              "-" +
+                              i.Fecha.Hora.Horariofin.toString();
+                      await RestDatasource()
+                          .update_cita_recordatorio(i.Id, recordatorio);
+                      this._programada(
+                          fechaReal, cuerpo, especialidad, data);
+                      this.widget.callback(Citas());
+                      Navigator.of(context).pop();
+                      //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+                    },
                   ),
                 ],
-              )
+              ),
+            ),
+          ],
+        )
             : AlertDialog(
-                title: new Text("¿Está seguro de cancelar alarma?"),
-                actions: <Widget>[
-                  new Center(
-                    child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        new FlatButton(
-                          child: new Text("Aceptar"),
-                          onPressed: () async {
+          title: new Text("¿Está seguro de cancelar alarma?"),
+          actions: <Widget>[
+            new Center(
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  new FlatButton(
+                    child: new Text("Aceptar"),
+                    onPressed: () async {
 
-                            await RestDatasource()
-                                .update_cita_recordatorio(i.Id, recordatorio);
-                            this.widget.callback(Citas());
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
+                      await RestDatasource()
+                          .update_cita_recordatorio(i.Id, recordatorio);
+                      this.widget.callback(Citas());
+                      Navigator.of(context).pop();
+                    },
                   ),
                 ],
-              );
+              ),
+            ),
+          ],
+        );
       },
     );
   }

@@ -21,7 +21,19 @@ class Historial extends StatefulWidget {
 
 class _HistorialState extends State<Historial>{
   final temp=DateTime.now();
+
   var storageService = locator<Var_shared>();
+  //Future<List<Receta>> future;
+
+  @override
+  void initState() {
+    super.initState();
+    this.widget.citasList=null;
+    /*print("***********************--------------------------------*********************************");
+    print(storageService.getIdPadre);
+    print("***********************--------------------------------*********************************");
+    future = RestDatasource().ListarRecetas(storageService.getIdPadre);*/
+  }
   @override
   Widget build(BuildContext context) {
     return  new Column (

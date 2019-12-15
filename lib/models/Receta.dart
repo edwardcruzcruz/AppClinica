@@ -1,5 +1,6 @@
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/CitaCompleta.dart';
+import 'package:webfeed/domain/media/description.dart';
 
 import 'Especialidad.dart';
 import 'HorarioCompleto.dart';
@@ -16,8 +17,9 @@ class Receta{
   final List<RecetaxCita> _recetaxCita;
   final bool _is_finished;
   final bool _recordatorio;
+  final String _descripcion;
 
-  Receta(this._id,this._paciente, this._idespecialidad,this._tratamiento,this._fecha,this._iddoctor,this._recetaxCita,this._recordatorio,this._is_finished);
+  Receta(this._id,this._paciente, this._idespecialidad,this._tratamiento,this._fecha,this._iddoctor,this._recetaxCita,this._recordatorio,this._is_finished,this._descripcion);
 
   factory Receta.fromJson(Map<String, dynamic> json){
     var list = json['RecetaxCita'] as List;
@@ -25,20 +27,22 @@ class Receta{
     List<RecetaxCita> ListRecetas = list.map((i) => RecetaxCita.fromJson(i)).toList();
 
     return Receta(
-      json['cita_id'],
-      User.fromJson(json['cliente']),
-      Especialidad.fromJson(json['especialidad']),
-      json['tratamiento']==null? Tratamiento.fromJson({
-        "tratam_id": 0,
-        "descripcion": "",
-        "precio": "00.00",
-        "duracion": "00:00"
-      }) :Tratamiento.fromJson(json['tratamiento']),
+        json['cita_id'],
+        User.fromJson(json['cliente']),
+        Especialidad.fromJson(json['especialidad']),
+        json['tratamiento']==null? Tratamiento.fromJson({
+          "tratam_id": 0,
+          "descripcion": "",
+          "precio": "00.00",
+          "duracion": "00:00"
+        }) :Tratamiento.fromJson(json['tratamiento']),
         HorarioCompleto.fromJson(json['fechaHora']),
         Doctor.fromJson(json['doctor']),
         ListRecetas,
         json['is_finished'],
-        json['recordatorio']
+        json['recordatorio'],
+        json['descripcion']==null?"":json['descripcion']
+
     );
   }
 
@@ -51,6 +55,7 @@ class Receta{
   List<RecetaxCita> get RecetaPorCita=> _recetaxCita;
   bool get IsFinished=>_is_finished;
   bool get Recordatorio=>_recordatorio;
+  String get Description=>_descripcion;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -63,6 +68,7 @@ class Receta{
     data['RecetaxCita']=this._recetaxCita;
     data['is_finished']=this._is_finished;
     data['recordatorio']=this._recordatorio;
+    data['descripcion']=this._descripcion;
     return data;
   }
 }

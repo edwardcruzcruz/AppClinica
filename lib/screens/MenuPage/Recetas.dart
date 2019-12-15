@@ -95,9 +95,9 @@ class _RecetasState extends State<Recetas> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                        //alignment: Alignment(50, 0),
+                      //alignment: Alignment(50, 0),
                         margin:
-                            const EdgeInsets.fromLTRB(65.0, 20.0, 10.0, 20.0),
+                        const EdgeInsets.fromLTRB(65.0, 20.0, 10.0, 20.0),
                         child: Text(
                           "Paciente: " + storageService.getCuentaActual,
                           style: appTheme().textTheme.subhead,
@@ -111,11 +111,11 @@ class _RecetasState extends State<Recetas> {
               ),
               Expanded(
                 child:
-                    /*this.widget.recetas == null ? Center(child: Text(
+                /*this.widget.recetas == null ? Center(child: Text(
                         "Sin contenido que mostrar",
                         textAlign: TextAlign.center, style: appTheme().textTheme
                           .subhead,),) :*/
-                    formulario(),
+                formulario(),
               )
             ],
           ),
@@ -151,7 +151,7 @@ class _RecetasState extends State<Recetas> {
 
             //String especialidad=this.doctores.elementAt(0).Especialidad;
             return snapshot.data.length>0?
-              ListView.builder(
+            ListView.builder(
               //validar null citasProximas
               shrinkWrap: true,
               itemCount: snapshot.data.length,
@@ -167,63 +167,63 @@ class _RecetasState extends State<Recetas> {
                         children: <Widget>[
                           new Expanded(
                               child: Column(
-                            children: <Widget>[
-                              Row(
                                 children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
                                     children: <Widget>[
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            15.0, 2.0, 1.0, 2.0),
-                                        //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
-                                        child: new Image.asset(
-                                            'assets/avatar.png',
-                                            width: 33,
-                                            height: 40),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                15.0, 2.0, 1.0, 2.0),
+                                            //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                            child: new Image.asset(
+                                                'assets/avatar.png',
+                                                width: 33,
+                                                height: 40),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
+                                      Column(
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            7.0, 12.0, 12.0, 3.0),
-                                        child: Text(
-                                          (snapshot.data
-                                                          .elementAt(position)
-                                                          .IDEspecialidad
-                                                          .NombreEspecialidad ==
-                                                      "Odontología"
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                7.0, 12.0, 12.0, 3.0),
+                                            child: Text(
+                                              (snapshot.data
+                                                  .elementAt(position)
+                                                  .IDEspecialidad
+                                                  .NombreEspecialidad ==
+                                                  "Odontología"
                                                   ? "OD. "
                                                   : snapshot.data
-                                                              .elementAt(
-                                                                  position)
-                                                              .IDEspecialidad
-                                                              .NombreEspecialidad ==
-                                                          "Nutrición"
-                                                      ? "NUT. "
-                                                      : "PSIC. ") +
-                                              snapshot.data
-                                                  .elementAt(position)
-                                                  .IdDoctor
-                                                  .Nombre +
-                                              " " +
-                                              snapshot.data
-                                                  .elementAt(position)
-                                                  .IdDoctor
-                                                  .Apellido,
-                                          style: appTheme().textTheme.subhead,
-                                        ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                                  .elementAt(
+                                                  position)
+                                                  .IDEspecialidad
+                                                  .NombreEspecialidad ==
+                                                  "Nutrición"
+                                                  ? "NUT. "
+                                                  : "PSIC. ") +
+                                                  snapshot.data
+                                                      .elementAt(position)
+                                                      .IdDoctor
+                                                      .Nombre +
+                                                  " " +
+                                                  snapshot.data
+                                                      .elementAt(position)
+                                                      .IdDoctor
+                                                      .Apellido,
+                                              style: appTheme().textTheme.subhead,
+                                            ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              /*Row(
+                                  /*Row(
                                 children: <Widget>[
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment
@@ -253,103 +253,133 @@ class _RecetasState extends State<Recetas> {
                                     ],
                                   ),
                                 ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            20.0, 2.0, 1.0, 2.0),
-                                        //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
-                                        child: Icon(Icons
-                                            .access_time), //new Image.asset('assets/avatar.png',width: 43,height: 50),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding:
-                                        const EdgeInsets.fromLTRB(
-                                            10.0, 12.0, 12.0, 3.0),
-                                        child: Text(snapshot.data
-                                            .elementAt(position)
-                                            .GetCita
-                                            .Fecha
-                                            .Hora
-                                            .HorarioInicio + " " + snapshot.data
-                                            .elementAt(position)
-                                            .GetCita
-                                            .Fecha
-                                            .Hora
-                                            .Horariofin,
-                                          style: appTheme().textTheme
-                                              .subhead,), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                                      ),
-                                    ],
-                                  ),
-                                ],
                               ),*/
-                              Row(
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
                                     children: <Widget>[
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            20.0, 2.0, 1.0, 2.0),
-                                        child: Icon(Icons
-                                            .edit), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                20.0, 2.0, 1.0, 2.0),
+                                            child: Icon(Icons
+                                                .calendar_today), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10.0, 12.0, 12.0, 3.0),
+                                            child: Text(
+                                              snapshot.data
+                                                  .elementAt(position)
+                                                  .Fecha
+                                                  .Fecha,
+                                              style: appTheme().textTheme.subhead,
+                                            ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
                                     children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10.0, 12.0, 12.0, 3.0),
-                                        child: Text(
-                                          snapshot.data
-                                              .elementAt(position)
-                                              .IDEspecialidad
-                                              .NombreEspecialidad,
-                                          style: appTheme().textTheme.subhead,
-                                        ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                20.0, 2.0, 1.0, 2.0),
+                                            //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                            child: Icon(Icons
+                                                .access_time), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets.fromLTRB(
+                                                10.0, 12.0, 12.0, 3.0),
+                                            child: Text(snapshot.data
+                                                .elementAt(position)
+                                                .Fecha
+                                                .Hora
+                                                .HorarioInicio + " " + snapshot.data
+                                                .elementAt(position)
+                                                .Fecha
+                                                .Hora
+                                                .Horariofin,
+                                              style: appTheme().textTheme
+                                                  .subhead,), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                20.0, 2.0, 1.0, 2.0),
+                                            child: Icon(Icons
+                                                .edit), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10.0, 12.0, 12.0, 3.0),
+                                            child: Text(
+                                              snapshot.data
+                                                  .elementAt(position)
+                                                  .Description,
+                                              style: appTheme().textTheme.subhead,
+                                            ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ],
-                              ),
-                            ],
-                          )),
+                              )),
                           GestureDetector(
                             onTap: () {
                               //async
                               this.widget.callbackloading();
                               this.widget.callbackfull();
                               this.widget.callback(RecetaView(
-                                    recetas: snapshot.data
-                                        .elementAt(position)
-                                        .RecetaPorCita,
-                                    callback: this.widget.callback,
-                                    callbackloading:
-                                        this.widget.callbackloading,
-                                    callbackfull: this.widget.callbackfull,
-                                  ));
+                                recetas: snapshot.data
+                                    .elementAt(position)
+                                    .RecetaPorCita,
+                                callback: this.widget.callback,
+                                callbackloading:
+                                this.widget.callbackloading,
+                                callbackfull: this.widget.callbackfull,
+                              ));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
@@ -375,7 +405,7 @@ class _RecetasState extends State<Recetas> {
                 );
               },
             )
-            :Text(
+                :Text(
               "No hay recetas",
               textAlign: TextAlign.center,
               style: appTheme().textTheme.display4,
