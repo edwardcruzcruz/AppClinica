@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/models/Cita.dart';
+import 'package:flutter_app/models/Cita2.dart';
 import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/User.dart';
@@ -204,11 +205,13 @@ class _Agendamiento3State extends State<Agendamiento3>{
               }
             }else{
               print(this.widget.usuario.Id);
+              Cita2 cita=await RestDatasource().get_cita(this.widget.idCita);
               var respuesta= await RestDatasource().update_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id,this.widget.idCita);
               Horario horario=await RestDatasource().HorarioDoctorbyId(this.widget.idHorario);
               var respuesta2= await RestDatasource().CambiarDisponibilidadHorarioDoctor(this.widget.idHorario, horario);
+              var respuesta3= await RestDatasource().CambiarDisponibilidadHorarioDoctorPatch(cita.fechaHora);
               this.widget.callbackfull();
-              if(respuesta.statusCode==200 || respuesta.statusCode==201 || respuesta2.statusCode==200 || respuesta2.statusCode==201){
+              if(respuesta.statusCode==200 || respuesta.statusCode==201 || respuesta2.statusCode==200 || respuesta2.statusCode==201||respuesta3.statusCode==201){
                 _showDialogSave();
               }else{
                 _showDialogDontSave();

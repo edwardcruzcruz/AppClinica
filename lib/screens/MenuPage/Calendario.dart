@@ -21,6 +21,8 @@ import 'package:flutter_app/theme/style.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
+import 'Mis_Citas.dart';
+
 // Example holidays
 final Map<DateTime, List> _holidays = {
   DateTime(2019, 1, 1): ['New Year\'s Day'],
@@ -569,6 +571,23 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
     return new Container(
       child: new Row(
         children: <Widget>[
+          GestureDetector(
+            onTap: () async{
+              this.widget.callback(Citas(
+                  callback: this.widget.callback,
+                  callbackloading: this.widget.callbackloading,
+                  callbackfull: this.widget.callbackfull));
+            },
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(20.0,20.0,10.0,20.0),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.arrow_back_ios,size: 10,color: appTheme().textTheme.subtitle.color,),
+                  Text(Strings.TextRetroceder,style: appTheme().textTheme.subtitle,)
+                ],
+              ),
+            ),
+          ),
           Container(
             //alignment: Alignment(50, 0),
               margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),

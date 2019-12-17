@@ -39,8 +39,8 @@ class Receta{
         HorarioCompleto.fromJson(json['fechaHora']),
         Doctor.fromJson(json['doctor']),
         ListRecetas,
-        json['is_finished'],
         json['recordatorio'],
+        json['is_finished'],
         json['descripcion']==null?"":json['descripcion']
 
     );

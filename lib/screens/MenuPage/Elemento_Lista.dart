@@ -25,7 +25,8 @@ class _Elemento_Lista extends State<Elemento_Lista>{
         backgroundColor: Color(0xFF00a18d),
         title: Text("Noticias"),
       ),
-      body: new Container(
+      body:
+      new Container(
         margin: new EdgeInsets.all(10.0),
         child: new Material(
           elevation: 4.0,
