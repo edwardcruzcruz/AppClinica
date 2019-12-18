@@ -1,3 +1,8 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:network_image_to_byte/network_image_to_byte.dart';
+import 'package:flutter/services.dart';
+import 'package:wc_flutter_share/wc_flutter_share.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Noticia.dart';
@@ -88,10 +93,11 @@ class _ListadoState extends State<Listado> {
                             borderRadius: new BorderRadius.circular(6.0),
                             child: new Column(
                               children: <Widget>[
-                                _getBody(snapshot.data.elementAt(position).Titulo,snapshot.data.elementAt(position).FechaPublicacion,snapshot.data.elementAt(position).Descripcion),
+                                _getBody(snapshot.data.elementAt(position).Titulo,snapshot.data.elementAt(position).FechaPublicacion,snapshot.data.elementAt(position).Descripcion,snapshot.data.elementAt(position).Imagen),
                                 snapshot.data.elementAt(position).Imagen!=null?
                                 _getImageNetwork(snapshot.data.elementAt(position).Imagen)
                                     :SizedBox(width: 0.0),
+                                _getIcon(snapshot.data.elementAt(position).Titulo,snapshot.data.elementAt(position).FechaPublicacion,snapshot.data.elementAt(position).Descripcion,snapshot.data.elementAt(position).Imagen),
                               ],
                             ),
                           ),
@@ -232,7 +238,7 @@ class _ListadoState extends State<Listado> {
 
   }
 
-  Widget _getBody(tittle,date,description){
+  Widget _getBody(tittle,date,description,imagen){
 
     return new Container(
       margin: new EdgeInsets.all(15.0),
@@ -259,8 +265,10 @@ class _ListadoState extends State<Listado> {
 
     return new Container(
         margin: new EdgeInsets.only(top: 5.0),
+        alignment: Alignment(1.0, 0.0),
         child: new Text(date,
           textAlign: TextAlign.right,
+
           style: new TextStyle(
               fontSize: 10.0,
               color: Colors.grey
@@ -272,7 +280,32 @@ class _ListadoState extends State<Listado> {
   _getDescription(description) {
     return new Container(
       margin: new  EdgeInsets.only(top: 20.0),
-      child: new Text(description),
+      child: new Text(
+          description,
+        textAlign: TextAlign.justify,
+
+      ),
+    );
+  }
+
+  _getIcon(tittle,date,description,imagen) {
+    return new Container(
+      margin: new  EdgeInsets.only(top: 20.0),
+      alignment: Alignment(1.0, 0.0),
+      child:
+      IconButton(icon:Icon(Icons.share),
+          onPressed:() async {
+            Uint8List byteImage = await networkImageToByte(imagen);
+            await WcFlutterShare.share(
+                sharePopupTitle: 'share',
+                subject: 'This is subject',
+                text: tittle+'\n'+description+'\n',
+                fileName: 'share.png',
+                mimeType: 'image/png',
+                bytesOfFile: byteImage);
+          }
+      ),
+
     );
   }
 

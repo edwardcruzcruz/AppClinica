@@ -338,13 +338,13 @@ class _RecetasState extends State<Recetas> {
                                                         .elementAt(position)
                                                         .Fecha
                                                         .Hora
-                                                        .HorarioInicio +
+                                                        .HorarioInicio.substring(0,5) +
                                                         " " +
                                                         snapshot.data
                                                             .elementAt(position)
                                                             .Fecha
                                                             .Hora
-                                                            .Horariofin,
+                                                            .Horariofin.substring(0,5),
                                                     style: appTheme()
                                                         .textTheme
                                                         .subhead,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/models/Cita2.dart';
 import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/models/HorarioRango.dart';
 import 'package:flutter_app/models/Receta.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:flutter_app/models/CitaCompleta.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 //import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -35,6 +37,7 @@ class Citas extends StatefulWidget {
 }
 
 class _CitasState extends State<Citas> {
+  bool _saving = false;
   final temp = DateTime.now();
   var storageService = locator<Var_shared>();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -346,13 +349,13 @@ class _CitasState extends State<Citas> {
                                                       .elementAt(position)
                                                       .Fecha
                                                       .Hora
-                                                      .HorarioInicio +
+                                                      .HorarioInicio.substring(0,5) +
                                                       " " +
                                                       snapshot.data
                                                           .elementAt(position)
                                                           .Fecha
                                                           .Hora
-                                                          .Horariofin,
+                                                          .Horariofin.substring(0,5),
                                                   style: appTheme().textTheme.subhead,
                                                 ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                                               ),
@@ -406,6 +409,7 @@ class _CitasState extends State<Citas> {
                                             color: Colors.grey,
                                           ),
                                           onPressed: () async {
+                                            this.widget.callbackloading();
                                             List<HorarioRango> horariosId =
                                             new List();
                                             List<Horario> horariosAvaliable =
@@ -466,6 +470,7 @@ class _CitasState extends State<Citas> {
                                                         .elementAt(position)
                                                         .IDEspecialidad
                                                         .NombreEspecialidad);
+                                            this.widget.callbackfull();
                                             this.widget.callback(CalendarioPage(
                                               agendar: false,
                                               callback: this.widget.callback,
@@ -505,8 +510,7 @@ class _CitasState extends State<Citas> {
                                           ),
                                           onPressed: () {
                                             this._eliminar(snapshot.data
-                                                .elementAt(position)
-                                                .Id);
+                                                .elementAt(position));
 
                                           },
                                         )),
@@ -800,8 +804,11 @@ class _CitasState extends State<Citas> {
                       new FlatButton(
                         child: new Text("Aceptar"),
                         onPressed: () async {
-                          //this.widget.callbackloading;
-                          await RestDatasource().delete_cita(position);
+                          // this.widget.callbackloading;
+                          // Estado de la cita a disponible, quitar los segundos
+                          Cita2 cita=await RestDatasource().get_cita(position.Id);
+                          var respuesta3= await RestDatasource().CambiarDisponibilidadHorarioDoctorPatch(cita.fechaHora);
+                          await RestDatasource().delete_cita(position.Id);
                           //this.widget.callbackfull();
                           this.citasList = RestDatasource().ListarRecetasCitas(storageService.getIdPadre);
                           this.widget.callback(Citas(
