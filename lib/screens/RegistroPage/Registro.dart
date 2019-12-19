@@ -48,8 +48,9 @@ class _RegistroState extends State<Registro> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
-        title: new Image.asset('assets/logo_clinica.png', fit: BoxFit.cover,),
+        title: new Image.asset('assets/logoclinica.png', fit: BoxFit.cover,),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -117,6 +118,9 @@ class _RegistroState extends State<Registro> {
   Widget tabla() {
     return Column(
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0,30,0,0),
+          ),
           new Expanded(
               child: new ListView(
                 children: <Widget>[
@@ -126,7 +130,32 @@ class _RegistroState extends State<Registro> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(40,0,40,10),
+                          child: TextFormField(
+                            controller: CIController,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: appTheme().buttonColor,
+                                    width: 1.0),
+                              ),
+                              labelText: Strings.LabelCI,
+                              labelStyle: appTheme().textTheme.title,
+                              errorStyle: appTheme().textTheme.overline,
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Por favor llenar los espacios';
+                              }else if (!Cedulavalida(value)){
+                                return 'Por favor ingresar un numero de cedula valida';
+                              }
+                              return null;
+                            },
+                          ),
+                          //decoration: underlineTextField(),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(40,0,40,10),
                           child: TextFormField(
                             controller: username,
                             decoration: InputDecoration(
@@ -135,6 +164,7 @@ class _RegistroState extends State<Registro> {
                                     width: 1.0),
                               ),
                               labelText: Strings.LabelRegistroNombre,
+                              errorStyle: appTheme().textTheme.overline,
                               labelStyle: appTheme().textTheme.title,
                             ),
                             validator: (value) {
@@ -149,7 +179,7 @@ class _RegistroState extends State<Registro> {
                           //decoration: underlineTextField(),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(40,0,40,10),
                           child: TextFormField(
                             controller: lastname,
                             decoration: InputDecoration(
@@ -158,6 +188,7 @@ class _RegistroState extends State<Registro> {
                                     width: 1.0),
                               ),
                               labelText: Strings.LabelRegistroApellidos,
+                              errorStyle: appTheme().textTheme.overline,
                               labelStyle: appTheme().textTheme.title,
                             ),
                             validator: (value) {
@@ -172,7 +203,7 @@ class _RegistroState extends State<Registro> {
                           //decoration: underlineTextField(),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(40,0,40,10),
                           child: TextFormField(
                             controller: nophone,
                             keyboardType: TextInputType.phone,
@@ -183,6 +214,7 @@ class _RegistroState extends State<Registro> {
                               ),
                               labelText: Strings.LabelRegistroTelefono,
                               labelStyle: appTheme().textTheme.title,
+                              errorStyle: appTheme().textTheme.overline,
                             ),
                             validator: (value) {
                               if (value.isEmpty) {
@@ -196,7 +228,7 @@ class _RegistroState extends State<Registro> {
                           //decoration: underlineTextField(),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(40,0,40,10),
                           child: TextFormField(
                             controller: address,
                             decoration: InputDecoration(
@@ -205,6 +237,7 @@ class _RegistroState extends State<Registro> {
                                     width: 1.0),
                               ),
                               labelText: Strings.LabelRegistroDireccion,
+                              errorStyle: appTheme().textTheme.overline,
                               labelStyle: appTheme().textTheme.title,
                             ),
                             validator: (text) {
@@ -217,37 +250,13 @@ class _RegistroState extends State<Registro> {
                           //decoration: underlineTextField(),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
-                          child: TextFormField(
-                            controller: CIController,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: appTheme().buttonColor,
-                                    width: 1.0),
-                              ),
-                              labelText: Strings.LabelCI,
-                              labelStyle: appTheme().textTheme.title,
-                            ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Por favor llenar los espacios';
-                              }/*else if (!Cedulavalida(value)){
-                                return 'Por favor ingresar un numero de cedula valida';
-                              }*/
-                              return null;
-                            },
-                          ),
-                          //decoration: underlineTextField(),
-                        ),
-                        Container(
                           padding: EdgeInsets.only(bottom:10,left: 15,right: 10,top: 10),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Expanded(
                                 child: new Padding(
-                                  padding: const EdgeInsets.only(left: 20),
+                                  padding: const EdgeInsets.only(left: 22),
                                   child: Text("Fecha de Nacimiento:",style: appTheme().textTheme.title,),
                                 ),
                               ),
@@ -280,6 +289,16 @@ class _RegistroState extends State<Registro> {
                             ],
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 40,right: 40),
+                          child: Container(
+                            height: 1.0,
+                            color: Colors.teal,
+                            child: Divider(
+                              color: Colors.teal,
+                            ),
+                          )
+                        ),
                         Container(
                           padding: EdgeInsets.only(bottom:10,left: 15,right: 10,top: 10),
                           child: Row(
@@ -287,56 +306,69 @@ class _RegistroState extends State<Registro> {
                             children: <Widget>[
                               Expanded(
                                 child: new Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: Text("Genero: ",style: appTheme().textTheme.title,),
+                                  padding: const EdgeInsets.only(left: 24),
+                                  child: Text("Género: ",style: appTheme().textTheme.title,),
                                 ),
                               ),
                               Expanded(
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    items: [
-                                      DropdownMenuItem(
-                                        value: "1",
-                                        child: Row(
-                                          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Text(
-                                              "Masculino",
-                                              style: appTheme().textTheme.title,
-                                            ),
-                                          ],
+                                child: new Padding(
+                                  padding: const EdgeInsets.only(right: 22),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      items: [
+                                        DropdownMenuItem(
+                                          value: "1",
+                                          child: Row(
+                                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(
+                                                "Masculino",
+                                                style: appTheme().textTheme.title,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      DropdownMenuItem(
-                                        value: "2",
-                                        child: Row(
-                                          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
+                                        DropdownMenuItem(
+                                          value: "2",
+                                          child: Row(
+                                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
 
-                                            Text(
-                                              "Femenino",
-                                              style: appTheme().textTheme.title,
-                                            ),
-                                          ],
+                                              Text(
+                                                "Femenino",
+                                                style: appTheme().textTheme.title,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                    onChanged: (value) {
-                                      setState(() {
-                                        dropdownValue = value;
-                                      });
-                                    },
-                                    isExpanded: true,
-                                    //style: TextStyle(color: Colors.white),
-                                    value : dropdownValue,
+                                      ],
+                                      onChanged: (value) {
+                                        setState(() {
+                                          dropdownValue = value;
+                                        });
+                                      },
+                                      isExpanded: true,
+                                      //style: TextStyle(color: Colors.white),
+                                      value : dropdownValue,
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
                         ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 40,right: 40),
+                            child: Container(
+                              height: 1.0,
+                              color: Colors.teal,
+                              child: Divider(
+                                color: Colors.teal,
+                              ),
+                            )
+                        ),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(40,0,40,10),
                           child: TextFormField(
                             controller: email,
                             keyboardType: TextInputType.emailAddress,
@@ -347,6 +379,7 @@ class _RegistroState extends State<Registro> {
                               ),
                               labelText: Strings.LabelEmail,
                               labelStyle: appTheme().textTheme.title,
+                              errorStyle: appTheme().textTheme.overline,
                             ),
                             validator: (text) {
                               if (text.length == 0) {
@@ -360,10 +393,11 @@ class _RegistroState extends State<Registro> {
                           //decoration: underlineTextField(),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(40,0,40,10),
                           child: TextFormField(
                             controller: passController1,
                             keyboardType: TextInputType.visiblePassword,
+                            obscureText: true,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: appTheme().buttonColor,
@@ -371,6 +405,7 @@ class _RegistroState extends State<Registro> {
                               ),
                               labelText: Strings.LabelPassword,
                               labelStyle: appTheme().textTheme.title,
+                              errorStyle: appTheme().textTheme.overline,
                             ),
                             validator: (text) {
                               if (text.length == 0) {
@@ -386,9 +421,10 @@ class _RegistroState extends State<Registro> {
                           //decoration: underlineTextField(),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(40,0,40,10),
                           child: TextFormField(
                             controller: passController2,
+                            obscureText: true,
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
@@ -397,6 +433,7 @@ class _RegistroState extends State<Registro> {
                               ),
                               labelText: Strings.LabelRegistroValidarPas,
                               labelStyle: appTheme().textTheme.title,
+                              errorStyle: appTheme().textTheme.overline,
                             ),
                             validator: (text) {
                               if (text.length == 0) {
@@ -486,47 +523,43 @@ class _RegistroState extends State<Registro> {
     );
   }
   bool Cedulavalida(String x) {
+    bool cedulaCorrecta = false;
+
+
+      if (x.length == 10) // ConstantesApp.LongitudCedula
+          {
+        int tercerDigito = int.parse(x.substring(2, 3));
+        if (tercerDigito < 6) {
+// Coeficientes de validación cédula
+// El decimo digito se lo considera dígito verificador
+          var coefValCedula = [2, 1, 2, 1, 2, 1, 2, 1, 2 ] ;
+    int verificador = int.parse(x.substring(9,10));
     int suma = 0;
-    if (x.length == 9) {
-      //System.out.println("Ingrese su cedula de 10 digitos");
-      return false;
-    } else {
-
-      List<int> a = new List();//new int[x.length / 2];
-      List<int> b = new List();//new int[(x.length / 2)];
-      int c = 0;
-      int d = 1;
-      /*x.runes.forEach((int rune) {
-        var character=new String.fromCharCode(rune);
-        print(character);
-
-      });*/
-      for (int i = 0; i < x.length / 2; i++) {
-        a[i] = int.parse(x.substring(c));
-        c = c + 2;
-        if (i < (x.length / 2) - 1) {
-          b[i] = int.parse(x.substring(d));
-          d = d + 2;
-        }
-      }
-
-      for (int i = 0; i < a.length; i++) {
-        a[i] = a[i] * 2;
-        if (a[i] > 9) {
-          a[i] = a[i] - 9;
-        }
-        suma = suma + a[i] + b[i];
-      }
-      int aux = (suma / 10) as int;
-      int dec = (aux + 1) * 10;
-      if ((dec - suma) == int.parse(x.substring(x.length-1)))//Integer.parseInt(String.valueOf(x.charAt(x.length - 1))))
-        return true;
-      else if (suma % 10 == 0 && x.substring(x.length - 1) == '0') {
-        return true;
-      } else {
-        return false;
-      }
+    int digito = 0;
+    for (int i = 0; i < (x.length - 1); i++) {
+    digito = int.parse(x.substring(i, i + 1))* coefValCedula[i];
+    suma += ((digito % 10) + (digito / 10)).toInt() ;
 
     }
+
+    if ((suma % 10 == 0) && (suma % 10 == verificador)) {
+    cedulaCorrecta = true;
+    }
+    else if ((10 - (suma % 10)) == verificador) {
+    cedulaCorrecta = true;
+    } else {
+    cedulaCorrecta = false;
+    }
+    } else {
+    cedulaCorrecta = false;
+    }
+    } else {
+    cedulaCorrecta = false;
+    }
+
+    if (!cedulaCorrecta) {
+    print("La Cédula ingresada es Incorrecta");
+    }
+    return cedulaCorrecta;
   }
 }

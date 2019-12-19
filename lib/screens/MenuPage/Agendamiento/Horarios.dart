@@ -189,7 +189,7 @@ class _HorariosState extends State<Horarios>{
                       Padding(
                         padding:
                         const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 3.0),
-                        child: Text(this.widget.selectedEvents.elementAt(position)),
+                        child: Text(this.widget.selectedEvents.elementAt(position).split(" ")[0].split(":")[0] +' : '+this.widget.selectedEvents.elementAt(position).split(" ")[0].split(":")[1]+" - "+this.widget.selectedEvents.elementAt(position).split(" ")[1].split(":")[0] +' : '+this.widget.selectedEvents.elementAt(position).split(" ")[1].split(":")[1]),
                       ),
                     ],
                   ),
@@ -202,7 +202,7 @@ class _HorariosState extends State<Horarios>{
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.arrow_forward_ios,
-                            size: 15.0,
+                            size: 25.0,
                             color: Colors.grey,
                           ),
                         ),

@@ -139,6 +139,8 @@ class _HomeState extends State<Home> {
         title: new Image.asset(
           'assets/logo_white.png',
           fit: BoxFit.cover,
+          alignment: Alignment(0, -1),
+          width: 150,
         ),
         actions: <Widget>[
           new IconButton(
@@ -182,9 +184,11 @@ class _HomeState extends State<Home> {
         ),
         bottom: new PreferredSize(
             child: new Container(
+              //margin: EdgeInsets.only(top: 10),
                 color: Colors.transparent,
                 //padding: EdgeInsets.all(8.0),
                 child: new Divider(
+                  height: 2,
                     color: Colors.white, indent: 50.0, endIndent: 50.0)
                 //padding: const EdgeInsets.all(5.0),
                 ),
@@ -194,19 +198,13 @@ class _HomeState extends State<Home> {
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
         // space to fit everything.
-        child: Column(
+        child:new Column(
           // Important: Remove any padding from the ListView.
           //padding: EdgeInsets.zero,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text(""), //consultas api con modelos
-              accountEmail: Text(storageService.getEmail,style: appTheme().textTheme.display1,),
-              currentAccountPicture:
-                CircleAvatar(
-                  child: Image.asset("assets/avatar.png"),
-                ),
-              decoration:new BoxDecoration(
+            new Container(
+              decoration: new BoxDecoration(
                 gradient: new LinearGradient(
                   colors: [
                     Color(0xFF00a18d),
@@ -216,101 +214,172 @@ class _HomeState extends State<Home> {
                   end: FractionalOffset.centerRight,
                 ),
               ),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 150,
+                    width: 150,
+                    child: DrawerHeader(
+                      child: new CircleAvatar(
+                        child: Image.asset("assets/avatar.png"),
+                      ),
+                    ),
+                  ),
+                  Text(storageService.getCuentaMaster,style: appTheme().textTheme.display2,)
+                ],
+              ),
             ),
-            ListTile(
-              leading: Icon(Icons.people),
-              title: Text('Cuentas Asociadas'),
-              onTap: () async{//
-                setState(() {
-                  //se muestra barra circular de espera
-                  _saving = true;
-                });
-                /*List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
+            Container(
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                  colors: [
+                    Color(0xFF00a18d),
+                    Color(0xFF00d6bc),
+                  ],
+                  begin: FractionalOffset.centerLeft,
+                  end: FractionalOffset.centerRight,
+                ),
+              ),
+              padding: EdgeInsets.only(left: 30,right: 30),
+              child: Divider(
+                color: Colors.white,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                    colors: [
+                      Color(0xFF00a18d),
+                      Color(0xFF00d6bc),
+                    ],
+                    begin: FractionalOffset.centerLeft,
+                    end: FractionalOffset.centerRight,
+                  ),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.people,color: Colors.white,),
+                      title: Text('Cuentas Asociadas',style: appTheme().textTheme.button,),
+                      onTap: () async{//
+                        setState(() {
+                          //se muestra barra circular de espera
+                          _saving = true;
+                        });
+                        /*List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
                   return Cuenta(
                       1,"Jose", "Cruz","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
                   );
                 });*/
-                Cuenta cuentas=await RestDatasource().CuentasByMaster(int.parse(storageService.getIdCuentaMaster.toString()));
-                //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
-                setState(() {//se oculta barra circular de espera
-                  _saving = false;
-                });
-                setState(() {
-                  currentPage = CuentasAsociadas(cuentas: cuentas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);
-                });
+                        Cuenta cuentas=await RestDatasource().CuentasByMaster(int.parse(storageService.getIdCuentaMaster.toString()));
+                        //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                        setState(() {//se oculta barra circular de espera
+                          _saving = false;
+                        });
+                        setState(() {
+                          currentPage = CuentasAsociadas(cuentas: cuentas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);
+                        });
 
-                Navigator.pop(context);
-              },
-            ),
-            Divider(
-              height: 2.0,
-            ),
-            ListTile(
-              leading: Icon(Icons.question_answer),
-              title: Text('Sugerencia'),
-              onTap: () {
-                setState(() {
-                  currentPage = Sugerencia(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
-                });
-                Navigator.pop(context);
-              },
-            ),
-            Divider(
-              height: 2.0,
-            ),
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text('Acerca de Nosotros'),
-              onTap: () async{//
-                setState(() {
-                  //se muestra barra circular de espera
-                  _saving = true;
-                });
-                /*List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Divider(
+                      height: 2.0,
+                      color: Colors.transparent,
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.question_answer,color: Colors.white,),
+                      title: Text('Sugerencia',style: appTheme().textTheme.button,),
+                      onTap: () {
+                        setState(() {
+                          currentPage = Sugerencia(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Divider(
+                      height: 2.0,
+                      color: Colors.transparent,
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.info,color: Colors.white,),
+                      title: Text('Sobre Nosotros',style: appTheme().textTheme.button,),
+                      onTap: () async{//
+                        setState(() {
+                          //se muestra barra circular de espera
+                          _saving = true;
+                        });
+                        /*List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
                   return Cuenta(
                       1,"Jose", "Cruz","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
                   );
                 });*/
-                List<Clinica> info=await RestDatasource().InfoClinica();
-                //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
-                setState(() {//se oculta barra circular de espera
-                  _saving = false;
-                });
-                /*List<RedSocial> redes= new List<RedSocial>();
+                        List<Clinica> info=await RestDatasource().InfoClinica();
+                        //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                        setState(() {//se oculta barra circular de espera
+                          _saving = false;
+                        });
+                        /*List<RedSocial> redes= new List<RedSocial>();
                 redes.add(new RedSocial(0,"Facebook", "https://www.facebook.com/cliesdentsa/"));
                 redes.add(new RedSocial(1,"Instagram", "https://www.instagram.com/clinica.estetica.dental/?hl=es-la"));
                 Clinica clinicainfo=new Clinica(0,"Clinica Estetica Dental","Somos una clinica que piensa en tu salud dental","0995104749","Alborada 5 etapa (9,77 km)","info@clinicaesteticadental.com",redes);*/
-                setState(() {
-                  currentPage = Acerca(clinica: info.elementAt(0),callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
-                });
-                Navigator.pop(context);
-              },
+                        setState(() {
+                          currentPage = Acerca(clinica: info.elementAt(0),callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
-            Divider(
-              height: 2.0,
+            Container(
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                  colors: [
+                    Color(0xFF00a18d),
+                    Color(0xFF00d6bc),
+                  ],
+                  begin: FractionalOffset.centerLeft,
+                  end: FractionalOffset.centerRight,
+                ),
+              ),
+              padding: EdgeInsets.only(left: 30,right: 30),
+              child: Divider(
+                color: Colors.white,
+              ),
             ),
-            Expanded(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ListTile(
-                    leading: Icon(Icons.exit_to_app),
-                    title: Text("Cerrar Sesión"),
-                    onTap: () {
-                      if(storageService.IsFacebookUser!=null){
-                        if(storageService.IsFacebookUser){
-                          FacebookLogin().logOut();
-                          storageService.delete_userface();
-                        }
-                      }
-                      storageService.delete_user(); //variable de session usuario eliminada
-                      storageService.delete_email();
-                      storageService.delete_idPadre();
-                      storageService.delete_idHijo();
-                      storageService.delete_currentAccount();
-                      Navigator.of(context).pushAndRemoveUntil(
-                          Login.route(), (Route<dynamic> route) => false);
-                    },
-                  )),
+            Container(
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                  colors: [
+                    Color(0xFF00a18d),
+                    Color(0xFF00d6bc),
+                  ],
+                  begin: FractionalOffset.centerLeft,
+                  end: FractionalOffset.centerRight,
+                ),
+              ),
+              child: ListTile(
+                leading: Icon(Icons.exit_to_app,color: Colors.white,),
+                title: Text("Cerrar Sesión",style: appTheme().textTheme.button,),
+                onTap: () {
+                  if(storageService.IsFacebookUser!=null){
+                    if(storageService.IsFacebookUser){
+                      FacebookLogin().logOut();
+                      storageService.delete_userface();
+                    }
+                  }
+                  storageService.delete_user(); //variable de session usuario eliminada
+                  storageService.delete_email();
+                  storageService.delete_idPadre();
+                  storageService.delete_idHijo();
+                  storageService.delete_currentAccount();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      Login.route(), (Route<dynamic> route) => false);
+                },
+              ),
             ),
           ],
         ),

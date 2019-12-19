@@ -25,9 +25,9 @@ class Login extends StatefulWidget {
 }
 Widget _logo(){
   return Container(
-    margin: const EdgeInsets.only(top: 60.0,bottom: 10.0),
-    width: 170.0,
-    height: 120.0,
+    margin: const EdgeInsets.only(top: 100.0),
+    width: 220.0,
+    height: 100.0,
     decoration: new BoxDecoration(
       image: DecorationImage(
         image: new AssetImage(
@@ -79,6 +79,55 @@ class _LoginState extends State<Login>
       home: new Scaffold(
         resizeToAvoidBottomPadding: false,//Quitar el mensaje de exceso de pixeles
         body: ModalProgressHUD(color: Colors.grey[600],progressIndicator: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),inAsyncCall: _saving, child: loginForm()),
+        bottomNavigationBar: BottomAppBar(
+          child:  Container(
+            width: double.infinity,
+            child: FlatButton(
+              onPressed: ()async{
+                if (_key.currentState.validate()) {
+                  setState(() {//se muestra barra circular de espera
+                    _saving = true;
+                  });
+                  var response = await RestDatasource().postLogin(emailController.text,passController.text);
+                  _key.currentState.save();
+                  if(response.statusCode==200){
+                    String token=response.body;
+                    storageService.save_email(emailController.text);
+                    storageService.save_user(token);
+                    User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                    storageService.save_idPadre(usuario.Id);//guardamos de manera general el id padre
+                    storageService.save_idPadreMaster(usuario.Id);//guardamos de manera general el id padre
+                    storageService.save_currentAccount(usuario.Apellido+" "+usuario.Nombre);
+                    storageService.save_MasterAccount(usuario.Apellido+" "+usuario.Nombre);
+                    setState(() {//se oculta barra circular de espera
+                      _saving = false;
+                    });
+                    //print(_key.currentState.validate());
+                    print(storageService.getuser);
+                    Navigator.of(context).pushReplacement(Home.route());
+                  }else{
+                    setState(() {//se oculta barra circular de espera
+                      _saving = false;
+                    });
+                    _showDialogLogin();
+                  }
+                  //
+                }
+              },
+              child: Text(Strings.ButtonLogin,style: appTheme().textTheme.button,),
+            ),
+            decoration: new BoxDecoration(
+              gradient: new LinearGradient(
+                colors: [
+                  Color(0xFF00a18d),
+                  Color(0xFF00d6bc),
+                ],
+                begin: FractionalOffset.centerLeft,
+                end: FractionalOffset.centerRight,
+              ),
+            ),
+          ),
+        ),
       ),
     );
 
@@ -90,180 +139,170 @@ class _LoginState extends State<Login>
       //crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         _logo(),//primer widget del logo login
-        Container(
-          width: 300.0, //size.width * .6,
-          child: Form(
-            key: _key,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(bottom: 5.0),
-                  child: TextFormField(
+        new Expanded(
+          child: ListView(
+            children: <Widget>[
+              Container(
+                child: Form(
+                  key: _key,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(40,0,40,0),
+                        child: TextFormField(
 
-                    validator: (text) {
-                      if (text.length == 0) {
-                        return "Este campo correo es requerido";
-                      } else if (!emailRegExp.hasMatch(text)) {
-                        return "El formato para correo no es correcto";
-                      }
-                      return null;
-                    },
-                    controller:emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    maxLength: 50,
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: appTheme().buttonColor,
-                            width: 1.0),
-                      ),
-                      hintText: Strings.HintEmail,
-                      hintStyle: appTheme().textTheme.title,
-                      labelStyle: appTheme().textTheme.title,
-                      labelText: Strings.LabelEmail,
-                      counterText: '',
-                      fillColor: Colors.transparent,
-                      filled: true,
-                    ),
-                  ),
-                ),
-                new Container(
-                  margin: const EdgeInsets.only(top: 5.0,bottom: 10.0),
-                  child: TextFormField(
-
-                    validator: (text) {
-                      if (text.length == 0) {
-                        return "Este campo contraseña es requerido";
-                      } else if (text.length <= 5) {
-                        return "Su contraseña debe ser al menos de 5 caracteres";
-                      } else if (!contRegExp.hasMatch(text)) {
-                        return "El formato para contraseña no es correcto";
-                      }
-                      return null;
-                    },
-                    controller: passController,
-                    keyboardType: TextInputType.text,
-                    maxLength: 20,
-                    textAlign: TextAlign.center,
-                    obscureText: _obscureText,
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: appTheme().buttonColor,
-                            width: 1.0),
-                      ),
-                      hintText: Strings.HintPassword,
-                      labelText: Strings.LabelPassword,
-                      hintStyle: appTheme().textTheme.title,
-                      labelStyle: appTheme().textTheme.title,
-                      counterText: '',
-                      fillColor: Colors.transparent,
-                      filled: true  ,
-                      suffixIcon: IconButton(icon: Icon(Icons.remove_red_eye,size: 32.0,
-                        color: appTheme().hintColor),
-                           onPressed: _toggle,
+                          validator: (text) {
+                            if (text.length == 0) {
+                              return "Este campo correo es requerido";
+                            } else if (!emailRegExp.hasMatch(text)) {
+                              return "El formato para correo no es correcto";
+                            }
+                            return null;
+                          },
+                          controller:emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          maxLength: 50,
+                          textAlign: TextAlign.center,
+                          /*decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: appTheme().buttonColor,
+                                    width: 1.0),
+                              ),
+                              labelText: Strings.LabelRegistroNombre,
+                              errorStyle: appTheme().textTheme.overline,
+                              labelStyle: appTheme().textTheme.title,
+                            ),*/
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent,//
+                                  width: 1.0),
+                            ),
+                            hintText: Strings.HintEmail,
+                            hintStyle: appTheme().textTheme.title,
+                            labelStyle: appTheme().textTheme.title,
+                            labelText: Strings.LabelEmail,
+                            counterText: '',
+                            errorStyle: appTheme().textTheme.overline,
+                            fillColor: Colors.transparent,
+                            filled: true,
+                          ),
                         ),
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      FlatButton(
-                        child: new Text(Strings.OlvidastePassword,style: appTheme().textTheme.body1,),
-                        onPressed:  null,//_passwordReset,
                       ),
-                    ],
-                  ),
-                ),
+                      Padding(
+                          padding: EdgeInsets.only(left: 40,right: 40,bottom: 10),
+                          child: Container(
+                            height: 1.0,
+                            color: Colors.teal,
+                            child: Divider(
+                              color: Colors.teal,
+                            ),
+                          )
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(40,0,40,0),
+                        child: TextFormField(
+                          validator: (text) {
+                            if (text.length == 0) {
+                              return "Este campo contraseña es requerido";
+                            } else if (text.length <= 5) {
+                              return "Su contraseña debe ser al menos de 5 caracteres";
+                            } else if (!contRegExp.hasMatch(text)) {
+                              return "El formato para contraseña no es correcto";
+                            }
+                            return null;
+                          },
+                          controller: passController,
+                          keyboardType: TextInputType.text,
+                          maxLength: 20,
+                          textAlign: TextAlign.center,
+                          obscureText: _obscureText,
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent,
+                                  width: 1.0),
+                            ),
+                            hintText: Strings.HintPassword,
+                            labelText: Strings.LabelPassword,
+                            hintStyle: appTheme().textTheme.title,
+                            labelStyle: appTheme().textTheme.title,
+                            errorStyle: appTheme().textTheme.overline,
+                            counterText: '',
+                            fillColor: Colors.transparent,
+                            filled: true  ,
+                            suffixIcon: IconButton(icon: Icon(Icons.remove_red_eye,size: 22.0,
+                                color: appTheme().hintColor),
+                              onPressed: _toggle,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(left: 40,right: 40,bottom: 5),
+                          child: Container(
+                            height: 1.0,
+                            color: Colors.teal,
+                            child: Divider(
+                              color: Colors.teal,
+                            ),
+                          )
+                      ),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            FlatButton(
+                              child: new Text(Strings.OlvidastePassword,style: appTheme().textTheme.body1,),
+                              onPressed:  null,//_passwordReset,
+                            ),
+                          ],
+                        ),
+                      ),
 
-                Container(
-                  margin: const EdgeInsets.only(top: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      FlatButton(
-                        child: Image.asset("assets/login_facebook.png"),
-                        onPressed: (){
-                          initiateFacebookLogin();
-                        },
-                      ),
-                      /*FlatButton(
+                      Container(
+                        margin: const EdgeInsets.only(top: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Ingresar con",style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold,fontFamily: 'Myriad Pro',color: Color(0xFF87868a)),),
+                                FlatButton(
+                                  child: Image.asset("assets/facebook.png"),
+                                  onPressed: (){
+                                    initiateFacebookLogin();
+                                  },
+                                ),
+                              ],
+                            ),
+                            /*FlatButton(
                         child: Image.asset("assets/twitter.png"),
                         onPressed: null,//() {},
                       ),*/
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 60.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      FlatButton(
-                        child: new Text(Strings.Registrate,style: appTheme().textTheme.body2,),
-                        onPressed: (){
-                          Navigator.of(context).pushReplacement(Registro.route());
-                        },
+                          ],
+                        ),
                       ),
+
                     ],
                   ),
                 ),
-
-              ],
-            ),
-          ),
+              ),
+            ],
+          )
         ),
-        Expanded(
-        child: Align(
-          alignment: Alignment.bottomCenter,
-            child: Container(
-              width: double.infinity,
-              child: FlatButton(
-                onPressed: ()async{
-                  setState(() {//se muestra barra circular de espera
-                    _saving = true;
-                  });
-                  if (_key.currentState.validate()) {
-                    var response = await RestDatasource().postLogin(emailController.text,passController.text);
-                    _key.currentState.save();
-                    if(response.statusCode==200){
-                      String token=response.body;
-                      storageService.save_email(emailController.text);
-                      storageService.save_user(token);
-                      User usuario= await RestDatasource().perfil(storageService.getEmail) ;
-                      storageService.save_idPadre(usuario.Id);//guardamos de manera general el id padre
-                      storageService.save_idPadreMaster(usuario.Id);//guardamos de manera general el id padre
-                      storageService.save_currentAccount(usuario.Apellido+" "+usuario.Nombre);
-                      storageService.save_MasterAccount(usuario.Apellido+" "+usuario.Nombre);
-                      setState(() {//se oculta barra circular de espera
-                        _saving = false;
-                      });
-                      //print(_key.currentState.validate());
-                      print(storageService.getuser);
-                      Navigator.of(context).pushReplacement(Home.route());
-                    }else{
-                      setState(() {//se oculta barra circular de espera
-                        _saving = false;
-                      });
-                      _showDialogLogin();
-                    }
-                    //
-                  }
+        Container(
+          //margin: const EdgeInsets.only(top: 30.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FlatButton(
+                child: new Text(Strings.Registrate,style: appTheme().textTheme.body2,),
+                onPressed: (){
+                  Navigator.of(context).pushReplacement(Registro.route());
                 },
-                child: Text(Strings.ButtonLogin,style: appTheme().textTheme.button,),
               ),
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                  colors: [
-                    Color(0xFF00a18d),
-                    Color(0xFF00d6bc),
-                  ],
-                  begin: FractionalOffset.centerLeft,
-                  end: FractionalOffset.centerRight,
-                ),
-              ),
-            ),
+            ],
           ),
         ),
       ],

@@ -1,0 +1,195 @@
+Crear icono para el escribtorio-- diseñadora
+<----Listo
+Login(Diseño estetico):
+-Clinica (icono estirarlo mas y bajarlo)
+-Dejar mas espacio entre icono y textfield
+-Mas espacio entre todo
+-Login facebook boton pixeliado
+Registrar:
+-Linea muy pegada a los bordes separar un poco mas...(Nota)
+Cedula va siempre arriba de nombre(Cdeula, nombre, apellido, direccion, fecha de nacimiento, genero,)
+
+Fecha de nacimiento y genero va con una line divisoria y genero con tilde en la e
+
+
+
+Home:
+Logo clinica estetica dental muy pequeña
+Mas grosor a la linea abajo del logo
+
+--->
+
+Menu lateral:
+Completamente verde (el fondo)
+Iconos tambien cambian a los del diseño
+Sugerencias es con S
+
+Sugerencia:
+Nombre mas grande que bienvenidos
+Acomodar el nombre mas a bajo del ovalo y el escribi su sugerencia
+
+Contactenos:
+Acerca de nostros no es Contactenos con tilde
+Mejorar la distribucion del telefono en si el cuerpo y todo
+
+Prsesiono sugerencia y luego acerca de nosotros y muere(Falla corregir!! ....)
+
+
+Agendar:
+a1
+-letras en mayuscula (Odontologia,psicologia, nutricion) 
+-la palabra atras con tilde(en todos)
+a2
+-centrado u alineado a la izquierda(nombre, titlo, clinica )
+-flecha mas grande
+Final registrar en lugar del email a nombre y apellido
+
+
+a3 calendario:
+-quitar 2 week opcion
+
+a4 hora 
+-solo hora y minuto y la barra que lo separa "-"
+ 
+a5 final:
+-ṕner en el mes n lugar del numero el mes con un switch
+-cuadro mas recortado o pequeño
+
+
+
+new ListView(
+          children: <Widget>[
+            new Container(
+              decoration:new BoxDecoration(
+                gradient: new LinearGradient(
+                  colors: [
+                    Color(0xFF00a18d),
+                    Color(0xFF00d6bc),
+                  ],
+                  begin: FractionalOffset.centerLeft,
+                  end: FractionalOffset.centerRight,
+                ),
+              ),
+              padding: EdgeInsets.only(top: 20),
+            ),
+            new Container(
+              decoration:new BoxDecoration(
+                gradient: new LinearGradient(
+                  colors: [
+                    Color(0xFF00a18d),
+                    Color(0xFF00d6bc),
+                  ],
+                  begin: FractionalOffset.centerLeft,
+                  end: FractionalOffset.centerRight,
+                ),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 100,
+                    width: 100,
+                    child: DrawerHeader(
+                      child: new CircleAvatar(
+                        child: Image.asset("assets/avatar.png"),
+                      ),
+                    ),
+                  ),
+                  Text(storageService.getCuentaMaster,style: appTheme().textTheme.display2,)
+                ],
+              ),
+            ),
+            new Container (
+              decoration:new BoxDecoration(
+                gradient: new LinearGradient(
+                  colors: [
+                    Color(0xFF00a18d),
+                    Color(0xFF00d6bc),
+                  ],
+                  begin: FractionalOffset.centerLeft,
+                  end: FractionalOffset.centerRight,
+                ),
+              ),
+              child: new Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Icon(Icons.people,color: Colors.white,),
+                    title: Text('Cuentas Asociadas',style: appTheme().textTheme.button,),
+                    onTap: () async{//
+                      setState(() {
+                        //se muestra barra circular de espera
+                        _saving = true;
+                      });
+                      /*List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
+                  return Cuenta(
+                      1,"Jose", "Cruz","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
+                  );
+                });*/
+                      Cuenta cuentas=await RestDatasource().CuentasByMaster(int.parse(storageService.getIdCuentaMaster.toString()));
+                      //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                      setState(() {//se oculta barra circular de espera
+                        _saving = false;
+                      });
+                      setState(() {
+                        currentPage = CuentasAsociadas(cuentas: cuentas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);
+                      });
+
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Divider(
+                    height: 2.0,
+                    color: Colors.transparent,
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.question_answer,color: Colors.white,),
+                    title: Text('Sugerencia',style: appTheme().textTheme.button,),
+                    onTap: () {
+                      setState(() {
+                        currentPage = Sugerencia(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Divider(
+                    height: 2.0,
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.info,color: Colors.white,),
+                    title: Text('Sobre Nosotros',style: appTheme().textTheme.button,),
+                    onTap: () async{//
+                      setState(() {
+                        //se muestra barra circular de espera
+                        _saving = true;
+                      });
+                      /*List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
+                  return Cuenta(
+                      1,"Jose", "Cruz","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
+                  );
+                });*/
+                      List<Clinica> info=await RestDatasource().InfoClinica();
+                      //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+                      setState(() {//se oculta barra circular de espera
+                        _saving = false;
+                      });
+                      /*List<RedSocial> redes= new List<RedSocial>();
+                redes.add(new RedSocial(0,"Facebook", "https://www.facebook.com/cliesdentsa/"));
+                redes.add(new RedSocial(1,"Instagram", "https://www.instagram.com/clinica.estetica.dental/?hl=es-la"));
+                Clinica clinicainfo=new Clinica(0,"Clinica Estetica Dental","Somos una clinica que piensa en tu salud dental","0995104749","Alborada 5 etapa (9,77 km)","info@clinicaesteticadental.com",redes);*/
+                      setState(() {
+                        currentPage = Acerca(clinica: info.elementAt(0),callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+
+
+
+Mandar un correo una vez que se haya registrado... al correo de esa persona...
+Poner bien ovalado el diseño de la media luna color turqueza(Diseñadora)
+
+

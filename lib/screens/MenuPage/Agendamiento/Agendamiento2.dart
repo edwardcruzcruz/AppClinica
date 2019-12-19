@@ -177,35 +177,38 @@ class _Agendamiento2State extends State<Agendamiento2>{
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(0.0, 12.0, 12.0, 3.0),
-                        child: Text((doctores.elementAt(position).Especialidad==3?"OD. ":doctores.elementAt(position).Especialidad==2?"NUT. ":"PSIC. ")+doctores.elementAt(position).Nombre+" "+doctores.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                      ),
-                      Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(0.0, 6.0, 12.0, 12.0),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Image.asset('assets/titulo.png',width: 23,height: 30),
-                                Text(" Titulo ...",style: appTheme().textTheme.title,),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Image.asset('assets/clinica.png',width: 23,height: 30),
-                                Text(" Clínica Estética Dental",style: appTheme().textTheme.title,),
-                              ],
-                            ),
-                          ],
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+                          child: Text((doctores.elementAt(position).Especialidad==3?"OD. ":doctores.elementAt(position).Especialidad==2?"NUT. ":"PSIC. ")+doctores.elementAt(position).Nombre+" "+doctores.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(0.0, 6.0, 12.0, 12.0),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Image.asset('assets/titulo.png',width: 23,height: 30),
+                                  Text(" Titulo ...",style: appTheme().textTheme.title,),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Image.asset('assets/clinica.png',width: 23,height: 30),
+                                  Text(" Clínica Estética Dental",style: appTheme().textTheme.title,),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -216,7 +219,7 @@ class _Agendamiento2State extends State<Agendamiento2>{
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.arrow_forward_ios,
-                            size: 15.0,
+                            size: 25.0,
                             color: Colors.grey,
                           ),
                         ),

@@ -22,13 +22,13 @@ class Strings {
   static const String CuerpoTituloPaginaNoticias = "NOTICIAS";
   static const String CuerpoTituloPaginaCuentasAsociadas = "CUENTAS ASOCIADAS";
   static const String CuerpoTituloPaginaSugerencia = "SUGERENCIA";
-  static const String CuerpoTituloPaginaAcercade = "NOSOTROS";
+  static const String CuerpoTituloPaginaAcercade = "CONTÁCTANOS";
   static const String CuerpoTituloPaginaCitas = "MIS CITAS";
   static const String CuerpoTituloPaginaHitorial = "MI HISTORIAL CLÍNICO";
   static const String CuerpoTituloPaginaRecetas = "RECETAS";
   static const String AppbarIconoAgregarCita = "AGENDAR CITA";
   static const String CuerpoTituloCarrito = "CARRITO";
-  static const String TextRetroceder = "atras";
+  static const String TextRetroceder = "atrás";
   static const String TextRetrocederCuenta = "Regresar a cuenta Master";
   static const String TextAgregarCuentaAsoc = "AGREGAR CUENTA ASOCIADA";
   static const String AgendarTitulo1 = "Elige una Especialidad";

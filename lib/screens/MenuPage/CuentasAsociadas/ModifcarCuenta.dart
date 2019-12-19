@@ -218,7 +218,8 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
               Container(
                 padding: EdgeInsets.fromLTRB(50,5,50,5),
                 child: TextFormField(
-                controller: CIController,
+                  controller: CIController,
+                  keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: appTheme().buttonColor,
@@ -230,12 +231,10 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                   ),
                   validator: (text) {
                   if (text.length == 0) {
-                  return "Este campo contraseña es requerido";
-                  }/* else if (text.length <= 5) {
-                                return "Su contraseña debe ser al menos de 5 caracteres";
-                              } else if (!contRegExp.hasMatch(text)) {
-                                return "El formato para contraseña no es correcto";
-                              }*/
+                    return "Este campo es requerido";
+                  }else if (!Cedulavalida(text)){
+                    return 'Por favor ingresar un numero de cedula valida';
+                  }
                   return null;
                   },
                 ),
@@ -535,5 +534,45 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
         );
       },
     );
+  }
+  bool Cedulavalida(String x) {
+    bool cedulaCorrecta = false;
+
+
+    if (x.length == 10) // ConstantesApp.LongitudCedula
+        {
+      int tercerDigito = int.parse(x.substring(2, 3));
+      if (tercerDigito < 6) {
+// Coeficientes de validación cédula
+// El decimo digito se lo considera dígito verificador
+        var coefValCedula = [2, 1, 2, 1, 2, 1, 2, 1, 2 ] ;
+        int verificador = int.parse(x.substring(9,10));
+        int suma = 0;
+        int digito = 0;
+        for (int i = 0; i < (x.length - 1); i++) {
+          digito = int.parse(x.substring(i, i + 1))* coefValCedula[i];
+          suma += ((digito % 10) + (digito / 10)).toInt() ;
+
+        }
+
+        if ((suma % 10 == 0) && (suma % 10 == verificador)) {
+          cedulaCorrecta = true;
+        }
+        else if ((10 - (suma % 10)) == verificador) {
+          cedulaCorrecta = true;
+        } else {
+          cedulaCorrecta = false;
+        }
+      } else {
+        cedulaCorrecta = false;
+      }
+    } else {
+      cedulaCorrecta = false;
+    }
+
+    if (!cedulaCorrecta) {
+      print("La Cédula ingresada es Incorrecta");
+    }
+    return cedulaCorrecta;
   }
 }

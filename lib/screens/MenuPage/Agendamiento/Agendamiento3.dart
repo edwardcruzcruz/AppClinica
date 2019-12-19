@@ -136,7 +136,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
         Expanded(
           child: Container(
             margin: EdgeInsets.fromLTRB(70, 10, 70, 10),
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+            padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
             decoration: BoxDecoration(
               //color: Colors.green,
               border: Border.all(color: Colors.teal),
@@ -166,7 +166,11 @@ class _Agendamiento3State extends State<Agendamiento3>{
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(17.0, 10.0, 10.0, 10.0),
-                      child: Text(cita.Fecha.split("-")[0]+' de '+cita.Fecha.split("-")[1]+' del '+cita.Fecha.split("-")[2].split(" ")[0],style: appTheme().textTheme.headline,),
+                      child: Text(
+                        cita.Fecha.split("-")[2].split(" ")[0]+' de '+getMonth(cita.Fecha.split("-")[1])+' del '+cita.Fecha.split("-")[0],
+                        style: appTheme().textTheme.headline,
+                        maxLines: 2,
+                      ),
                     ),
                   ],
                 ),
@@ -180,7 +184,7 @@ class _Agendamiento3State extends State<Agendamiento3>{
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(17.0, 10.0, 10.0, 10.0),
-                      child: Text(cita.Fecha.split(" ")[1].split(":")[0] +' : '+cita.Fecha.split(" ")[1].split(":")[1]+" - "+cita.Fecha.split(" ")[1].split(":")[0] +' : '+cita.Fecha.split(" ")[1].split(":")[0],style: appTheme().textTheme.headline),
+                      child: Text(cita.Fecha.split(" ")[1].split(":")[0] +' : '+cita.Fecha.split(" ")[1].split(":")[1]+" - "+cita.Fecha.split(" ")[2].split(":")[0] +' : '+cita.Fecha.split(" ")[2].split(":")[1],style: appTheme().textTheme.headline),
                     ),
                   ],
                 ),
@@ -338,6 +342,33 @@ class _Agendamiento3State extends State<Agendamiento3>{
         );
       },
     );
+  }
+  String getMonth(String number){
+    String month="Enero";
+    if ( number.compareTo("2")==0) {
+      month="Febrero";
+    } else if (number.compareTo("3")==0) {
+      month="Marzo";
+    } else if (number.compareTo("4")==0) {
+      month="Abril";
+    }else if (number.compareTo("5")==0) {
+      month="Mayo";
+    }else if (number.compareTo("6")==0) {
+      month="Junio";
+    }else if (number.compareTo("7")==0) {
+      month="Julio";
+    }else if (number.compareTo("8")==0) {
+      month="Agosto";
+    }else if (number.compareTo("9")==0) {
+      month="Septiembre";
+    }else if (number.compareTo("10")==0) {
+      month="Octubre";
+    }else if (number.compareTo("11")==0) {
+      month="Noviembre";
+    }else if (number.compareTo("12")==0) {
+      month="Diciembre";
+    }
+    return month;
   }
 }
 

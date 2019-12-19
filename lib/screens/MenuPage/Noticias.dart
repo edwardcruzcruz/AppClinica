@@ -37,6 +37,7 @@ class _NoticiasState extends State<Noticias>{
           ),
           borderRadius: new BorderRadius.vertical(
               bottom: new Radius.elliptical(
+
                   MediaQuery.of(context).size.width, 120.0))
       ),
       child: Align(

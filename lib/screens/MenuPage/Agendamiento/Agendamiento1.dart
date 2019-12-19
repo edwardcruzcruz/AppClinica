@@ -155,7 +155,7 @@ class _AgendamientoState extends State<Agendamiento>{
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.arrow_forward_ios,
-                            size: 15.0,
+                            size: 25.0,
                             color: Colors.grey,
                           ),
                         ),
