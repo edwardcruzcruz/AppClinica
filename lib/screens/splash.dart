@@ -44,7 +44,7 @@ class _SplashState extends State<Splash> {
     return Material(
       color: Colors.grey[600],
       child: Flex(
-        direction: Axis.horizontal,
+        direction: Axis.vertical,
         children: <Widget>[
           Expanded(
             child: Image.asset('assets/splash-01.png',fit: BoxFit.cover),
