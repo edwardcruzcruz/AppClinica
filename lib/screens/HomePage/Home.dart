@@ -5,7 +5,7 @@ import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/models/Especialidad.dart';
 import 'package:flutter_app/models/Tratamiento.dart';
 import 'package:flutter_app/models/User.dart';
-import 'package:flutter_app/screens/MenuPage/Acerca.dart';
+import 'package:flutter_app/screens/MenuPage/Acerca/Acerca.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/CuentasAsociadas.dart';
 import 'package:flutter_app/screens/MenuPage/Historial.dart';
 import 'package:flutter_app/screens/MenuPage/Mis_Citas.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_app/screens/MenuPage/Mis_Pagos.dart';
 import 'package:flutter_app/screens/MenuPage/Noticias.dart';
 import 'package:flutter_app/screens/MenuPage/Recetas.dart';
 import 'package:flutter_app/Utils/Strings.dart';
-import 'package:flutter_app/screens/MenuPage/Sugerencia.dart';
+import 'package:flutter_app/screens/MenuPage/Sugerencia/Sugerencia.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Clinica.dart';
 import 'package:flutter_app/models/RedSocial.dart';
@@ -68,10 +68,6 @@ class _HomeState extends State<Home> {
     List<CitaCompleta> citas= new List<CitaCompleta>();//.generate(5, (i) => CitaCompleta(
         //i,User(1,"Edward", "Cruz","edward.cruzcruz@hotmail.com",1,"0938384849","Ronda","1996-04-27"), "Odontología","Limpieza Dental",HorarioCompleto(1,"2019-"+((8+(1*i)).toString().length==1?"0"+(8+(1*i)).toString():8+(1*i)).toString()+"-12",HorarioRango(3,"09:00","09:30"),12,false),Doctor(12,"Jose", "Ureta","2789456",1,"jos@gmail.com",3)
     //));
-    List<Receta> recetas= new List<Receta>();//.generate(5, (i) => Receta(
-    //i,"Receta $i",CitaCompleta(i,User(1,"Edward", "Cruz","edward.cruzcruz@hotmail.com",1,"0938384849","Ronda","1996-04-27"),Tratamiento(1,) "Odontología","Limpieza Dental",HorarioCompleto(1,"2019-"+((8+(1*i)).toString().length==1?"0"+(8+(1*i)).toString():8+(1*i)).toString()+"-12",HorarioRango(3,"09:00","09:30"),12,false),Doctor(12,"Jose", "Ureta","2789456",1,"jos@gmail.com",3))
-    //)
-    //);
     noticiaPage = Noticias();
     citasPage = Citas(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
     historialPage = Historial(citasList: citas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
@@ -225,7 +221,16 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  Text(storageService.getCuentaMaster,style: appTheme().textTheme.display2,)
+                  SizedBox(
+                    width: 150,
+                    child: AutoSizeText(
+                      storageService.getCuentaMaster,
+                      style: appTheme().textTheme.display2,
+                      maxLines: 3,
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  //Text(storageService.getCuentaMaster,style: appTheme().textTheme.display2,)
                 ],
               ),
             ),
@@ -293,7 +298,7 @@ class _HomeState extends State<Home> {
                       title: Text('Sugerencia',style: appTheme().textTheme.button,),
                       onTap: () {
                         setState(() {
-                          currentPage = Sugerencia(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
+                          currentPage = Sugerencia(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);
                         });
                         Navigator.pop(context);
                       },
@@ -307,25 +312,7 @@ class _HomeState extends State<Home> {
                       title: Text('Sobre Nosotros',style: appTheme().textTheme.button,),
                       onTap: () async{//
                         setState(() {
-                          //se muestra barra circular de espera
-                          _saving = true;
-                        });
-                        /*List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
-                  return Cuenta(
-                      1,"Jose", "Cruz","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
-                  );
-                });*/
-                        List<Clinica> info=await RestDatasource().InfoClinica();
-                        //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
-                        setState(() {//se oculta barra circular de espera
-                          _saving = false;
-                        });
-                        /*List<RedSocial> redes= new List<RedSocial>();
-                redes.add(new RedSocial(0,"Facebook", "https://www.facebook.com/cliesdentsa/"));
-                redes.add(new RedSocial(1,"Instagram", "https://www.instagram.com/clinica.estetica.dental/?hl=es-la"));
-                Clinica clinicainfo=new Clinica(0,"Clinica Estetica Dental","Somos una clinica que piensa en tu salud dental","0995104749","Alborada 5 etapa (9,77 km)","info@clinicaesteticadental.com",redes);*/
-                        setState(() {
-                          currentPage = Acerca(clinica: info.elementAt(0),callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
+                          currentPage = Acerca();
                         });
                         Navigator.pop(context);
                       },
