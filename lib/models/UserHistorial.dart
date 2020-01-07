@@ -1,5 +1,9 @@
+import 'package:flutter_app/models/AplicarTratamientoCliente.dart';
+import 'package:flutter_app/models/CitaxCliente.dart';
+import 'package:flutter_app/models/Odontograma.dart';
 import 'package:flutter_app/models/Sexo.dart';
 class UserHistorial {
+  final List<citaxcliente> _CitaxCliente;
   final int _idUsuario;
   final String _nombre;
   final String _apellido;
@@ -10,26 +14,35 @@ class UserHistorial {
   final String _fecha_nacimiento;
   final String _cedula;
   final int _id_Padre;
-  final List<String> _AplicarTratamientoCliente;
-  final List<String> _CitaxCliente;
-  final List<String> _Odontograma;
+  final List<AplicarTratamientoCliente> _AplicarTratamientoCliente;
+  final List<odontograma> _odontograma;
 
-  UserHistorial(this._idUsuario,this._nombre, this._apellido,this._correo,this._sexo,this._noTelefono,this._direccion,this._fecha_nacimiento,this._cedula,this._id_Padre,this._AplicarTratamientoCliente,this._CitaxCliente,this._Odontograma);
+  UserHistorial(this._idUsuario,this._nombre, this._apellido,this._correo,this._sexo,this._noTelefono,this._direccion,this._fecha_nacimiento,this._cedula,this._id_Padre,this._AplicarTratamientoCliente,this._CitaxCliente,this._odontograma);
+  factory UserHistorial.fromJson(Map<String, dynamic> json){
 
-  UserHistorial.fromJson(Map<String, dynamic> json)
-      : _idUsuario = json['id'],
-        _nombre = json['nombre'],
-        _apellido = json['apellido'],
-        _correo = json['email'],
-        _sexo = Genero.fromJson(json['sexo']),
-        _noTelefono = json['telefono'],
-        _direccion = json['direccion'],
-        _fecha_nacimiento = json['fechaNacimiento'],
-        _cedula = json['cedula'],
-        _id_Padre = json['id_Padre'],
-        _AplicarTratamientoCliente = new List<String>.from(json['AplicarTratamientoCliente']),
-        _Odontograma = new List<String>.from(json['Odontograma']),
-        _CitaxCliente = new List<String>.from(json['CitaxCliente']);
+    var list = json['AplicarTratamientoCliente'] as List;
+    List<AplicarTratamientoCliente> tratamientos = list.map((i) => AplicarTratamientoCliente.fromJson(i)).toList();
+    var list2 = json['Odontograma'] as List;
+    List<odontograma> odontogr = list2.map((i) => odontograma.fromJson(i)).toList();
+    var list3 = json['CitaxCliente'] as List;
+    List<citaxcliente> citaxCliente = list3.map((i) => citaxcliente.fromJson(i)).toList();
+
+    return UserHistorial(
+        json['id'],
+        json['nombre'],
+        json['apellido'],
+        json['email'],
+        Genero.fromJson(json['sexo']),
+        json['telefono'],
+        json['direccion'],
+        json['fechaNacimiento'],
+        json['cedula'],
+        json['id_Padre'],
+        tratamientos,
+        citaxCliente,
+        odontogr
+    );
+  }
 
   int get Id => _idUsuario;
   String get Nombre => _nombre;
@@ -41,9 +54,9 @@ class UserHistorial {
   String get Direccion => _direccion;
   String get Cedula => _cedula;
   int get IdPadre => _id_Padre;
-  List<String> get TratamientoAplicado => _AplicarTratamientoCliente;
-  List<String> get CitaxCliente => _CitaxCliente;
-  List<String> get Odontogramas => _Odontograma;
+  List<AplicarTratamientoCliente> get TratamientoAplicado => _AplicarTratamientoCliente;
+  List<citaxcliente> get CitaxCliente => _CitaxCliente;
+  List<odontograma> get Odontogramas => _odontograma;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -58,7 +71,7 @@ class UserHistorial {
     data['id_Padre'] = this._id_Padre;
     data['AplicarTratamientoCliente'] = this._AplicarTratamientoCliente;
     data['CitaxCliente'] = this._CitaxCliente;
-    data['Odontograma'] = this._Odontograma;
+    data['Odontograma'] = this._odontograma;
     return data;
   }
 }

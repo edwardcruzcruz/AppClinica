@@ -101,6 +101,7 @@ flutter:
     - assets/reloj_disponible.png
     - assets/logoclinica.png
     - assets/googlemap.png
+    - assets/diagnostic.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

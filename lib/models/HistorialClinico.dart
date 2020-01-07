@@ -1,21 +1,18 @@
-import 'package:flutter_app/models/Especialidad.dart';
-import 'package:flutter_app/models/User.dart';
-import 'package:flutter_app/models/HorarioCompleto.dart';
-import 'package:flutter_app/models/Doctor.dart';
+import 'package:flutter_app/models/UserHistorial.dart';
 
 import 'Tratamiento.dart';
 
 
 class HistorialClinico {
   //final int _id;
-  final User _paciente;
+  final UserHistorial _paciente;
   final String _medicacionActual,_problemasCardiacos,_sangranEncias,_diabetes,_alergias,_observaciones,_diagnostico,_fechaCreacion;
 
 
   HistorialClinico(this._paciente, this._medicacionActual,this._problemasCardiacos,this._sangranEncias,this._diabetes,this._alergias,this._observaciones,this._diagnostico,this._fechaCreacion);
   HistorialClinico.fromJson(Map<String, dynamic> json)
       : //_id = json['id'],
-        _paciente = User.fromJson(json['id_cliente']),
+        _paciente = UserHistorial.fromJson(json['id_cliente']),
         _medicacionActual = json['medicacionActual'],
         _problemasCardiacos = json['problemasCardiacos'],
         _sangranEncias = json['sangranEncias'],
@@ -26,7 +23,7 @@ class HistorialClinico {
         _fechaCreacion = json['fechaCreacion'];
 
   //int get Id => _id;
-  User get Paciente => _paciente;
+  UserHistorial get Paciente => _paciente;
   String get MedicacionActual => _medicacionActual;
   String get ProblemasCardiacos => _problemasCardiacos;
   String get SangraEncias => _sangranEncias;

@@ -297,20 +297,30 @@ class RestDatasource {
     });
   }
   /*acaaaaa*/
-  Future<HistorialClinico> HistorialId(int id) {
+  Future<List<HistorialClinico>> HistorialId(int id) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
 
     return _netUtil.get(HISTORIAL_URL+id.toString()+"/",
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
     ).then((dynamic res) {
+      print(res);
+      List<HistorialClinico> response=new List<HistorialClinico>();
+      if(res!=null){
+        var historiales = res.map((i)=>HistorialClinico.fromJson(i)).toList();
+        for(final historial in historiales){
+          response.add(historial);
+        }
+        return response;
+      }
+      return null;
       //print(res.toString());
-      HistorialClinico hr=HistorialClinico.fromJson(res);
+      /*HistorialClinico hr=HistorialClinico.fromJson(res);
       //HorarioRango horario=new HorarioRango(int.parse(res.id), res.horaInicio.toString(), res.horaFin.toString());
       if(hr!=null){
         return hr;
       }
-      return null;
+      return null;*/
     });
   }
 
