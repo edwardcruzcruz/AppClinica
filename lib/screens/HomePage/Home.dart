@@ -7,7 +7,7 @@ import 'package:flutter_app/models/Tratamiento.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Acerca/Acerca.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/CuentasAsociadas.dart';
-import 'package:flutter_app/screens/MenuPage/Historial.dart';
+import 'package:flutter_app/screens/MenuPage/HistorialPage/Historial.dart';
 import 'package:flutter_app/screens/MenuPage/Mis_Citas.dart';
 import 'package:flutter_app/screens/MenuPage/Mis_Pagos.dart';
 import 'package:flutter_app/screens/MenuPage/Noticias.dart';
@@ -65,12 +65,9 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
 
     super.initState();
-    List<CitaCompleta> citas= new List<CitaCompleta>();//.generate(5, (i) => CitaCompleta(
-        //i,User(1,"Edward", "Cruz","edward.cruzcruz@hotmail.com",1,"0938384849","Ronda","1996-04-27"), "Odontología","Limpieza Dental",HorarioCompleto(1,"2019-"+((8+(1*i)).toString().length==1?"0"+(8+(1*i)).toString():8+(1*i)).toString()+"-12",HorarioRango(3,"09:00","09:30"),12,false),Doctor(12,"Jose", "Ureta","2789456",1,"jos@gmail.com",3)
-    //));
     noticiaPage = Noticias();
     citasPage = Citas(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
-    historialPage = Historial(citasList: citas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
+    historialPage = Historial();
     recetasPage = Recetas(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
     agend1Page = Agendamiento();
     carrito = Pagos();

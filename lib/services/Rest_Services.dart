@@ -10,6 +10,7 @@ import 'package:flutter_app/models/CitaCompleta.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/models/Especialidad.dart';
+import 'package:flutter_app/models/HistorialClinico.dart';
 import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/models/HorarioRango.dart';
 import 'package:flutter_app/models/Noticia.dart';
@@ -31,6 +32,7 @@ class RestDatasource {
   static final DOCTORES_URL= BASE_URL + Constantes.uriDoctores;
   static final HORARIOID_URL= BASE_URL + Constantes.uriHorarioID;
   static final HORARIO_DOCTORES_URL= BASE_URL + Constantes.uriHorariosDoctores;
+  static final HISTORIAL_URL= BASE_URL + Constantes.uriHistorialporID;
   static final CUENTAS_ASOCIADAS_URL= BASE_URL + Constantes.uriCuentasAsociadas;
   static final ESPECIALIDADES_URL=BASE_URL + Constantes.uriEspecialidad;
   static final CITAS_URL=BASE_URL + Constantes.uriCitas;
@@ -295,6 +297,22 @@ class RestDatasource {
     });
   }
   /*acaaaaa*/
+  Future<HistorialClinico> HistorialId(int id) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+
+    return _netUtil.get(HISTORIAL_URL+id.toString()+"/",
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      //print(res.toString());
+      HistorialClinico hr=HistorialClinico.fromJson(res);
+      //HorarioRango horario=new HorarioRango(int.parse(res.id), res.horaInicio.toString(), res.horaFin.toString());
+      if(hr!=null){
+        return hr;
+      }
+      return null;
+    });
+  }
 
   Future<http.Response> CambiarDisponibilidadHorarioDoctor(int id,Horario horario) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];

@@ -23,4 +23,5 @@ class Constantes{
   static final String uriCarrito="/api/v1/deudasCliente/";
   static final String uriHorarioID="/api/v1/horariosClinica/";
   static final String uriRecetaUsuario="/api/v1/receta/usuario=";
+  static final String uriHistorialporID="/api/v1/HistorialClinico/usuario=";
 }
