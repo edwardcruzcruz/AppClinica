@@ -85,14 +85,15 @@ class _RegistroState extends State<Registro> {
                   setState(() {//se muestra barra circular de espera
                     _saving = true;
                   });
-                  var response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),dropdownValue,CIController.text,email.text, passController1.text);
+                  dynamic response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),dropdownValue,CIController.text,email.text, passController1.text);
                   setState(() {//se muestra barra circular de espera
                     _saving = false;
                   });
                   if(response.statusCode>200 && response.statusCode<400){
                     _showSuccessGuardar();
                   }else{
-                    _showErrorGuardar();
+                    _showDialogErrorAddAccount(response.body.toString());
+                    //_showErrorGuardar();
                   }
                 }else{
                   _showErrorpass();
@@ -478,7 +479,7 @@ class _RegistroState extends State<Registro> {
       },
     );
   }
-  void _showErrorGuardar() {//todos estos mensajes se tendrian que poner en una clase externa
+  void _showDialogErrorAddAccount(String problema) {//todos estos mensajes se tendrian que poner en una clase externa
     // flutter defined function
     showDialog(
       context: context,
@@ -486,7 +487,7 @@ class _RegistroState extends State<Registro> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Error"),
-          content: new Text("No se guardo el usuario"),
+          content: new Text("No se pudo registrar al usuario, Causa: "+problema.split("[").elementAt(1).split("]").elementAt(0)),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

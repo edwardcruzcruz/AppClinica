@@ -145,10 +145,20 @@ class _RecetasState extends State<Recetas> {
             return Center(child: CircularProgressIndicator());
           case ConnectionState.done:
             if (snapshot.hasError)
-              return Text(
-                "No hay recetas",
-                textAlign: TextAlign.center,
-                style: appTheme().textTheme.display4,
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "No hay información para mostrar",
+                        textAlign: TextAlign.center,
+                        style: appTheme().textTheme.display4,
+                      ),
+                    ],
+                  )
+                ],
               ); //'Error: ${snapshot.error}'
 
             //String especialidad=this.doctores.elementAt(0).Especialidad;
@@ -445,11 +455,21 @@ class _RecetasState extends State<Recetas> {
                       );
                     },
                   )
-                : Text(
-                    "No hay recetas",
-                    textAlign: TextAlign.center,
-                    style: appTheme().textTheme.display4,
-                  );
+                : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "No hay recetas",
+                      textAlign: TextAlign.center,
+                      style: appTheme().textTheme.display4,
+                    ),
+                  ],
+                )
+              ],
+            );
         }
         return null;
       },

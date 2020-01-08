@@ -118,7 +118,7 @@ class _HistorialPageState extends State<HistorialPage> {
                         style: appTheme().textTheme.headline,)
                     ],
                   ),
-                  hc.Paciente.CitaxCliente.isEmpty?detalleInvalidoCitaxCliente():detalleValidoCitaxCliente(hc),
+                  detalleValidoCitaxCliente(hc),//hc.Paciente!=null?detalleInvalidoCitaxCliente():,
                   Row(
                     children: <Widget>[
                       Container(
@@ -167,58 +167,32 @@ class _HistorialPageState extends State<HistorialPage> {
   }
   Widget detalleValidoCitaxCliente(HistorialClinico hc){
     return Container(
-      margin: EdgeInsets.fromLTRB(70, 10, 70, 10),
-      padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-      decoration: BoxDecoration(
-        //color: Colors.green,
-        border: Border.all(color: Colors.teal),
-      ),
-      child: Column(
+      margin: EdgeInsets.fromLTRB(50, 5, 50, 5),
+      padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+      child:  Column(
         children: <Widget>[
-          Row(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-                child: new Image.asset('assets/avatar.png',width: 43,height: 50),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 10),
-                child: Text((hc.Paciente.CitaxCliente.elementAt(0).IdDoctor.Especialidad==3?"OD. ":hc.Paciente.CitaxCliente.elementAt(0).IdDoctor.Especialidad==2?"NUT. ":"PSIC. ")+hc.Paciente.CitaxCliente.elementAt(0).IdDoctor.Nombre+" "+hc.Paciente.CitaxCliente.elementAt(0).IdDoctor.Apellido,style: appTheme().textTheme.headline),
-              ),
-
-            ],
-          ),
-          Row(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.fromLTRB(12.0, 5.0, 0.0, 5.0),
-                child: Icon(Icons.calendar_today),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(17.0, 10.0, 10.0, 10.0),
-                child: Text(
-                  hc.Paciente.CitaxCliente.elementAt(0).HorarioFechaP.Fecha.split("-")[2].split(" ")[0]+' de '+getMonth(hc.Paciente.CitaxCliente.elementAt(0).HorarioFechaP.Fecha.split("-")[1])+' del '+hc.Paciente.CitaxCliente.elementAt(0).HorarioFechaP.Fecha.split("-")[0],
-                  style: appTheme().textTheme.headline,
-                  maxLines: 2,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            //mainAxisAlignment: MainAxisAlignment.center,
-
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.fromLTRB(12.0, 5.0, 0.0, 5.0),
-                child: new Image.asset('assets/reloj.png',width: 23,height: 30),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(17.0, 10.0, 10.0, 10.0),
-                child: Text(hc.Paciente.CitaxCliente.elementAt(0).HorarioFechaP.Fecha.split(" ")[1].split(":")[0] +' : '+hc.Paciente.CitaxCliente.elementAt(0).HorarioFechaP.Fecha.split(" ")[1].split(":")[1]+" - "+hc.Paciente.CitaxCliente.elementAt(0).HorarioFechaP.Fecha.split(" ")[2].split(":")[0] +' : '+hc.Paciente.CitaxCliente.elementAt(0).HorarioFechaP.Fecha.split(" ")[2].split(":")[1],style: appTheme().textTheme.headline),
-              ),
-            ],
+          DetalleValor("Diabetes:",hc.Diabetes),
+          DetalleValor("Sangrado en encías:",hc.SangraEncias),
+          DetalleValor("Alergias:",hc.Alergias),
+        ],
+      ),
+    );
+  }
+  Widget DetalleValor(String Titulo,String Valor){
+    return Container(
+      width: 300,
+      margin: EdgeInsets.only(top: 5,bottom: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(Titulo,style: appTheme().textTheme.title,),
+          Expanded(
+            child: Container(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(Valor,style: appTheme().textTheme.title,),
+                )
+            ),
           ),
         ],
       ),

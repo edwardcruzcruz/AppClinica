@@ -205,10 +205,20 @@ class _CitasState extends State<Citas> {
             return Center(child: CircularProgressIndicator());
           case ConnectionState.done:
             if (snapshot.hasError)
-              return Text(
-                "No hay citas nuevas",
-                textAlign: TextAlign.center,
-                style: appTheme().textTheme.display4,
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "No hay información para mostrar",
+                        textAlign: TextAlign.center,
+                        style: appTheme().textTheme.display4,
+                      ),
+                    ],
+                  )
+                ],
               ); //'Error: ${snapshot.error}'
             //String especialidad=this.doctores.elementAt(0).Especialidad;
             return
@@ -530,12 +540,21 @@ class _CitasState extends State<Citas> {
                   );
                 },
               )
-                  :Text(
-                "No hay citas nuevas",
-                textAlign: TextAlign.center,
-                style: appTheme().textTheme.display4,
-              )
-            ;
+                  :Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "No hay citas nuevas",
+                        textAlign: TextAlign.center,
+                        style: appTheme().textTheme.display4,
+                      ),
+                    ],
+                  )
+                ],
+              );
         }
         return null;
       },
@@ -567,10 +586,20 @@ class _CitasState extends State<Citas> {
             return Center(child: CircularProgressIndicator());
           case ConnectionState.done:
             if (snapshot.hasError)
-              return Text(
-                "No hay citas nuevas",
-                textAlign: TextAlign.center,
-                style: appTheme().textTheme.display4,
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "No hay información para mostrar",
+                        textAlign: TextAlign.center,
+                        style: appTheme().textTheme.display4,
+                      ),
+                    ],
+                  )
+                ],
               ); //'Error: ${snapshot.error}'
 
             return
@@ -766,12 +795,21 @@ class _CitasState extends State<Citas> {
                   );
                 },
               )
-                  :Text(
-                "No hay citas nuevas",
-                textAlign: TextAlign.center,
-                style: appTheme().textTheme.display4,
-              )
-            ;
+                  :Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "No hay citas nuevas",
+                        textAlign: TextAlign.center,
+                        style: appTheme().textTheme.display4,
+                      ),
+                    ],
+                  )
+                ],
+              );
         }
         return null;
       },
