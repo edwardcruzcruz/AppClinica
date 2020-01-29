@@ -102,6 +102,8 @@ flutter:
     - assets/logoclinica.png
     - assets/googlemap.png
     - assets/diagnostic.png
+    - assets/ovalo.png
+    - assets/icon.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -132,7 +134,7 @@ flutter:
 flutter_icons:
   ios: true
   android: true
-  image_path_ios: "assets/logo_clinica.png"
-  image_path_android: "assets/logo_clinica.png"
-  adaptive_icon_background: "assets/logo_clinica.png"
-  adaptive_icon_foreground: "assets/logo_clinica.png"
+  image_path_ios: "assets/icon.png"
+  image_path_android: "assets/icon.png"
+  adaptive_icon_background: "assets/icon.png"
+  adaptive_icon_foreground: "assets/icon.png"

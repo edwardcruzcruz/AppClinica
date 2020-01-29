@@ -187,187 +187,7 @@ class _HomeState extends State<Home> {
                 ),
             preferredSize: const Size.fromHeight(10.0)),
       ),
-      endDrawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child:new Column(
-          // Important: Remove any padding from the ListView.
-          //padding: EdgeInsets.zero,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            new Container(
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                  colors: [
-                    Color(0xFF00a18d),
-                    Color(0xFF00d6bc),
-                  ],
-                  begin: FractionalOffset.centerLeft,
-                  end: FractionalOffset.centerRight,
-                ),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 150,
-                    width: 150,
-                    child: DrawerHeader(
-                      child: new CircleAvatar(
-                        child: Image.asset("assets/avatar.png"),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 150,
-                    child: AutoSizeText(
-                      storageService.getCuentaMaster,
-                      style: appTheme().textTheme.display2,
-                      maxLines: 3,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  //Text(storageService.getCuentaMaster,style: appTheme().textTheme.display2,)
-                ],
-              ),
-            ),
-            Container(
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                  colors: [
-                    Color(0xFF00a18d),
-                    Color(0xFF00d6bc),
-                  ],
-                  begin: FractionalOffset.centerLeft,
-                  end: FractionalOffset.centerRight,
-                ),
-              ),
-              padding: EdgeInsets.only(left: 30,right: 30),
-              child: Divider(
-                color: Colors.white,
-              ),
-            ),
-            Expanded(
-              child: Container(
-                decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
-                    colors: [
-                      Color(0xFF00a18d),
-                      Color(0xFF00d6bc),
-                    ],
-                    begin: FractionalOffset.centerLeft,
-                    end: FractionalOffset.centerRight,
-                  ),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    ListTile(
-                      leading: Icon(Icons.people,color: Colors.white,),
-                      title: Text('Cuentas Asociadas',style: appTheme().textTheme.button,),
-                      onTap: () async{//
-                        setState(() {
-                          //se muestra barra circular de espera
-                          _saving = true;
-                        });
-                        /*List<Cuenta> cuentas= new List<Cuenta>.generate(1, (i) {
-                  return Cuenta(
-                      1,"Jose", "Cruz","jose@gmail.com","Masculino","0993449512","Ronda","2000-04-10",2
-                  );
-                });*/
-                        Cuenta cuentas=await RestDatasource().CuentasByMaster(int.parse(storageService.getIdCuentaMaster.toString()));
-                        //User usuario= await RestDatasource().perfil(storageService.getEmail) ;
-                        setState(() {//se oculta barra circular de espera
-                          _saving = false;
-                        });
-                        setState(() {
-                          currentPage = CuentasAsociadas(cuentas: cuentas,callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);
-                        });
-
-                        Navigator.pop(context);
-                      },
-                    ),
-                    Divider(
-                      height: 2.0,
-                      color: Colors.transparent,
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.question_answer,color: Colors.white,),
-                      title: Text('Sugerencia',style: appTheme().textTheme.button,),
-                      onTap: () {
-                        setState(() {
-                          currentPage = Sugerencia(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);
-                        });
-                        Navigator.pop(context);
-                      },
-                    ),
-                    Divider(
-                      height: 2.0,
-                      color: Colors.transparent,
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.info,color: Colors.white,),
-                      title: Text('Sobre Nosotros',style: appTheme().textTheme.button,),
-                      onTap: () async{//
-                        setState(() {
-                          currentPage = Acerca();
-                        });
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                  colors: [
-                    Color(0xFF00a18d),
-                    Color(0xFF00d6bc),
-                  ],
-                  begin: FractionalOffset.centerLeft,
-                  end: FractionalOffset.centerRight,
-                ),
-              ),
-              padding: EdgeInsets.only(left: 30,right: 30),
-              child: Divider(
-                color: Colors.white,
-              ),
-            ),
-            Container(
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                  colors: [
-                    Color(0xFF00a18d),
-                    Color(0xFF00d6bc),
-                  ],
-                  begin: FractionalOffset.centerLeft,
-                  end: FractionalOffset.centerRight,
-                ),
-              ),
-              child: ListTile(
-                leading: Icon(Icons.exit_to_app,color: Colors.white,),
-                title: Text("Cerrar Sesión",style: appTheme().textTheme.button,),
-                onTap: () {
-                  if(storageService.IsFacebookUser!=null){
-                    if(storageService.IsFacebookUser){
-                      FacebookLogin().logOut();
-                      storageService.delete_userface();
-                    }
-                  }
-                  storageService.delete_user(); //variable de session usuario eliminada
-                  storageService.delete_email();
-                  storageService.delete_idPadre();
-                  storageService.delete_idHijo();
-                  storageService.delete_currentAccount();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      Login.route(), (Route<dynamic> route) => false);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      endDrawer: menu(),
       body: ModalProgressHUD(
           color: Colors.grey[600],
           progressIndicator: CircularProgressIndicator(
@@ -503,6 +323,153 @@ class _HomeState extends State<Home> {
           ],
         );
       },
+    );
+  }
+
+  Widget menu(){
+    return Drawer(
+      // Add a ListView to the drawer. This ensures the user can scroll
+      // through the options in the drawer if there isn't enough vertical
+      // space to fit everything.
+      child:new Column(
+        // Important: Remove any padding from the ListView.
+        //padding: EdgeInsets.zero,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          _buildAvatar(),
+          _lineaWhite(),
+          _buildBody(),
+          _lineaWhite(),
+          _buildButtonLogOut(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAvatar() {
+    return Container(
+      decoration: _FondoTealOpciones(),
+      child: Row(
+        children: <Widget>[
+          Container(
+            height: 150,
+            width: 150,
+            child: DrawerHeader(
+              child: new CircleAvatar(
+                child: Image.asset("assets/avatar.png"),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 150,
+            child: AutoSizeText(
+              storageService.getCuentaMaster,
+              style: appTheme().textTheme.display2,
+              maxLines: 3,
+              textAlign: TextAlign.left,
+            ),
+          ),
+          //Text(storageService.getCuentaMaster,style: appTheme().textTheme.display2,)
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    return Expanded(
+      child: Container(
+        decoration: _FondoTealOpciones(),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.people,color: Colors.white,),
+              title: Text('Cuentas Asociadas',style: appTheme().textTheme.button,),
+              onTap: () async{//
+                setState(() {
+                  currentPage = CuentasAsociadas(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);
+                });
+                Navigator.pop(context);
+              },
+            ),
+            Divider(
+              height: 2.0,
+              color: Colors.transparent,
+            ),
+            ListTile(
+              leading: Icon(Icons.question_answer,color: Colors.white,),
+              title: Text('Sugerencia',style: appTheme().textTheme.button,),
+              onTap: () {
+                setState(() {
+                  currentPage = Sugerencia(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull,);
+                });
+                Navigator.pop(context);
+              },
+            ),
+            Divider(
+              height: 2.0,
+              color: Colors.transparent,
+            ),
+            ListTile(
+              leading: Icon(Icons.info,color: Colors.white,),
+              title: Text('Sobre Nosotros',style: appTheme().textTheme.button,),
+              onTap: () async{//
+                setState(() {
+                  currentPage = Acerca();
+                });
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButtonLogOut() {
+    return Container(
+      decoration: _FondoTealOpciones(),
+      child: ListTile(
+        leading: Icon(Icons.exit_to_app,color: Colors.white,),
+        title: Text("Cerrar Sesión",style: appTheme().textTheme.button,),
+        onTap: () {
+          if(storageService.IsFacebookUser!=null){
+            if(storageService.IsFacebookUser){
+              FacebookLogin().logOut();
+              storageService.delete_userface();
+            }
+          }
+          storageService.delete_user(); //variable de session usuario eliminada
+          storageService.delete_email();
+          storageService.delete_idPadre();
+          storageService.delete_idHijo();
+          storageService.delete_currentAccount();
+          Navigator.of(context).pushAndRemoveUntil(
+              Login.route(), (Route<dynamic> route) => false);
+        },
+      ),
+    );
+  }
+
+  Widget _lineaWhite(){
+    return Container(
+      decoration: _FondoTealOpciones(),
+      padding: EdgeInsets.only(left: 30,right: 30),
+      child: Divider(
+        color: Colors.white,
+      ),
+    );
+  }
+
+  Decoration _FondoTealOpciones(){
+    return BoxDecoration(
+      gradient: new LinearGradient(
+        colors: [
+          Color(0xFF00a18d),
+          Color(0xFF00d6bc),
+        ],
+          begin: FractionalOffset.centerLeft,
+        end: FractionalOffset.centerRight,
+      ),
     );
   }
 }

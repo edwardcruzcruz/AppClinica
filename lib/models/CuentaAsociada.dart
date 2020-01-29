@@ -29,6 +29,7 @@ class CuentaAsociada {
   String get Telefono => _noTelefono;
   String get FechaNacimiento => _fecha_nacimiento;
   String get Correo => _correo;
+  String get Cedula => _cedula;
   int get Sexo => _sexo;
   String get Direccion => _direccion;
   String get IdCuentaPadre => _cedula;
