@@ -3,6 +3,7 @@ import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/Utils.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
+import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/models/UserFB.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/CuentasAsociadas.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/theme/style.dart';
 
 class ModificarCuenta extends StatefulWidget {
-  UserFB cuenta;
+  User cuenta;
   int cuentaAsociada;
   Function callback,callbackloading,callbackfull;
   ModificarCuenta({Key key,this.cuentaAsociada,this.cuenta,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
@@ -34,6 +35,11 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
   TextEditingController lastname = new TextEditingController();
   TextEditingController email = new TextEditingController();
   TextEditingController CIController= new TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    //print(this.widget.cuenta);
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -79,19 +85,33 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
 
                 onPressed:()async{//async
                   if(_formKey.currentState.validate()){
-                    this.widget.callbackloading();
-                    User usuario= await RestDatasource().perfilfbByFLName(username.text,lastname.text);
-                    this.widget.callbackfull();
-                    if(usuario==null){
-                      dynamic response=await RestDatasource().save_userfb(username.text,lastname.text,"","","1996-10-10","1","",email.text,storageService.getIdPadre.toString());
+                    if(this.widget.cuentaAsociada==-1){
+                      this.widget.callbackloading();
+                      User usuario= await RestDatasource().perfilfbByFLName(username.text,lastname.text);
+                      this.widget.callbackfull();
+                      if(usuario==null){
+                        dynamic response=await RestDatasource().save_userfb(username.text,lastname.text,"","","1996-10-10","1","",email.text,storageService.getIdPadre.toString());
+                        print(response.body);
+                        if(response.statusCode==200 || response.statusCode==201){
+                          _showDialogSave();
+                        }else{
+                          _showDialogErrorAddAccount(response.body.toString());
+                        }
+                      }else{
+                        _showDialogAddAccount();
+                      }
+                    }else{//modificar
+                      List<CuentasAsociadas> emptylist = [];
+                      Cuenta usuario= await RestDatasource().CuentasByMaster(this.widget.cuentaAsociada);
+                      this.widget.callbackloading();
+                      dynamic response=await RestDatasource().perfil(this.widget.cuentaAsociada,Cuenta(this.widget.cuentaAsociada,username.text,lastname.text,email.text,int.parse(dropdownValue),"00000000","entrabajo","1996-10-10",CIController.text,usuario.ListCuentasAsociads));
+                      this.widget.callbackfull();
                       print(response.body);
                       if(response.statusCode==200 || response.statusCode==201){
-                        _showDialogSave();
+                        _showDialogEdit();
                       }else{
                         _showDialogErrorAddAccount(response.body.toString());
                       }
-                    }else{
-                      _showDialogAddAccount();
                     }
                   }
                 },child: Text("confirmar"),
@@ -118,7 +138,11 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
         )
     );
   }
-  Widget formulario(UserFB cuenta){
+  Widget formulario(User cuenta){
+    username.text = cuenta.Nombre;
+    lastname.text = cuenta.Apellido;
+    email.text = cuenta.Correo;
+    CIController.text = cuenta.Cedula;
     return new ListView(
       children: <Widget>[
         Form(
@@ -137,7 +161,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                     ),
                     labelText: Strings.LabelRegistroNombre,
                     labelStyle: appTheme().textTheme.title,
-                    hintText: this.widget.cuenta==null?"":this.widget.cuenta.Nombre,
+                    //hintText: this.widget.cuenta==null?"":this.widget.cuenta.Nombre,
                   ),
                   validator: (text) {
                   if (text.length == 0) {
@@ -163,7 +187,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                     ),
                     labelText: Strings.LabelRegistroApellidos,
                     labelStyle: appTheme().textTheme.title,
-                    hintText: this.widget.cuenta==null?"":this.widget.cuenta.Apellido
+                    //hintText: this.widget.cuenta==null?"":this.widget.cuenta.Nombre,this.widget.cuenta.Apellido
                   ),
                   validator: (text) {
                   if (text.length == 0) {
@@ -190,7 +214,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                     ),
                     labelText: Strings.LabelCI,
                     labelStyle: appTheme().textTheme.title,
-                    hintText: this.widget.cuenta==null?"":this.widget.cuenta.Cedula,
+                    //hintText: this.widget.cuenta==null?"":this.widget.cuenta.Nombre,this.widget.cuenta.Apellido,this.widget.cuenta.Cedula,
                   ),
                   validator: (text) {
                   if (text.length == 0) {
@@ -214,7 +238,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                     ),
                     labelText: Strings.LabelEmail,
                     labelStyle: appTheme().textTheme.title,
-                    hintText: this.widget.cuenta==null?"":this.widget.cuenta.Correo,
+                    //hintText: this.widget.cuenta==null?"":this.widget.cuenta.Nombre,this.widget.cuenta.Apellido,this.widget.cuenta.Cedula,this.widget.cuenta.Correo,
                   ),
                   validator: (text) {
                     if (text.length == 0) {
@@ -395,6 +419,30 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
         return AlertDialog(
           title: new Text("Registro Exitoso"),
           content: new Text("Se ha registrado una cuenta asociada con el nombre de "+username.text+" "+lastname.text),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () async{
+                this.widget.callback(CuentasAsociadas(callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                Navigator.of(context).pop();
+                //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showDialogEdit() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Actualización Exitoso"),
+          content: new Text("Se ha actualizado la cuenta asociada con el nombre de "+username.text+" "+lastname.text),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

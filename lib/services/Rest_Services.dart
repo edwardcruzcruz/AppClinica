@@ -48,7 +48,7 @@ class RestDatasource {
   final JsonDecoder _decoder = new JsonDecoder();
   var storageService = locator<Var_shared>();
 
-  Future<User> perfil(String email) {
+  Future<http.Response> perfil(int id,Cuenta usuario) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     /*return http.get(
       PERFIL_URL,
@@ -56,22 +56,16 @@ class RestDatasource {
       headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
         HttpHeaders.authorizationHeader: "token $_API_KEY"},
     );*/
-    return _netUtil.get(PERFIL_URL,
-      headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
-         HttpHeaders.authorizationHeader: "token $_API_KEY"}
-        ).then((dynamic res) {
-        User response=null;
-      if(res!=null){
-        var usuarios = res.map((i)=>User.fromJson(i)).toList();
-        for(final usuario in usuarios){
-          //print(usuario.Correo);
-          if(email==usuario.Correo){
-            response= usuario;
-          }
-        }
-        return response;
+    return http.patch(PERFIL_URL+id.toString()+"/",headers: {HttpHeaders.contentTypeHeader: "application/json", // application/json
+      HttpHeaders.authorizationHeader: "token $_API_KEY"},body: utf8.encode(json.encode(usuario.toJson()))).then((dynamic response) {//cuentamodifi.toJson()
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+      print(statusCode);
+
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
       }
-        return null;
+      return response;
     });
   }
 

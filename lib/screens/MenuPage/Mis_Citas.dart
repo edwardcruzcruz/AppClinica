@@ -416,7 +416,7 @@ class _CitasState extends State<Citas> {
                                               }
                                             }
                                             User usuario = await RestDatasource()
-                                                .perfil(storageService.getEmail);
+                                                .perfilfb(storageService.getEmail);
                                             List<Especialidad> especialidades =
                                             await RestDatasource()
                                                 .ListaEspecialidad();

@@ -208,8 +208,8 @@ class _GestionarCuentasBodyPageState extends State<GestionarCuentasBodyPage> {
                               size: 25.0,
                               color: Colors.grey,
                             ), onPressed: (){
+                              //print(cuenta.Nombre);
                               this.widget.callback(
-
                                   ModificarCuenta(
                                     cuenta: null,//UserFB(cuenta.ListCuentasAsociads.elementAt(position).Id,cuenta.ListCuentasAsociads.elementAt(position).Nombre,cuenta.ListCuentasAsociads.elementAt(position).Apellido,cuenta.ListCuentasAsociads.elementAt(position).Correo,Genero(1,"Masculino"),cuenta.ListCuentasAsociads.elementAt(position).Telefono,cuenta.ListCuentasAsociads.elementAt(position).Direccion,cuenta.ListCuentasAsociads.elementAt(position).FechaNacimiento,cuenta.ListCuentasAsociads.elementAt(position).Cedula,int.parse(cuenta.ListCuentasAsociads.elementAt(position).IdCuentaPadre)),//cuenta.ListCuentasAsociads.elementAt(position)
                                     cuentaAsociada: cuenta.ListCuentasAsociads.elementAt(position).Id,

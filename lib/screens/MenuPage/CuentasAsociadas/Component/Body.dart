@@ -5,6 +5,7 @@ import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/models/Sexo.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/models/UserFB.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/GestionarCuentaAsociada/ModifcarCuenta.dart';
 import 'package:flutter_app/screens/MenuPage/Noticias.dart';
@@ -207,11 +208,11 @@ class _CuentasBodyPageState extends State<CuentasBodyPage> {
                               Icons.edit,
                               size: 25.0,
                               color: Colors.grey,
-                            ), onPressed: (){
+                            ), onPressed: () async{
+                              //print(cuenta.ListCuentasAsociads.elementAt(position).Id);
                               this.widget.callback(
-
                                   ModificarCuenta(
-                                    cuenta: null,//UserFB(cuenta.ListCuentasAsociads.elementAt(position).Id,cuenta.ListCuentasAsociads.elementAt(position).Nombre,cuenta.ListCuentasAsociads.elementAt(position).Apellido,cuenta.ListCuentasAsociads.elementAt(position).Correo,Genero(1,"Masculino"),cuenta.ListCuentasAsociads.elementAt(position).Telefono,cuenta.ListCuentasAsociads.elementAt(position).Direccion,cuenta.ListCuentasAsociads.elementAt(position).FechaNacimiento,cuenta.ListCuentasAsociads.elementAt(position).Cedula,int.parse(cuenta.ListCuentasAsociads.elementAt(position).IdCuentaPadre)),//cuenta.ListCuentasAsociads.elementAt(position)
+                                    cuenta: await RestDatasource().perfilfb(cuenta.ListCuentasAsociads.elementAt(position).Correo),//User(cuenta.ListCuentasAsociads.elementAt(position).Id,cuenta.ListCuentasAsociads.elementAt(position).Nombre,cuenta.ListCuentasAsociads.elementAt(position).Apellido,cuenta.ListCuentasAsociads.elementAt(position).Correo,Genero(1,"Masculino"),cuenta.ListCuentasAsociads.elementAt(position).Telefono,cuenta.ListCuentasAsociads.elementAt(position).Direccion,cuenta.ListCuentasAsociads.elementAt(position).FechaNacimiento,cuenta.ListCuentasAsociads.elementAt(position).Cedula,int.parse(cuenta.ListCuentasAsociads.elementAt(position).IdCuentaPadre)),//cuenta.ListCuentasAsociads.elementAt(position)
                                     cuentaAsociada: cuenta.ListCuentasAsociads.elementAt(position).Id,
                                     callback: this.widget.callback,
                                     callbackloading: this.widget.callbackloading,

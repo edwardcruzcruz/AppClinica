@@ -115,7 +115,7 @@ class _HomeState extends State<Home> {
             });
             List<Especialidad> especialidades= await RestDatasource().ListaEspecialidad();
 
-            User usuario= await RestDatasource().perfil(storageService.getEmail) ;
+            User usuario= await RestDatasource().perfilfb(storageService.getEmail) ;
             setState(() {//se oculta barra circular de espera
               _saving = false;
             });
