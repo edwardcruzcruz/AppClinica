@@ -533,6 +533,32 @@ class RestDatasource {
       return response;
     });*/
   }
+  Future<http.Response> edit_user(int id,Cuenta cuentamodifi) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    /*Map<String,dynamic> body=  {
+      'id' : cuentamodifi.Id,
+      'nombre' : cuentamodifi.Nombre,
+      'apellido' : cuentamodifi.Apellido,
+      'email' : cuentamodifi.Correo,
+      'sexo' : cuentamodifi.Sexo,
+      'telefono' : cuentamodifi.Telefono,
+      'direccion' : cuentamodifi.Direccion,
+      'fechaNacimiento' : cuentamodifi.FechaNacimiento,
+      'cedula' : cuentamodifi.Cedula,
+      'id_padre' : cuentamodifi.ListCuentasAsociads
+    };*/
+    return http.patch(CUENTAS_ASOCIADAS_URL+id.toString()+"/",headers: {HttpHeaders.contentTypeHeader: "application/json", // application/json
+      HttpHeaders.authorizationHeader: "token $_API_KEY"},body: utf8.encode(json.encode(cuentamodifi.toJson()))).then((dynamic response) {//cuentamodifi.toJson()
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+      print(statusCode);
+
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return response;
+    });
+  }
   Future<http.Response> save_userfb(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento,String Genero,String cedula, String correo,String id_padre) {
 
     Map<String,dynamic> body=  {

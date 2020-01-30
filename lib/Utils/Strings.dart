@@ -20,6 +20,7 @@ class Strings {
   static const String ItemBottomNavigationBar3 = "Recetas";
   static const String CuerpoTituloBienvenido = "Bienvenido,";
   static const String CuerpoTituloPaginaNoticias = "NOTICIAS";
+  static const String CuerpoTituloPaginaPerfil = "PERFIL";
   static const String CuerpoTituloPaginaCuentasAsociadas = "CUENTAS ASOCIADAS";
   static const String CuerpoTituloPaginaSugerencia = "SUGERENCIA";
   static const String CuerpoTituloPaginaAcercade = "CONTÁCTANOS";
@@ -40,4 +41,5 @@ class Strings {
   static const String Tab1Citas = "Próximas";
   static const String Tab2Citas = "Anteriores";
   static const String Solicitud = "Enviar";
+  static const String Actualizacion = "Guardar";
 }

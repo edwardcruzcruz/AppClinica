@@ -61,6 +61,7 @@ class Cuenta {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this._idUsuario;
     data['nombre'] = this._nombre;
     data['apellido'] = this._apellido;
     data['email'] = this._correo;
@@ -69,7 +70,7 @@ class Cuenta {
     data['direccion'] = this._direccion;
     data['fechaNacimiento'] = this._fecha_nacimiento;
     data['cedula'] = this._cedula;
-    data['idCuentaPadre'] = this._idPadre;
+    data['id_padre'] = this._idPadre;
     return data;
   }
 }

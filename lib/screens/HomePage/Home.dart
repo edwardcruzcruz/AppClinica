@@ -11,6 +11,7 @@ import 'package:flutter_app/screens/MenuPage/HistorialPage/Historial.dart';
 import 'package:flutter_app/screens/MenuPage/Mis_Citas.dart';
 import 'package:flutter_app/screens/MenuPage/Mis_Pagos.dart';
 import 'package:flutter_app/screens/MenuPage/Noticias.dart';
+import 'package:flutter_app/screens/MenuPage/Perfil/Perfil.dart';
 import 'package:flutter_app/screens/MenuPage/Recetas.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/screens/MenuPage/Sugerencia/Sugerencia.dart';
@@ -347,30 +348,38 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildAvatar() {
-    return Container(
-      decoration: _FondoTealOpciones(),
-      child: Row(
-        children: <Widget>[
-          Container(
-            height: 150,
-            width: 150,
-            child: DrawerHeader(
-              child: new CircleAvatar(
-                child: Image.asset("assets/avatar.png"),
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          currentPage=(Perfil(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull));
+        });
+        Navigator.pop(context);
+      },
+      child: Container(
+        decoration: _FondoTealOpciones(),
+        child: Row(
+          children: <Widget>[
+            Container(
+              height: 150,
+              width: 150,
+              child: DrawerHeader(
+                child: new CircleAvatar(
+                  child: Image.asset("assets/avatar.png"),
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: 150,
-            child: AutoSizeText(
-              storageService.getCuentaMaster,
-              style: appTheme().textTheme.display2,
-              maxLines: 3,
-              textAlign: TextAlign.left,
+            SizedBox(
+              width: 150,
+              child: AutoSizeText(
+                storageService.getCuentaMaster,
+                style: appTheme().textTheme.display2,
+                maxLines: 3,
+                textAlign: TextAlign.left,
+              ),
             ),
-          ),
-          //Text(storageService.getCuentaMaster,style: appTheme().textTheme.display2,)
-        ],
+            //Text(storageService.getCuentaMaster,style: appTheme().textTheme.display2,)
+          ],
+        ),
       ),
     );
   }
