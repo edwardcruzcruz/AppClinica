@@ -291,7 +291,7 @@ class _CuentasBodyPageState extends State<CuentasBodyPage> {
               onPressed: () async {
                 dynamic response =await RestDatasource().delete_AsoAccount(id);
                 print(response.body);
-                this.widget.callback(CuentasAsociadas(callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                this.widget.callback(CuentasBodyPage(callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 Navigator.of(context).pop();
               },
             ),

@@ -85,4 +85,31 @@ class Utils{
     }
     return cedulaCorrecta;
   }
+  static String getMonth(String number){
+    String month="Enero";
+    if ( number.compareTo("2")==0) {
+      month="Febrero";
+    } else if (number.compareTo("3")==0) {
+      month="Marzo";
+    } else if (number.compareTo("4")==0) {
+      month="Abril";
+    }else if (number.compareTo("5")==0) {
+      month="Mayo";
+    }else if (number.compareTo("6")==0) {
+      month="Junio";
+    }else if (number.compareTo("7")==0) {
+      month="Julio";
+    }else if (number.compareTo("8")==0) {
+      month="Agosto";
+    }else if (number.compareTo("9")==0) {
+      month="Septiembre";
+    }else if (number.compareTo("10")==0) {
+      month="Octubre";
+    }else if (number.compareTo("11")==0) {
+      month="Noviembre";
+    }else if (number.compareTo("12")==0) {
+      month="Diciembre";
+    }
+    return month;
+  }
 }

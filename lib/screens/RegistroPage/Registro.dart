@@ -148,7 +148,7 @@ class _RegistroState extends State<Registro> {
                               if (value.isEmpty) {
                                 return 'Por favor llenar los espacios';
                               }else if (!Cedulavalida(value)){
-                                return 'Por favor ingresar un numero de cedula valida';
+                                return 'Por favor ingresar un número de cédula valida';
                               }
                               return null;
                             },
@@ -172,7 +172,7 @@ class _RegistroState extends State<Registro> {
                               if (value.isEmpty) {
                                 return 'Por favor llenar los espacios';
                               }else if (!NameOlastNRegExp.hasMatch(value)){
-                                return 'Por favor ingresar caracteres alfabeticos y sin espacios';
+                                return 'Por favor ingresar caracteres alfabéticos y sin espacios';
                               }
                               return null;
                             },
@@ -196,7 +196,7 @@ class _RegistroState extends State<Registro> {
                               if (value.isEmpty) {
                                 return 'Por favor llenar los espacios';
                               }else if (!NameOlastNRegExp.hasMatch(value)){
-                                return 'Por favor ingresar caracteres alfabeticos y sin espacios';
+                                return 'Por favor ingresar caracteres alfabéticos y sin espacios';
                               }
                               return null;
                             },
@@ -221,7 +221,7 @@ class _RegistroState extends State<Registro> {
                               if (value.isEmpty) {
                                 return 'Por favor llenar los espacios';
                               }else if (!PhoneRegExp.hasMatch(value)){
-                                return 'Por favor ingresar numero telefonico';
+                                return 'Por favor ingresar número de teléfono válido';
                               }
                               return null;
                             },
@@ -263,6 +263,7 @@ class _RegistroState extends State<Registro> {
                               ),
                               Expanded(
                                 child:FlatButton(
+                                  //textTheme: ,
                                     onPressed: () {
                                       DatePicker.showDatePicker(context,
                                           showTitleActions: true,
@@ -282,7 +283,7 @@ class _RegistroState extends State<Registro> {
                                           }, currentTime: DateTime.now(), locale: LocaleType.en);
                                     },
                                     child: new Text(Date,
-                                      style: appTheme().textTheme.title,
+                                      style: TextStyle(fontSize: 12.0,fontFamily: 'Myriad Pro',color: Color(0xFF87868a),fontWeight: FontWeight.bold),
                                     )
                                 ),
 
@@ -301,7 +302,7 @@ class _RegistroState extends State<Registro> {
                           )
                         ),
                         Container(
-                          padding: EdgeInsets.only(bottom:10,left: 15,right: 10,top: 10),
+                          padding: EdgeInsets.only(bottom:10,left: 15,right: 5,top: 10),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
@@ -313,7 +314,7 @@ class _RegistroState extends State<Registro> {
                               ),
                               Expanded(
                                 child: new Padding(
-                                  padding: const EdgeInsets.only(right: 22),
+                                  padding: const EdgeInsets.only(left: 40,right: 22),
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton<String>(
                                       items: [
@@ -324,7 +325,7 @@ class _RegistroState extends State<Registro> {
                                             children: <Widget>[
                                               Text(
                                                 "Masculino",
-                                                style: appTheme().textTheme.title,
+                                                style: TextStyle(fontSize: 12.0,fontFamily: 'Myriad Pro',color: Color(0xFF87868a),fontWeight: FontWeight.bold),
                                               ),
                                             ],
                                           ),
@@ -337,7 +338,7 @@ class _RegistroState extends State<Registro> {
 
                                               Text(
                                                 "Femenino",
-                                                style: appTheme().textTheme.title,
+                                                style: TextStyle(fontSize: 12.0,fontFamily: 'Myriad Pro',color: Color(0xFF87868a),fontWeight: FontWeight.bold),
                                               ),
                                             ],
                                           ),
@@ -412,7 +413,7 @@ class _RegistroState extends State<Registro> {
                               if (text.length == 0) {
                                 return "Este campo contraseña es requerido";
                               } else if (text.length <= 5) {
-                                return "Su contraseña debe ser al menos de 5 caracteres";
+                                return "Su contraseña debe tener al menos de 5 caracteres";
                               } else if (!contRegExp.hasMatch(text)) {
                                 return "El formato para contraseña no es correcto";
                               }

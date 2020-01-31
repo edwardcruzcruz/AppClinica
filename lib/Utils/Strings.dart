@@ -38,6 +38,7 @@ class Strings {
   static const String AgendarTitulo4 = "Elige un horario disponible";
   static const String AgendarTitulo5 = "Resumen";
   static const String ModificarTitulo1 = "Modificar datos";
+  static const String ModificarTitulo2 = "Crear cuenta asociada";
   static const String Tab1Citas = "Próximas";
   static const String Tab2Citas = "Anteriores";
   static const String Solicitud = "Enviar";

@@ -5,6 +5,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
+import 'package:flutter_app/Utils/Utils.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/components/table_calendar.dart';
 import 'package:flutter_app/models/Cita.dart';
@@ -87,6 +88,7 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
   @override
   void initState() {
     super.initState();
+
     final _selectedDay = DateTime.now();
 
     DateTime temp=DateTime.parse(DateFormat("yyyy-MM-dd").format(_selectedDay).toString());
@@ -627,5 +629,4 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
   child: Text(Strings.AgendarTitulo3,style: appTheme().textTheme.title,)
   )
   }*/
-
 }

@@ -41,6 +41,14 @@ class _AgendamientoState extends State<Agendamiento>{
   final _formKey = GlobalKey<FormState>();
   List data = List();
   @override
+  void initState() {
+    super.initState();
+    //print(this.widget.especialidades.elementAt(0).Id);
+    especialidades=this.widget.especialidades.reversed.toList();
+    //this.widget.especialidades.repl;
+    //print(this.widget.especialidades.elementAt(0).Id);
+  }
+  @override
   Widget build(BuildContext context) {
     return Column(
         children: <Widget>[
@@ -71,6 +79,7 @@ class _AgendamientoState extends State<Agendamiento>{
   Widget formulario(){
     return ListView.builder(
       shrinkWrap: true,
+      //reverse: true,
       itemBuilder: (context, position) {
         return Column(
           children: <Widget>[

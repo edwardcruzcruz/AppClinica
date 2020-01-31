@@ -69,7 +69,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                     Container(
                       //alignment: Alignment(50, 0),
                         margin: const EdgeInsets.fromLTRB(65.0,20.0,10.0,20.0),
-                        child: Text(Strings.ModificarTitulo1,style: appTheme().textTheme.title,)
+                        child: Text(this.widget.cuentaAsociada==-1?Strings.ModificarTitulo2:Strings.ModificarTitulo1,style: appTheme().textTheme.title,)
                     )
                   ],
                 ),
@@ -87,18 +87,14 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                   if(_formKey.currentState.validate()){
                     if(this.widget.cuentaAsociada==-1){
                       this.widget.callbackloading();
-                      User usuario= await RestDatasource().perfilfbByFLName(username.text,lastname.text);
+                      print(storageService.getIdPadre.toString());
+                      dynamic response=await RestDatasource().save_userfb(username.text,lastname.text,"","","1996-10-10","1",CIController.text,email.text,storageService.getIdPadre.toString());
                       this.widget.callbackfull();
-                      if(usuario==null){
-                        dynamic response=await RestDatasource().save_userfb(username.text,lastname.text,"","","1996-10-10","1",CIController.text,email.text,storageService.getIdPadre.toString());
-                        print(response.body);
-                        if(response.statusCode==200 || response.statusCode==201){
-                          _showDialogSave();
-                        }else{
-                          _showDialogErrorAddAccount(response.body.toString());
-                        }
+                      print(response.body);
+                      if(response.statusCode==200 || response.statusCode==201){
+                        _showDialogSave();
                       }else{
-                        _showDialogAddAccount();
+                        _showDialogErrorAddAccount(response.body.toString());
                       }
                     }else{//modificar
                       List<CuentasAsociadas> emptylist = [];
@@ -167,7 +163,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                   ),
                   validator: (text) {
                   if (text.length == 0) {
-                  return "Este campo contraseña es requerido";
+                  return "Este campo es requerido";
                   }/* else if (text.length <= 5) {
                                 return "Su contraseña debe ser al menos de 5 caracteres";
                               } else if (!contRegExp.hasMatch(text)) {
@@ -193,7 +189,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                   ),
                   validator: (text) {
                   if (text.length == 0) {
-                  return "Este campo contraseña es requerido";
+                  return "Este campo es requerido";
                   }/* else if (text.length <= 5) {
                                 return "Su contraseña debe ser al menos de 5 caracteres";
                               } else if (!contRegExp.hasMatch(text)) {
@@ -222,7 +218,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                   if (text.length == 0) {
                     return "Este campo es requerido";
                   }else if (!Cedulavalida(text)){
-                    return 'Por favor ingresar un numero de cedula valida';
+                    return 'Por favor ingresar un número de cédula valida';
                   }
                   return null;
                   },
@@ -244,7 +240,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                   ),
                   validator: (text) {
                     if (text.length == 0) {
-                      return "Este campo contraseña es requerido";
+                      return "Este campo es requerido";
                     }else if (!emailRegExp.hasMatch(text)) {
                       return "El formato para correo no es correcto";
                     }

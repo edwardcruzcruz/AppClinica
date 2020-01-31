@@ -169,7 +169,7 @@ class _PerfilPageState extends State<PerfilPage> {
                     if (value.isEmpty) {
                       return 'Por favor llenar los espacios';
                     }else if (!Utils.Cedulavalida(value)){
-                      return 'Por favor ingresar un numero de cedula valida';
+                      return 'Por favor ingresar un número de cédula valida';
                     }
                     return null;
                   },
@@ -193,7 +193,7 @@ class _PerfilPageState extends State<PerfilPage> {
                     if (value.isEmpty) {
                       return 'Por favor llenar los espacios';
                     }else if (!NameOlastNRegExp.hasMatch(value)){
-                      return 'Por favor ingresar caracteres alfabeticos y sin espacios';
+                      return 'Por favor ingresar caracteres alfabéticos y sin espacios';
                     }
                     return null;
                   },
@@ -217,7 +217,7 @@ class _PerfilPageState extends State<PerfilPage> {
                     if (value.isEmpty) {
                       return 'Por favor llenar los espacios';
                     }else if (!NameOlastNRegExp.hasMatch(value)){
-                      return 'Por favor ingresar caracteres alfabeticos y sin espacios';
+                      return 'Por favor ingresar caracteres alfabéticos y sin espacios';
                     }
                     return null;
                   },
@@ -242,7 +242,7 @@ class _PerfilPageState extends State<PerfilPage> {
                     if (value.isEmpty) {
                       return 'Por favor llenar los espacios';
                     }else if (!PhoneRegExp.hasMatch(value)){
-                      return 'Por favor ingresar numero telefonico';
+                      return 'Por favor ingresar número de teléfono válido';
                     }
                     return null;
                   },
@@ -264,7 +264,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   ),
                   validator: (text) {
                     if (text.length == 0) {
-                      return "Este campo contraseña es requerido";
+                      return "Este campo es requerido";
                     }
                     return null;
                   },
@@ -306,7 +306,7 @@ class _PerfilPageState extends State<PerfilPage> {
                             );
                           },
                           child: new Text(Date,
-                            style: appTheme().textTheme.title,
+                            style: TextStyle(fontSize: 12.0,fontFamily: 'Myriad Pro',color: Color(0xFF87868a),fontWeight: FontWeight.bold),
                           )
                       ),
 
@@ -337,7 +337,7 @@ class _PerfilPageState extends State<PerfilPage> {
                     ),
                     Expanded(
                       child: new Padding(
-                        padding: const EdgeInsets.only(right: 22),
+                        padding: const EdgeInsets.only(left: 40,right: 22),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
                             items: [
@@ -408,9 +408,9 @@ class _PerfilPageState extends State<PerfilPage> {
                   ),
                   validator: (text) {
                     if (text.length == 0) {
-                      return "Este campo correo es requerido";
+                      return "Este campo es requerido";
                     } else if (!emailRegExp.hasMatch(text)) {
-                      return "El formato para correo no es correcto";
+                      return "El formato de correo no es correcto";
                     }
                     return null;
                   },

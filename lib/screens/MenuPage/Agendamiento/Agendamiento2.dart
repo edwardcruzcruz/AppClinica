@@ -111,17 +111,18 @@ class _Agendamiento2State extends State<Agendamiento2>{
                   for(int i=0;i<horarios.length;i++){
                     DateTime fechaTemp=DateTime.parse(horarios.elementAt(i).Fecha);
                     HorarioRango horarioid=await RestDatasource().HorarioId(horarios.elementAt(i).Hora);
-                    if(horarioid!=null && horarios.elementAt(i).IsAvaliable && (fechaTemp.isAfter(temp)||(fechaTemp.isAtSameMomentAs(temp)&&temp.hour>fechaTemp.hour))){//dias posteriores .. si se graba
+                    if(horarioid!=null && horarios.elementAt(i).IsAvaliable && (fechaTemp.isAfter(temp)||(fechaTemp.isAtSameMomentAs(temp)))){//dias posteriores .. si se graba
                       horariosId.add(horarioid);
                       horariosAvaliable.add(horarios.elementAt(i));
                     }
                   }
                 }
-                //List<>
                 this.widget.callbackfull();//(falta)mostrar un mensaje no hay horarios dispopnibles o cualquier cosa
-                if(horarios.length==0){
+                if(horariosAvaliable.length==0){
                   _showDialogSeleccionNull();
                 }else{
+                  _horariosmessage(horariosAvaliable);
+
                   this.widget.callback(CalendarioPage(usuario: this.widget.usuario,idEspecialidadEscogida: this.widget.idEspecialidadEscogida,horarios: horariosAvaliable,horariosID: horariosId,doctor: doctores.elementAt(position),callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,agendar: true,idCita: 0,));
                 }
                 /*Navigator.push(
@@ -218,6 +219,33 @@ class _Agendamiento2State extends State<Agendamiento2>{
             // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _horariosmessage(List<Horario> horarios) {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    String Final="";//\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    for(Horario horario in horarios){
+      Final=Final+Utils.getMonth(horario.Fecha.split("-")[1])+" "+horario.Fecha.split("-")[2]+" "+horario.Fecha.split("-")[0]+"\n";
+    }
+    print(Final);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Horarios disponibles:"),
+          content: new Text(Final),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
