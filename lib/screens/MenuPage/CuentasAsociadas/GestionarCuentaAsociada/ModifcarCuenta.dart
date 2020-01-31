@@ -90,7 +90,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
                       User usuario= await RestDatasource().perfilfbByFLName(username.text,lastname.text);
                       this.widget.callbackfull();
                       if(usuario==null){
-                        dynamic response=await RestDatasource().save_userfb(username.text,lastname.text,"","","1996-10-10","1","",email.text,storageService.getIdPadre.toString());
+                        dynamic response=await RestDatasource().save_userfb(username.text,lastname.text,"","","1996-10-10","1",CIController.text,email.text,storageService.getIdPadre.toString());
                         print(response.body);
                         if(response.statusCode==200 || response.statusCode==201){
                           _showDialogSave();
@@ -139,10 +139,12 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
     );
   }
   Widget formulario(User cuenta){
-    username.text = cuenta.Nombre;
-    lastname.text = cuenta.Apellido;
-    email.text = cuenta.Correo;
-    CIController.text = cuenta.Cedula;
+    if(cuenta!=null){
+      username.text = cuenta.Nombre;
+      lastname.text = cuenta.Apellido;
+      email.text = cuenta.Correo;
+      CIController.text = cuenta.Cedula;
+    }
     return new ListView(
       children: <Widget>[
         Form(
@@ -448,7 +450,7 @@ class _ModificarCuentaState extends State<ModificarCuenta>{
             new FlatButton(
               child: new Text("Ok"),
               onPressed: () async{
-                this.widget.callback(CuentasAsociadas(callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                //this.widget.callback(CuentasAsociadas(callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                 Navigator.of(context).pop();
                 //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
               },

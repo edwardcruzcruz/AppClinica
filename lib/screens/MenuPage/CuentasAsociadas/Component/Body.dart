@@ -7,6 +7,7 @@ import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/models/Sexo.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/models/UserFB.dart';
+import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/CuentasAsociadas.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/GestionarCuentaAsociada/ModifcarCuenta.dart';
 import 'package:flutter_app/screens/MenuPage/Noticias.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
@@ -223,10 +224,14 @@ class _CuentasBodyPageState extends State<CuentasBodyPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(
+                          child: IconButton(icon: Icon(
                             Icons.delete,
                             size: 25.0,
                             color: Colors.grey,
+                          ), onPressed: () {
+                            //print(cuenta.ListCuentasAsociads.elementAt(position).Id);
+                            _showDialogEliminateAccount(cuenta.ListCuentasAsociads.elementAt(position).Nombre,cuenta.ListCuentasAsociads.elementAt(position).Id);
+                          }
                           ),
                         ),
                       ],
@@ -270,7 +275,60 @@ class _CuentasBodyPageState extends State<CuentasBodyPage> {
       },
     );
   }
-
+  void _showDialogEliminateAccount(String name,int id) {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Precaución!!"),
+          content: new Text("Está seguro de desea eliminar la cuenta "+name),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Si"),
+              onPressed: () async {
+                dynamic response =await RestDatasource().delete_AsoAccount(id);
+                print(response.body);
+                this.widget.callback(CuentasAsociadas(callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showDialogErrorEliminateAccount() {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Error"),
+          content: new Text("Se ha producido un error, por favor intente más tarde "),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () async{
+                Navigator.of(context).pop();
+                //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   Widget SinCuentas(){
     return new Container(
         child: Column(
