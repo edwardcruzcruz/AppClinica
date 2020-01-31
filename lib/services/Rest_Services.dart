@@ -42,6 +42,8 @@ class RestDatasource {
   static final SUGERENCIA_URL=BASE_URL + Constantes.uriSugerncia;
   static final NOTICIAS_URL=BASE_URL + Constantes.uriNoticias;
   static final CARRITO_URL=BASE_URL + Constantes.uriCarrito;
+  static final COMENTAR_CITA_URL=BASE_URL + Constantes.uriRecetaUsuario;
+  static final CALIFICAR_CITA_URL=BASE_URL + Constantes.uriRecetaUsuario;
   static final RECETA_USUARIO_URL=BASE_URL + Constantes.uriRecetaUsuario;
 
   String _API_KEY = "";
@@ -235,6 +237,52 @@ class RestDatasource {
         return response;
       }
       return null;
+    });
+  }
+
+  Future<http.Response> save_puntuacion(int idCita,double puntuacion) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    Map map = {
+      "calificacion": puntuacion,
+      "id_cita": idCita,
+      "id_cliente": storageService.getuser
+    };
+
+    return http.post(COMENTAR_CITA_URL,
+        body: utf8.encode(json.encode(map)),
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      final int statusCode = res.statusCode;
+      print(statusCode);
+      print(res.body);
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return res;
+    });
+  }
+
+  Future<http.Response> save_comentario(int idCita,String descripcion) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    Map map = {
+      "descripcion": descripcion,
+      "id_cita": idCita,
+      "id_cliente": storageService.getuser
+    };
+
+    return http.post(COMENTAR_CITA_URL,
+        body: utf8.encode(json.encode(map)),
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      final int statusCode = res.statusCode;
+      print(statusCode);
+      print(res.body);
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return res;
     });
   }
 
