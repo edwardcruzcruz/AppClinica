@@ -15,6 +15,7 @@ import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/models/HorarioRango.dart';
 import 'package:flutter_app/models/Noticia.dart';
 import 'package:flutter_app/models/Receta.dart';
+import 'package:flutter_app/models/RegisterUser.dart';
 import 'package:flutter_app/services/Metodos_http.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:http/http.dart' as http;
@@ -42,8 +43,8 @@ class RestDatasource {
   static final SUGERENCIA_URL=BASE_URL + Constantes.uriSugerncia;
   static final NOTICIAS_URL=BASE_URL + Constantes.uriNoticias;
   static final CARRITO_URL=BASE_URL + Constantes.uriCarrito;
-  static final COMENTAR_CITA_URL=BASE_URL + Constantes.uriRecetaUsuario;
-  static final CALIFICAR_CITA_URL=BASE_URL + Constantes.uriRecetaUsuario;
+  static final COMENTAR_CITA_URL=BASE_URL + Constantes.uricometario;
+  static final CALIFICAR_CITA_URL=BASE_URL + Constantes.uripuntuacion;
   static final RECETA_USUARIO_URL=BASE_URL + Constantes.uriRecetaUsuario;
 
   String _API_KEY = "";
@@ -245,7 +246,7 @@ class RestDatasource {
     Map map = {
       "calificacion": puntuacion,
       "id_cita": idCita,
-      "id_cliente": storageService.getuser
+      "id_cliente": storageService.getIdPadre
     };
 
     return http.post(COMENTAR_CITA_URL,
@@ -268,9 +269,9 @@ class RestDatasource {
     Map map = {
       "descripcion": descripcion,
       "id_cita": idCita,
-      "id_cliente": storageService.getuser
+      "id_cliente": storageService.getIdPadre
     };
-
+    print(map);
     return http.post(COMENTAR_CITA_URL,
         body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
@@ -541,32 +542,34 @@ class RestDatasource {
     });
   }
 
-  Future<http.Response> save_user(String name,String lastname,String NTelefono,String Direccion, String FeNacimiento, String Genero,String cedula, String correo,String password1) {
-      Map<String,dynamic> body=  {
-        "nombre": lastname,
-        "apellido": name,
-        "telefono": NTelefono,
-        "direccion": Direccion,
-        "fechaNacimiento": FeNacimiento,
-        "sexo": Genero,
-        "cedula":cedula,
-        "email": correo,
-        "password": password1
-      };
+  Future<http.Response> save_user(UserR usuario) {
+    /*Map<String,dynamic> body=  {
+      "nombre": lastname,
+      "apellido": name,
+      "telefono": NTelefono,
+      "direccion": Direccion,
+      "fechaNacimiento": FeNacimiento,
+      "sexo": Genero,
+      "cedula":cedula,
+      "email": correo,
+      "password": password1
+    };*/
     Map<String,String> headers = {
-      'Content-type' : 'application/x-www-form-urlencoded',
-      'Accept': 'application/x-www-form-urlencoded',
+      'Content-type' : 'application/json',
+      'Accept': 'application/json ',
     };
-    return http.post(SAVE_URL,body: body).then((dynamic response) {
+    return http.post(SAVE_URL,headers: headers,body: jsonEncode(usuario.toJson())).then((dynamic response) {
       final String res = response.body;
       final int statusCode = response.statusCode;
       print(statusCode);
+      print(res);
 
       if (statusCode < 200 || statusCode > 400 ) {
         throw new Exception("Error while fetching data");
       }
       return response;
     });
+
     /*return http
         .post(SAVE_URL,body: {
           "nombre": lastname,

@@ -1,7 +1,6 @@
 import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
-import 'package:flutter_app/Utils/Utils.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/models/Cita2.dart';
@@ -19,6 +18,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 //import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
+import 'Alert_Citas.dart';
 import 'Calendario.dart';
 
 class Citas extends StatefulWidget {
@@ -44,7 +44,7 @@ class _CitasState extends State<Citas> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   Future<List<Receta>> citasList;
   Future<List<Receta>> citasList2;
-
+  var raton=0.0;
   @override
   initState() {
     super.initState();
@@ -67,7 +67,51 @@ class _CitasState extends State<Citas> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Utils.setOval(context,Strings.CuerpoTituloBienvenido,storageService.getCuentaActual,Strings.CuerpoTituloPaginaCitas),
+        new Container(
+          height: 100.0,
+          decoration: new BoxDecoration(
+              gradient: new LinearGradient(
+                colors: [
+                  Color(0xFF00a18d),
+                  Color(0xFF00d6bc),
+                ],
+                begin: FractionalOffset.centerLeft,
+                end: FractionalOffset.centerRight,
+              ),
+              borderRadius: new BorderRadius.vertical(
+                  bottom: new Radius.elliptical(
+                      MediaQuery.of(context).size.width, 120.0))),
+          child: Align(
+            alignment: Alignment.center,
+            child: Column(
+              children: <Widget>[
+                Align(
+                  child: Text(
+                    Strings.CuerpoTituloBienvenido,
+                    style: appTheme().textTheme.display1,
+                  ),
+                  alignment: Alignment(-0.80, 0),
+                ),
+                Align(
+                  child: new Text(
+                    storageService.getCuentaActual,
+                    style: appTheme().textTheme.display2,
+                  ),
+                  alignment: Alignment(-0.80, 0),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                ),
+                Align(
+                  child: Text(
+                    Strings.CuerpoTituloPaginaCitas,
+                    style: appTheme().textTheme.display3,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
         new Expanded(
           child: new DefaultTabController(
             length: 2,
@@ -188,305 +232,305 @@ class _CitasState extends State<Citas> {
                   return Column(
                     children: <Widget>[
                       GestureDetector(
-                        onTap: () {
-                          //async
-                        },
-                        child:Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12,vertical: 4),
-                          decoration: BoxDecoration(color: Colors.black12),
-                          child: Row(
+                          onTap: () {
+                            //async
+                          },
+                          child:Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 12,vertical: 4),
+                            decoration: BoxDecoration(color: Colors.black12),
+                            child: Row(
 
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              new Expanded(
-                                  child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                new Expanded(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      15.0, 2.0, 1.0, 2.0),
+                                                  //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                                  child: new Image.asset(
+                                                      'assets/avatar.png',
+                                                      width: 33,
+                                                      height: 40),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding: const EdgeInsets.fromLTRB(
+                                                      7.0, 12.0, 12.0, 3.0),
+                                                  child: Text(
+                                                    (snapshot.data
+                                                        .elementAt(position)
+                                                        .IDEspecialidad
+                                                        .NombreEspecialidad ==
+                                                        "Odontología"
+                                                        ? "OD. "
+                                                        : snapshot.data
+                                                        .elementAt(
+                                                        position)
+                                                        .IDEspecialidad
+                                                        .NombreEspecialidad ==
+                                                        "Nutrición"
+                                                        ? "NUT. "
+                                                        : "PSIC. ") +
+                                                        snapshot.data
+                                                            .elementAt(position)
+                                                            .IdDoctor
+                                                            .Nombre +
+                                                        " " +
+                                                        snapshot.data
+                                                            .elementAt(position)
+                                                            .IdDoctor
+                                                            .Apellido,
+                                                    style: appTheme().textTheme.subhead,
+                                                  ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      20.0, 2.0, 1.0, 2.0),
+                                                  child: Icon(Icons
+                                                      .calendar_today), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding: const EdgeInsets.fromLTRB(
+                                                      10.0, 12.0, 12.0, 3.0),
+                                                  child: Text(
+                                                    snapshot.data
+                                                        .elementAt(position)
+                                                        .Fecha
+                                                        .Fecha,
+                                                    style: appTheme().textTheme.subhead,
+                                                  ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      20.0, 2.0, 1.0, 2.0),
+                                                  //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
+                                                  child: Icon(Icons
+                                                      .access_time), //new Image.asset('assets/avatar.png',width: 43,height: 50),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding: const EdgeInsets.fromLTRB(
+                                                      10.0, 12.0, 12.0, 3.0),
+                                                  child: Text(
+                                                    snapshot.data
+                                                        .elementAt(position)
+                                                        .Fecha
+                                                        .Hora
+                                                        .HorarioInicio.substring(0,5) +
+                                                        " " +
+                                                        snapshot.data
+                                                            .elementAt(position)
+                                                            .Fecha
+                                                            .Hora
+                                                            .Horariofin.substring(0,5),
+                                                    style: appTheme().textTheme.subhead,
+                                                  ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Container(
-                                                margin: const EdgeInsets.fromLTRB(
-                                                    15.0, 2.0, 1.0, 2.0),
-                                                //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
-                                                child: new Image.asset(
-                                                    'assets/avatar.png',
-                                                    width: 33,
-                                                    height: 40),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.fromLTRB(
-                                                    7.0, 12.0, 12.0, 3.0),
-                                                child: Text(
-                                                  (snapshot.data
-                                                      .elementAt(position)
-                                                      .IDEspecialidad
-                                                      .NombreEspecialidad ==
-                                                      "Odontología"
-                                                      ? "OD. "
-                                                      : snapshot.data
-                                                      .elementAt(
-                                                      position)
-                                                      .IDEspecialidad
-                                                      .NombreEspecialidad ==
-                                                      "Nutrición"
-                                                      ? "NUT. "
-                                                      : "PSIC. ") +
-                                                      snapshot.data
-                                                          .elementAt(position)
-                                                          .IdDoctor
-                                                          .Nombre +
-                                                      " " +
-                                                      snapshot.data
-                                                          .elementAt(position)
-                                                          .IdDoctor
-                                                          .Apellido,
-                                                  style: appTheme().textTheme.subhead,
-                                                ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Container(
-                                                margin: const EdgeInsets.fromLTRB(
-                                                    20.0, 2.0, 1.0, 2.0),
-                                                child: Icon(Icons
-                                                    .calendar_today), //new Image.asset('assets/avatar.png',width: 43,height: 50),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.fromLTRB(
-                                                    10.0, 12.0, 12.0, 3.0),
-                                                child: Text(
-                                                  snapshot.data
-                                                      .elementAt(position)
-                                                      .Fecha
-                                                      .Fecha,
-                                                  style: appTheme().textTheme.subhead,
-                                                ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Container(
-                                                margin: const EdgeInsets.fromLTRB(
-                                                    20.0, 2.0, 1.0, 2.0),
-                                                //child: especialidades.elementAt(position).NombreEspecialidad=="Nutrición"?new Image.asset('assets/nutricion.png',width: 33,height: 40):especialidades.elementAt(position).NombreEspecialidad=="Odontología"?new Image.asset('assets/odontologia.png',width: 33,height: 40):new Image.asset('assets/psicologia.png',width: 33,height: 40),
-                                                child: Icon(Icons
-                                                    .access_time), //new Image.asset('assets/avatar.png',width: 43,height: 50),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.fromLTRB(
-                                                    10.0, 12.0, 12.0, 3.0),
-                                                child: Text(
-                                                  snapshot.data
-                                                      .elementAt(position)
-                                                      .Fecha
-                                                      .Hora
-                                                      .HorarioInicio.substring(0,5) +
-                                                      " " +
-                                                      snapshot.data
-                                                          .elementAt(position)
-                                                          .Fecha
-                                                          .Hora
-                                                          .Horariofin.substring(0,5),
-                                                  style: appTheme().textTheme.subhead,
-                                                ), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: new IconButton(
-                                        icon: snapshot.data
-                                            .elementAt(position)
-                                            .Recordatorio ==
-                                            true
-                                            ? Icon(
-                                          Icons.add_alert,
-                                          size: 25.0,
-                                          color: Colors.yellow,
-                                        )
-                                            : Icon(
-                                          Icons.add_alert,
-                                          size: 25.0,
-                                          color: Colors.grey,
-                                        ), // Icon(Icons.note_add),
-                                        onPressed: () async {
-                                          this._recordatorio(
-                                              snapshot.data.elementAt(position),
-                                              snapshot.data
-                                                  .elementAt(position)
-                                                  .Recordatorio);
-
-                                          /*final int helloAlarmID = position;
-                              await AndroidAlarmManager.initialize();
-                              await AndroidAlarmManager.periodic(const Duration(minutes: 1), helloAlarmID, printHello);*/
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.edit,
+                                      Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: new IconButton(
+                                          icon: snapshot.data
+                                              .elementAt(position)
+                                              .Recordatorio ==
+                                              true
+                                              ? Icon(
+                                            Icons.add_alert,
+                                            size: 25.0,
+                                            color: Colors.yellow,
+                                          )
+                                              : Icon(
+                                            Icons.add_alert,
                                             size: 25.0,
                                             color: Colors.grey,
-                                          ),
+                                          ), // Icon(Icons.note_add),
                                           onPressed: () async {
-                                            this.widget.callbackloading();
-                                            List<HorarioRango> horariosId =
-                                            new List();
-                                            List<Horario> horariosAvaliable =
-                                            new List();
-                                            final temp = DateTime.now();
-                                            List<Horario> horarios =
-                                            await RestDatasource()
-                                                .HorarioDoctor(snapshot.data
-                                                .elementAt(position)
-                                                .IdDoctor
-                                                .Id);
-                                            if (horarios != null) {
-                                              for (int i = 0;
-                                              i < horarios.length;
-                                              i++) {
-                                                DateTime fechaTemp = DateTime.parse(
-                                                    horarios.elementAt(i).Fecha);
-                                                HorarioRango horarioid =
-                                                await RestDatasource()
-                                                    .HorarioId(horarios
-                                                    .elementAt(i)
-                                                    .Hora);
-                                                if (horarioid != null &&
-                                                    horarios
-                                                        .elementAt(i)
-                                                        .IsAvaliable &&
-                                                    (fechaTemp.isAfter(temp) ||
-                                                        (fechaTemp.isAtSameMomentAs(
-                                                            temp) &&
-                                                            temp.hour >
-                                                                fechaTemp.hour))) {
-                                                  //dias posteriores .. si se graba
-                                                  horariosId.add(horarioid);
-                                                  horariosAvaliable
-                                                      .add(horarios.elementAt(i));
+                                            this._recordatorio(
+                                                snapshot.data.elementAt(position),
+                                                snapshot.data
+                                                    .elementAt(position)
+                                                    .Recordatorio);
+
+                                            /*final int helloAlarmID = position;
+                              await AndroidAlarmManager.initialize();
+                              await AndroidAlarmManager.periodic(const Duration(minutes: 1), helloAlarmID, printHello);*/
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: IconButton(
+                                            icon: Icon(
+                                              Icons.edit,
+                                              size: 25.0,
+                                              color: Colors.grey,
+                                            ),
+                                            onPressed: () async {
+                                              this.widget.callbackloading();
+                                              List<HorarioRango> horariosId =
+                                              new List();
+                                              List<Horario> horariosAvaliable =
+                                              new List();
+                                              final temp = DateTime.now();
+                                              List<Horario> horarios =
+                                              await RestDatasource()
+                                                  .HorarioDoctor(snapshot.data
+                                                  .elementAt(position)
+                                                  .IdDoctor
+                                                  .Id);
+                                              if (horarios != null) {
+                                                for (int i = 0;
+                                                i < horarios.length;
+                                                i++) {
+                                                  DateTime fechaTemp = DateTime.parse(
+                                                      horarios.elementAt(i).Fecha);
+                                                  HorarioRango horarioid =
+                                                  await RestDatasource()
+                                                      .HorarioId(horarios
+                                                      .elementAt(i)
+                                                      .Hora);
+                                                  if (horarioid != null &&
+                                                      horarios
+                                                          .elementAt(i)
+                                                          .IsAvaliable &&
+                                                      (fechaTemp.isAfter(temp) ||
+                                                          (fechaTemp.isAtSameMomentAs(
+                                                              temp) &&
+                                                              temp.hour >
+                                                                  fechaTemp.hour))) {
+                                                    //dias posteriores .. si se graba
+                                                    horariosId.add(horarioid);
+                                                    horariosAvaliable
+                                                        .add(horarios.elementAt(i));
+                                                  }
                                                 }
                                               }
-                                            }
-                                            User usuario = await RestDatasource()
-                                                .perfilfb(storageService.getEmail);
-                                            List<Especialidad> especialidades =
-                                            await RestDatasource()
-                                                .ListaEspecialidad();
-                                            int idEspecialidad = 0;
-                                            for (var especialidad
-                                            in especialidades) {
-                                              if (especialidad.NombreEspecialidad ==
-                                                  snapshot.data
-                                                      .elementAt(position)
-                                                      .IDEspecialidad
-                                                      .NombreEspecialidad) {
-                                                idEspecialidad = especialidad.Id;
-                                              }
-                                            }
-                                            print(
-                                                "--------------------------------------------" +
+                                              User usuario = await RestDatasource()
+                                                  .perfilfb(storageService.getEmail);
+                                              List<Especialidad> especialidades =
+                                              await RestDatasource()
+                                                  .ListaEspecialidad();
+                                              int idEspecialidad = 0;
+                                              for (var especialidad
+                                              in especialidades) {
+                                                if (especialidad.NombreEspecialidad ==
                                                     snapshot.data
                                                         .elementAt(position)
                                                         .IDEspecialidad
-                                                        .NombreEspecialidad);
-                                            this.widget.callbackfull();
-                                            this.widget.callback(CalendarioPage(
-                                              agendar: false,
-                                              callback: this.widget.callback,
-                                              callbackfull:
-                                              this.widget.callbackfull,
-                                              callbackloading:
-                                              this.widget.callbackloading,
-                                              usuario: usuario,
-                                              doctor: snapshot.data
-                                                  .elementAt(position)
-                                                  .IdDoctor,
-                                              horarios: horariosAvaliable,
-                                              horariosID: horariosId,
-                                              idEspecialidadEscogida:
-                                              idEspecialidad,
-                                              idCita: snapshot.data
-                                                  .elementAt(position)
-                                                  .Id,
-                                            ));
+                                                        .NombreEspecialidad) {
+                                                  idEspecialidad = especialidad.Id;
+                                                }
+                                              }
+                                              print(
+                                                  "--------------------------------------------" +
+                                                      snapshot.data
+                                                          .elementAt(position)
+                                                          .IDEspecialidad
+                                                          .NombreEspecialidad);
+                                              this.widget.callbackfull();
+                                              this.widget.callback(CalendarioPage(
+                                                agendar: false,
+                                                callback: this.widget.callback,
+                                                callbackfull:
+                                                this.widget.callbackfull,
+                                                callbackloading:
+                                                this.widget.callbackloading,
+                                                usuario: usuario,
+                                                doctor: snapshot.data
+                                                    .elementAt(position)
+                                                    .IdDoctor,
+                                                horarios: horariosAvaliable,
+                                                horariosID: horariosId,
+                                                idEspecialidadEscogida:
+                                                idEspecialidad,
+                                                idCita: snapshot.data
+                                                    .elementAt(position)
+                                                    .Id,
+                                              ));
 
-                                            /*ModificarCuenta(
+                                              /*ModificarCuenta(
                                   cuenta: this.widget.cuentas.elementAt(position),
                                   cuentas: this.widget.cuentas,
                                   callback: this.widget.callback,
                                   callbackloading: this.widget.callbackloading,
                                   callbackfull: this.widget.callbackfull,)
                               );*/
-                                          }),
-                                    ),
-                                    Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.delete,
-                                            size: 25.0,
-                                            color: Colors.grey,
-                                          ),
-                                          onPressed: () {
-                                            this._eliminar(snapshot.data
-                                                .elementAt(position));
+                                            }),
+                                      ),
+                                      Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.delete,
+                                              size: 25.0,
+                                              color: Colors.grey,
+                                            ),
+                                            onPressed: () {
+                                              this._eliminar(snapshot.data
+                                                  .elementAt(position));
 
-                                          },
-                                        )),
-                                  ],
+                                            },
+                                          )),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
+                              ],
+                            ),
+                          )
 
                       ),
                       /*Divider(
@@ -718,26 +762,38 @@ class _CitasState extends State<Citas> {
                                     width: 100,
                                     height: 20,
                                     child: SmoothStarRating(
-                                        allowHalfRating: true,
-                                        onRatingChanged: (v) {
-                                          rating = v;
-                                          setState(() {});
-                                        },
-                                        starCount: 5,
-                                        rating: rating,
-                                        size: 20.0,
-                                        color: Colors.yellow,
-                                        borderColor: Colors.yellow,
-                                        spacing: 0.0),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Icon(
-                                      Icons.remove_red_eye,
-                                      size: 25.0,
-                                      color: Colors.grey,
+                                      onRatingChanged: (value) {
+                                        setState(() {
+                                          rating = value;
+                                        });
+                                      },
+                                      rating: 3,
+                                      size: 20,
+                                      filledIconData: Icons.star,
+                                      halfFilledIconData: Icons.star_half,
+                                      defaultIconData: Icons.star_border,
+                                      starCount: 5,
+                                      color: Colors.yellow,
+                                      borderColor: Colors.yellow,
+                                      allowHalfRating: false,
+                                      spacing: 0.0,
                                     ),
                                   ),
+                                  GestureDetector(
+                                    onTap: (){
+                                      mostrarDataCita(context,snapshot.data
+                                          .elementAt(position).Id);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Icon(
+                                        Icons.remove_red_eye,
+                                        size: 25.0,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  )
+
                                 ],
                               ),
                             ),
@@ -778,6 +834,18 @@ class _CitasState extends State<Citas> {
     final int isolateId = Isolate.current.hashCode;
     print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
   }*/
+
+  mostrarDataCita(BuildContext context,int cita_id){
+    TextEditingController textEditingController=TextEditingController();
+    //var ratin = 0.0;
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return
+            Alert_Citas(cita_id: cita_id,rating: 3,opinion: "La remadre",)
+          ;
+        });
+  }
 
   void _eliminar(position) {
     print(

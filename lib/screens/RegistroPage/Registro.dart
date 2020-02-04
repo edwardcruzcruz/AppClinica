@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/DateTime/flutter_datetime_picker.dart';
+import 'package:flutter_app/models/RegisterUser.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/LoginPage/Login.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/Utils/Strings.dart';
@@ -85,7 +87,7 @@ class _RegistroState extends State<Registro> {
                   setState(() {//se muestra barra circular de espera
                     _saving = true;
                   });
-                  dynamic response = await RestDatasource().save_user(username.text,lastname.text,nophone.text,address.text,Date.toString(),dropdownValue,CIController.text,email.text, passController1.text);
+                  dynamic response = await RestDatasource().save_user(UserR(username.text,lastname.text,nophone.text,address.text,Date.toString(),dropdownValue,CIController.text,email.text,passController1.text));
                   setState(() {//se muestra barra circular de espera
                     _saving = false;
                   });

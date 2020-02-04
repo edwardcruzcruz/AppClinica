@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/style.dart';
 
 class Utils{
@@ -111,5 +112,27 @@ class Utils{
       month="Diciembre";
     }
     return month;
+  }
+  static void showDialogError(BuildContext context,String problema) {//todos estos mensajes se tendrian que poner en una clase externa
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Error"),
+          content: new Text("Causa: "+problema.split("[").elementAt(1).split("]").elementAt(0)),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
