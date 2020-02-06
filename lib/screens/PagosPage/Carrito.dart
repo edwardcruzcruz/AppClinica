@@ -11,6 +11,8 @@ import 'AgregarTarjeta.dart';
 class Carrito extends StatefulWidget {
   //Listado(tipo, titulo);
 
+  Function callback,callbackloading,callbackfull;
+  Carrito({Key key,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Carrito(),
@@ -56,7 +58,8 @@ class _CarritoState extends State<Carrito> {
                     style: appTheme()
                         .textTheme
                         .display4); //'Error: ${snapshot.error}'
-              return Scaffold(
+              return
+                Scaffold(
                 body: Row(
                   children: <Widget>[
                     DataTable(
@@ -108,10 +111,9 @@ class _CarritoState extends State<Carrito> {
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
                     print(snapshot.data);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AgregarTarjeta()),
-                    );
+                    this.widget.callbackloading();
+                    this.widget.callbackfull();
+                    this.widget.callback(AgregarTarjeta(callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,));
                     // Add your onPressed code here!
                   },
                   child: Icon(Icons.arrow_forward_ios),

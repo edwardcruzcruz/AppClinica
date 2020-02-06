@@ -71,7 +71,7 @@ class _HomeState extends State<Home> {
     historialPage = Historial();
     recetasPage = Recetas(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
     agend1Page = Agendamiento();
-    carrito = Pagos();
+    carrito = Pagos(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
     pages = [
       noticiaPage,
       citasPage,
@@ -152,7 +152,7 @@ class _HomeState extends State<Home> {
                 //currentTab=4;
                 currentPage =
                     //AgregarTarjeta();
-                    Pagos();
+                    Pagos(callback: this.callback,callbackloading: this.callbackloading,callbackfull: this.callbackfull);
               });
             }:(){
               this._showDialogWorking();

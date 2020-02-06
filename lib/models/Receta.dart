@@ -1,12 +1,13 @@
 import 'package:flutter_app/models/Doctor.dart';
-import 'package:flutter_app/models/CitaCompleta.dart';
-import 'package:webfeed/domain/media/description.dart';
+import 'package:flutter_app/models/PuntuacionClass.dart';
 
 import 'Especialidad.dart';
 import 'HorarioCompleto.dart';
+import 'PuntuacionClass.dart';
 import 'RecetaxCita.dart';
 import 'Tratamiento.dart';
 import 'User.dart';
+
 class Receta{
   final int _id;
   final User _paciente;
@@ -18,13 +19,16 @@ class Receta{
   final bool _is_finished;
   final bool _recordatorio;
   final String _descripcion;
+  final List<PuntuacionClass> _puntuacion;
 
-  Receta(this._id,this._paciente, this._idespecialidad,this._tratamiento,this._fecha,this._iddoctor,this._recetaxCita,this._recordatorio,this._is_finished,this._descripcion);
+  Receta(this._id,this._paciente, this._idespecialidad,this._tratamiento,this._fecha,this._iddoctor,this._recetaxCita,this._recordatorio,this._is_finished,this._descripcion,this._puntuacion);
 
   factory Receta.fromJson(Map<String, dynamic> json){
     var list = json['RecetaxCita'] as List;
+    var list2 = json['id_cita'] as List;
     print(list.runtimeType);
     List<RecetaxCita> ListRecetas = list.map((i) => RecetaxCita.fromJson(i)).toList();
+    List<PuntuacionClass> ListPuntuacionClass = list2.map((i) => PuntuacionClass.fromJson(i)).toList();
 
     return Receta(
         json['cita_id'],
@@ -41,7 +45,8 @@ class Receta{
         ListRecetas,
         json['recordatorio'],
         json['is_finished'],
-        json['descripcion']==null?"":json['descripcion']
+        json['descripcion']==null?"":json['descripcion'],
+      ListPuntuacionClass,
 
     );
   }
@@ -56,6 +61,7 @@ class Receta{
   bool get IsFinished=>_is_finished;
   bool get Recordatorio=>_recordatorio;
   String get Description=>_descripcion;
+  List<PuntuacionClass> get Puntuacion=>_puntuacion;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -69,6 +75,7 @@ class Receta{
     data['is_finished']=this._is_finished;
     data['recordatorio']=this._recordatorio;
     data['descripcion']=this._descripcion;
+    data['puntuacion']=this._puntuacion;
     return data;
   }
 }

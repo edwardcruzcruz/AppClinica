@@ -113,6 +113,28 @@ class RestDatasource {
       return null;
     });
   }
+  Future<User> getUser(int id) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    /*return http.get(
+      PERFIL_URL,
+      // Send authorization headers to the backend.
+      headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+        HttpHeaders.authorizationHeader: "token $_API_KEY"},
+    );*/
+    return _netUtil.get(PERFIL_URL+id.toString(),
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}//
+    ).then((dynamic res) {
+      User response=null;
+      if(res!=null){
+        response = User.fromJson(res);
+        print("##################################################");
+        print(response);
+        return response;
+      }
+      return null;
+    });
+  }
   Future<User> perfilfbByFLName(String FName,String LName) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     /*return http.get(
@@ -249,7 +271,7 @@ class RestDatasource {
       "id_cliente": storageService.getIdPadre
     };
 
-    return http.post(COMENTAR_CITA_URL,
+    return http.post(CALIFICAR_CITA_URL,
         body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
@@ -873,18 +895,18 @@ class RestDatasource {
       List<Receta> response=new List<Receta>();
 
       if(res!=null){
-        print("*************************RES**********************************");
+        print("*************************RES ANTERIORES**********************************");
         print(res);
         var recetas = res.map((i)=>Receta.fromJson(i)).toList();
-        print("*************************RECETAS**********************************");
+        print("*************************CITAS ANTERIORES**********************************");
         print(recetas);
         for(final receta in recetas){
-          print(receta.IsFinished);
+          print(receta);
           if(receta.IsFinished){
             response.add(receta);
           }
         }
-        print("***********************************************************");
+        print("*************************LAREPUTAMADRE**********************************");
         print(response);
         return response;
       }

@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
+import 'Mis_Citas.dart';
+
 void main() => runApp(Alert_Citas());
 
 class Alert_Citas extends StatefulWidget {
   int cita_id;
   int rating;
   String opinion;
-  Alert_Citas({Key key, this.cita_id, this.rating, this.opinion})
+  Function callback, callbackloading, callbackfull;
+  Alert_Citas({Key key, this.cita_id, this.rating, this.opinion,this.callback, this.callbackloading, this.callbackfull})
       : super(key: key);
 
   @override
@@ -108,6 +111,7 @@ class _Alert_CitasState extends State<Alert_Citas> {
                   var respuesta = await RestDatasource().save_comentario(this.widget.cita_id,opinion.text);
                   var respuesta1= await RestDatasource().save_puntuacion(this.widget.cita_id,rating);
                   Navigator.of(context).pop();
+
                   this._showDialogSave();
 
                 },
@@ -145,6 +149,10 @@ class _Alert_CitasState extends State<Alert_Citas> {
               child: new Text("Ok"),
               onPressed: () {
                 Navigator.of(context).pop();
+                this.widget.callback(Citas(
+                    callback: this.widget.callback,
+                    callbackloading: this.widget.callbackloading,
+                    callbackfull: this.widget.callbackfull));
                 //Navigator.of(context).pushAndRemoveUntil(Home.route(), (Route<dynamic> route)=>false);
               },
             ),

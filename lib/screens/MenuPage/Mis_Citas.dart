@@ -767,7 +767,10 @@ class _CitasState extends State<Citas> {
                                           rating = value;
                                         });
                                       },
-                                      rating: 3,
+                                      rating:snapshot.data.elementAt(position).Puntuacion.length==0?0.0:
+                                            snapshot.data
+                                          .elementAt(position).Puntuacion.elementAt((snapshot.data.elementAt(position).Puntuacion.length)-1)
+                                          .Calificacion.toDouble(),
                                       size: 20,
                                       filledIconData: Icons.star,
                                       halfFilledIconData: Icons.star_half,
@@ -838,12 +841,13 @@ class _CitasState extends State<Citas> {
   mostrarDataCita(BuildContext context,int cita_id){
     TextEditingController textEditingController=TextEditingController();
     //var ratin = 0.0;
+    //this.widget.callback,this.widget.callbackloading,this.widget.callbackfull
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return
-            Alert_Citas(cita_id: cita_id,rating: 3,opinion: "La remadre",)
-          ;
+            Alert_Citas(cita_id: cita_id,rating: 3,opinion: "La remadre",callback: this.widget.callback,callbackloading: this.widget.callbackloading,
+             callbackfull: this.widget.callbackfull,);
         });
   }
 

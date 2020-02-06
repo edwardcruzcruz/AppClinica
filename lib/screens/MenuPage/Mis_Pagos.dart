@@ -7,6 +7,9 @@ import 'package:flutter_app/screens/PagosPage/Carrito.dart';
 import 'package:flutter_app/theme/style.dart';
 
 class Pagos extends StatefulWidget {
+
+  Function callback,callbackloading,callbackfull;
+  Pagos({Key key,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => Pagos(),
@@ -32,7 +35,7 @@ class _PagosState extends State<Pagos>{
                 margin: const EdgeInsets.fromLTRB(1.0,1.0,1.0,1.0),
               ),
               Expanded(
-                child: Carrito(),
+                child: Carrito( callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull),
               ),
             ],
           ),
