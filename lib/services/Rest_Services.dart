@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_app/Utils/Constantes.dart';
 import 'package:flutter_app/Utils/service_locator.dart';
+import 'package:flutter_app/models/AgendarResponse.dart';
 import 'package:flutter_app/models/Carrito.dart';
 import 'package:flutter_app/models/Cita2.dart';
 import 'package:flutter_app/models/Clinica.dart';
@@ -20,6 +21,8 @@ import 'package:flutter_app/services/Metodos_http.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
+import 'package:html/parser.dart' show parse;
+import 'package:html/dom.dart';
 
 class RestDatasource {
 
@@ -46,6 +49,8 @@ class RestDatasource {
   static final COMENTAR_CITA_URL=BASE_URL + Constantes.uricometario;
   static final CALIFICAR_CITA_URL=BASE_URL + Constantes.uripuntuacion;
   static final RECETA_USUARIO_URL=BASE_URL + Constantes.uriRecetaUsuario;
+  static final SHOP_URL=BASE_URL + Constantes.uriShop;
+  static final PREPARE_SHOP_URL=BASE_URL + Constantes.uriPrepareShop;
 
   String _API_KEY = "";
   final JsonDecoder _decoder = new JsonDecoder();
@@ -309,7 +314,7 @@ class RestDatasource {
     });
   }
 
-  Future<http.Response> save_cita(int idPaciente,int idEspecialidad, int idTratamiento,int idHorario,int IdDoctor) {
+  Future<AgendarResponse> save_cita(int idPaciente,int idEspecialidad, int idTratamiento,int idHorario,int IdDoctor) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     Map map = {
         "cliente": idPaciente,
@@ -329,6 +334,33 @@ class RestDatasource {
       final int statusCode = res.statusCode;
       print(statusCode);
       print(res.body);
+      var enc=json.decode(res.body);
+      print(enc);
+      final int cita_id=enc['cita_id'];
+      var response=AgendarResponse(cita_id,statusCode);
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return response;
+    });
+  }
+  //
+  Future<http.Response> save_shop(int idPaciente, int idTratamiento,int IdCita) {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    Map map = {
+      "id_Cliente": idPaciente,
+      "id_Tratamiento": idTratamiento,
+      "valorFaltante": 0,
+      "cita_id":IdCita,
+    };
+
+    return http.post(SHOP_URL,
+        body: utf8.encode(json.encode(map)),
+        headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"}
+    ).then((dynamic res) {
+      final int statusCode = res.statusCode;
+      print("*********************************************");
       if (statusCode < 200 || statusCode > 400 ) {
         throw new Exception("Error while fetching data");
       }
@@ -413,13 +445,15 @@ class RestDatasource {
       "is_available": horario.IsAvaliable==true?false:true,
       //"is_finished":true;
     };
-
+    print("*-*****-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+    print(map);
     return http.put(HORARIO_DOCTORES_URL+id.toString()+"/",
         body: utf8.encode(json.encode(map)),
         headers: {HttpHeaders.contentTypeHeader: "application/json", // or whatever
           HttpHeaders.authorizationHeader: "token $_API_KEY"}
     ).then((dynamic res) {
       final String resp = res.body;
+      print(resp);
       final int statusCode = res.statusCode;
       print(statusCode);
       if (statusCode < 200 || statusCode > 400 ) {
@@ -592,29 +626,8 @@ class RestDatasource {
       return response;
     });
 
-    /*return http
-        .post(SAVE_URL,body: {
-          "nombre": lastname,
-          "username": name,
-          "telefono": NTelefono,
-          "direccion": Direccion,
-          "fechaNacimiento": FeNacimiento,
-          "sexo": Genero,
-          "email": correo,
-          "id_padre": id_padre,
-          "password1": password1,
-          "password2": password2
-        }).then((http.Response response) {
-      final String res = response.body;
-      final int statusCode = response.statusCode;
-      print(statusCode);
-
-      if (statusCode < 200 || statusCode > 400 ) {
-        throw new Exception("Error while fetching data");
-      }
-      return response;
-    });*/
   }
+
   Future<http.Response> edit_user(int id,Cuenta cuentamodifi) {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     /*Map<String,dynamic> body=  {
@@ -709,10 +722,13 @@ class RestDatasource {
       List<CarritoCompra> response=new List<CarritoCompra>();
       if(res!=null){
         var carritos = res.map((i)=>CarritoCompra.fromJson(i)).toList();
+        print("------------------------");
         for(final carrito in carritos){
           carrito.seleccionado(false);
+          print(carrito.toString());
           response.add(carrito);
         }
+
         return response;
       }
       return null;
@@ -915,4 +931,48 @@ class RestDatasource {
     });
   }
 
+  Future<String> getPagosVentana() {
+    _API_KEY=_decoder.convert(storageService.getuser)['token'];
+    return _netUtil.get3("http://192.168.1.8:8000/Pagos/pruebaPago/",//idUsuario.toString()+"/",
+        headers: {
+          HttpHeaders.contentTypeHeader: "application/json", // or whatever
+          HttpHeaders.authorizationHeader: "token $_API_KEY"
+        }
+    )
+        .then((dynamic res) {
+      var document = parse(res);
+      print(document.outerHtml);
+      //print(res);
+      if(res!=null){
+        print("*************************RES HTML**********************************");
+        print(res);
+        return res;
+      }
+      print("***************************NULL********************************");
+      return null;
+    });
+  }
+
+  Future<http.Response> actualizar_shop(int shop,bool pago_creado) {
+    Map<String,dynamic> body=  {
+      "id": shop,
+      "pago_creado":pago_creado
+    };
+    Map<String,String> headers = {
+      'Content-type' : 'application/json',
+      'Accept': 'application/json ',
+    };
+    return http.post(PREPARE_SHOP_URL,headers: headers,body: utf8.encode(json.encode(body))).then((dynamic response) {
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+      print(statusCode);
+      print(res);
+
+      if (statusCode < 200 || statusCode > 400 ) {
+        throw new Exception("Error while fetching data");
+      }
+      return response;
+    });
+
+  }
 }

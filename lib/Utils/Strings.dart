@@ -43,4 +43,5 @@ class Strings {
   static const String Tab2Citas = "Anteriores";
   static const String Solicitud = "Enviar";
   static const String Actualizacion = "Guardar";
+  static const String CONFIRMAR = "CONFIRMAR";
 }

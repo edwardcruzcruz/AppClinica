@@ -1,4 +1,6 @@
-
+import 'package:flutter_app/Utils/Constantes.dart';
+import 'package:flutter_app/screens/PagosPage/VentanPagos.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Utils/Shared_Preferences.dart';
 import 'package:flutter_app/Utils/Strings.dart';
@@ -23,12 +25,14 @@ import 'package:flutter_app/Utils/Strings.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter_app/theme/style.dart';
+import 'package:html/parser.dart' show parse;
 
 class AgregarTarjeta extends StatefulWidget{
 //Listado(tipo, titulo);
   Function callback,callbackloading,callbackfull;
-
-  AgregarTarjeta({Key key,this.callback,this.callbackloading,this.callbackfull}) : super(key: key);
+  List<CarritoCompra> compras;
+  double total;
+  AgregarTarjeta({Key key,this.callback,this.callbackloading,this.callbackfull,this.compras,this.total}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(
       builder: (context) => AgregarTarjeta(),
@@ -109,6 +113,8 @@ class _AgregarTarjetaState extends State<AgregarTarjeta> {
               print("hola mundo");
               this.nophone.text=snapshot.data.Telefono;
               this.email.text=snapshot.data.Correo;
+              print(this.widget.total);
+              print(this.widget.compras);
               return
                 Column(
                     children: <Widget>[
@@ -118,6 +124,13 @@ class _AgregarTarjetaState extends State<AgregarTarjeta> {
                       new Expanded(
                           child: new ListView(
                             children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(40,0,40,10),
+                                child: Align(
+                                  child: Text("Confirme sus datos:",style: appTheme().textTheme.caption,),
+                                  alignment: Alignment(-0.80, 0),
+                                ),
+                              ),
                               Form(
                                 key: _formKey,
                                 child: Column(
@@ -174,6 +187,93 @@ class _AgregarTarjetaState extends State<AgregarTarjeta> {
                                       //decoration: underlineTextField(),
                                     ),
                                   ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(40,0,40,10),
+                                child: Align(
+                                  child: Text("Resumen pago:",style: appTheme().textTheme.body2,),
+                                  alignment: Alignment(-0.80, 0),
+                                ),
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: this.widget.compras.length,
+                                itemBuilder: (context, position) {
+                                  return
+                                    new Container(
+                                      child: new Material(
+                                        child: new Column(
+                                          children: <Widget>[
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(40,0,40,10),
+                                              child: Align(
+                                                child: Text(this.widget.compras.elementAt(position).IdTratamiento.IDEspecialidad.NombreEspecialidad+": "+this.widget.compras.elementAt(position).valorFaltante,style: appTheme().textTheme.body2,),
+                                                alignment: Alignment(-0.80, 0),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                }
+                              ),
+                              Container(
+                                child: new Material(
+                                  child: new Column(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: const EdgeInsets.fromLTRB(40,0,40,10),
+                                        child: Align(
+                                          child: Text("Total:      "+this.widget.total.toString(),style: appTheme().textTheme.body2,),
+                                          alignment: Alignment(-0.80, 0),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: FlatButton(
+                                    child: Text(Strings.CONFIRMAR,style: appTheme().textTheme.button,),
+                                    padding: const EdgeInsets.all(10.0),
+                                    onPressed: () async{
+                                      // Validate will return true if the form is valid, or false if
+                                      // the form is invalid.
+
+                                      if (_formKey.currentState.validate()) {
+                                        // Process data.
+                                        print("Good");
+                                        int usuario=this.widget.compras.elementAt(0).IdCliente;
+                                        //var response=await RestDatasource().getPagosVentana();
+                                        for (var i = 0; i < this.widget.compras.length; i++) {
+                                          var response=await RestDatasource().actualizar_shop(this.widget.compras.elementAt(i).Id,true);
+
+                                        }
+                                        print("+++++++++++++++++++++++++");
+                                        print("+++++++++++++++++++++++++");
+                                        var url = Constantes.serverdomain+Constantes.pago+usuario.toString()+"/"+this.email.text+"/"+this.nophone.text+"/"+this.widget.total.toString()+"/";
+                                        if (await canLaunch(url)) {
+                                          await launch(url);
+                                        } else {
+                                          throw 'Could not launch $url';
+                                        }
+                                        /*this.widget.callbackloading();
+                                        this.widget.callbackfull();
+                                        this.widget.callback(VentanaPagos(
+                                          callback: this.widget.callback,
+                                          callbackloading: this.widget.callbackloading,
+                                          callbackfull: this.widget.callbackfull,
+                                          total: this.widget.total,
+                                          cel: this.nophone.text,
+                                          usuario: usuario,
+                                          email: this.email.text ,
+                                        ));*/
+
+                                        //_launchURL();
+                                      }
+                                    },
+                                  color: Color(0xFF00d6bc),
                                 ),
                               )
                             ],

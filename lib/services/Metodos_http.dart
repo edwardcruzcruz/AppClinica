@@ -23,6 +23,19 @@ class Metodos_http {
       return _decoder.convert(utf8response);
     });
   }
+  Future<dynamic> get3(String url,{Map<String, String> headers}) {
+    return http.get(url,headers: headers).then((http.Response response) {
+      final String utf8response=utf8.decode(response.bodyBytes);
+      //final String res = response.body;
+      final int statusCode = response.statusCode;
+      print(statusCode);
+      print(response.body);
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+      return response.body;
+    });
+  }
 
   Future<dynamic> get2(Uri url,{Map<String, String> headers}) {
     return http.get(url,headers: headers).then((http.Response response) {
