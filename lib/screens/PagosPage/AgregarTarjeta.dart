@@ -54,6 +54,7 @@ class _AgregarTarjetaState extends State<AgregarTarjeta> {
 
   TextEditingController nophone = new TextEditingController();
   TextEditingController email = new TextEditingController();
+  TextEditingController CIController= new TextEditingController();
   RegExp emailRegExp =
   new RegExp(r'^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$');
   RegExp contRegExp = new RegExp(r'^([1-zA-Z0-1@.\s]{1,255})$');
@@ -111,8 +112,9 @@ class _AgregarTarjetaState extends State<AgregarTarjeta> {
                         .textTheme
                         .display4); //'Error: ${snapshot.error}'
               print("hola mundo");
-              this.nophone.text=snapshot.data.Telefono;
-              this.email.text=snapshot.data.Correo;
+              this.nophone.text=snapshot.data.Telefono==null?"":snapshot.data.Telefono;
+              this.email.text=snapshot.data.Correo==null?"":snapshot.data.Correo;
+              this.CIController.text=snapshot.data.Cedula==null?"":snapshot.data.Cedula;
               print(this.widget.total);
               print(this.widget.compras);
               return
@@ -136,6 +138,31 @@ class _AgregarTarjetaState extends State<AgregarTarjeta> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
+                                    Container(
+                                      margin: const EdgeInsets.fromLTRB(40,0,40,10),
+                                      child: TextFormField(
+                                        controller: CIController,
+                                        keyboardType: TextInputType.phone,
+                                        decoration: InputDecoration(
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: appTheme().buttonColor,
+                                                width: 1.0),
+                                          ),
+                                          labelText: Strings.LabelCI,
+                                          labelStyle: appTheme().textTheme.title,
+                                          errorStyle: appTheme().textTheme.overline,
+                                        ),
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Por favor llenar los espacios';
+                                          }else if (!Cedulavalida(value)){
+                                            return 'Por favor ingresar un número de cédula valida';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      //decoration: underlineTextField(),
+                                    ),
                                     Container(
                                       margin: const EdgeInsets.fromLTRB(40,0,40,10),
                                       child: TextFormField(
@@ -284,6 +311,47 @@ class _AgregarTarjetaState extends State<AgregarTarjeta> {
           return null;
         });
 
+  }
+
+  bool Cedulavalida(String x) {
+    bool cedulaCorrecta = false;
+
+
+    if (x.length == 10) // ConstantesApp.LongitudCedula
+        {
+      int tercerDigito = int.parse(x.substring(2, 3));
+      if (tercerDigito < 6) {
+// Coeficientes de validación cédula
+// El decimo digito se lo considera dígito verificador
+        var coefValCedula = [2, 1, 2, 1, 2, 1, 2, 1, 2 ] ;
+        int verificador = int.parse(x.substring(9,10));
+        int suma = 0;
+        int digito = 0;
+        for (int i = 0; i < (x.length - 1); i++) {
+          digito = int.parse(x.substring(i, i + 1))* coefValCedula[i];
+          suma += ((digito % 10) + (digito / 10)).toInt() ;
+
+        }
+
+        if ((suma % 10 == 0) && (suma % 10 == verificador)) {
+          cedulaCorrecta = true;
+        }
+        else if ((10 - (suma % 10)) == verificador) {
+          cedulaCorrecta = true;
+        } else {
+          cedulaCorrecta = false;
+        }
+      } else {
+        cedulaCorrecta = false;
+      }
+    } else {
+      cedulaCorrecta = false;
+    }
+
+    if (!cedulaCorrecta) {
+      print("La Cédula ingresada es Incorrecta");
+    }
+    return cedulaCorrecta;
   }
 
 }
