@@ -11,7 +11,7 @@ import 'package:webfeed/webfeed.dart';
 import 'dart:math';
 import 'package:flutter_app/services/Rest_Services.dart';
 
-import 'Elemento_Lista.dart';
+import '../Noticias/Elemento_Lista.dart';
 
 const swatch_1 = Colors.white;
 const swatch_2 = Color(0xffe3e6f3);

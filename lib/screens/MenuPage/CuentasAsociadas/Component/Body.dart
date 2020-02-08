@@ -9,7 +9,7 @@ import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/models/UserFB.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/CuentasAsociadas.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/GestionarCuentaAsociada/ModifcarCuenta.dart';
-import 'package:flutter_app/screens/MenuPage/Noticias.dart';
+import 'package:flutter_app/screens/MenuPage/Noticias/Noticias.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/theme/style.dart';
 

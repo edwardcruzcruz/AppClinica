@@ -8,7 +8,7 @@ import 'package:flutter_app/models/Horario.dart';
 import 'package:flutter_app/models/Doctor.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/screens/MenuPage/Agendamiento/Horarios.dart';
-import 'package:flutter_app/screens/MenuPage/Noticias.dart';
+import 'package:flutter_app/screens/MenuPage/Noticias/Noticias.dart';
 import 'package:flutter_app/services/Rest_Services.dart';
 import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/theme/style.dart';

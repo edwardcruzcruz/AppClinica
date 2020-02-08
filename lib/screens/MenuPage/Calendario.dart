@@ -22,7 +22,7 @@ import 'package:flutter_app/theme/style.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
-import 'Mis_Citas.dart';
+import 'Citas/Mis_Citas.dart';
 
 // Example holidays
 final Map<DateTime, List> _holidays = {

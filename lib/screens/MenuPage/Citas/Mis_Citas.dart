@@ -19,7 +19,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import 'Alert_Citas.dart';
-import 'Calendario.dart';
+import '../Calendario.dart';
 
 class Citas extends StatefulWidget {
   Function callback, callbackloading, callbackfull;
@@ -968,11 +968,13 @@ class _CitasState extends State<Citas> {
                     child: new Text("Aceptar"),
                     onPressed: () async {
                       this.citasList = RestDatasource().ListarRecetasCitas(storageService.getIdPadre);
-                      await RestDatasource()
-                          .update_cita_recordatorio(i.Id, !recordatorio);
+                      await RestDatasource().update_cita_recordatorio(i.Id, !recordatorio);
 
                       Navigator.of(context).pop();
-                      this.widget.callback(Citas());
+                      this.widget.callback(Citas(
+                          callback: this.widget.callback,
+                          callbackloading: this.widget.callbackloading,
+                          callbackfull: this.widget.callbackfull));
                     },
                   ),
                 ],
@@ -1020,7 +1022,7 @@ class _CitasState extends State<Citas> {
         0,
         especialidad,
         cuerpo,
-        new DateTime.now().add(Duration(seconds: 10)), //fecha
+        fecha, //fecha
         platformChannelSpecifics,
         payload: data);
   }

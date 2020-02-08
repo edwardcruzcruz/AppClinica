@@ -6,7 +6,7 @@ import 'package:flutter_app/Utils/Strings.dart';
 import 'package:flutter_app/models/Cuenta.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/Component/Body.dart';
 import 'package:flutter_app/screens/MenuPage/CuentasAsociadas/GestionarCuentaAsociada/ModifcarCuenta.dart';
-import 'package:flutter_app/screens/MenuPage/Noticias.dart';
+import 'package:flutter_app/screens/MenuPage/Noticias/Noticias.dart';
 import 'package:flutter_app/theme/style.dart';
 
 class CuentasAsociadas extends StatefulWidget {
