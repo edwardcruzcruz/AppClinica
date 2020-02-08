@@ -108,25 +108,28 @@ class _CarritoState extends State<Carrito> {
                     )
                   ],
                 ),
-                floatingActionButton: FloatingActionButton(
+                  floatingActionButton: FloatingActionButton(
                   onPressed: () {
-                    List<CarritoCompra> lista_tmp=new List<CarritoCompra>();
-                    double total=0;
-                    print("+++++++++++++++++");
-                    for (var i = 0; i < snapshot.data.length; i++) {
-                      print(snapshot.data.elementAt(i).Seleccionado);
-                      print(snapshot.data.elementAt(i).IdTratamiento.IDEspecialidad.NombreEspecialidad);
-                      print(snapshot.data.elementAt(i).toJson());
-                      if(snapshot.data.elementAt(i).Seleccionado){
-                        lista_tmp.add(snapshot.data.elementAt(i));
-                        total+=double.parse(snapshot.data.elementAt(i).valorFaltante);
+                    if(snapshot.data.length>0){
+                      List<CarritoCompra> lista_tmp=new List<CarritoCompra>();
+                      double total=0;
+                      print("+++++++++++++++++");
+                      for (var i = 0; i < snapshot.data.length; i++) {
+                        print(snapshot.data.elementAt(i).Seleccionado);
+                        print(snapshot.data.elementAt(i).IdTratamiento.IDEspecialidad.NombreEspecialidad);
+                        print(snapshot.data.elementAt(i).toJson());
+                        if(snapshot.data.elementAt(i).Seleccionado){
+                          lista_tmp.add(snapshot.data.elementAt(i));
+                          total+=double.parse(snapshot.data.elementAt(i).valorFaltante);
+                        }
                       }
+                      print(lista_tmp);
+                      print(total);
+                      this.widget.callbackloading();
+                      this.widget.callbackfull();
+                      this.widget.callback(AgregarTarjeta(callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,compras: lista_tmp,total: total,));
                     }
-                    print(lista_tmp);
-                    print(total);
-                    this.widget.callbackloading();
-                    this.widget.callbackfull();
-                    this.widget.callback(AgregarTarjeta(callback: this.widget.callback,callbackloading: this.widget.callbackloading,callbackfull: this.widget.callbackfull,compras: lista_tmp,total: total,));
+
                     // Add your onPressed code here!
                   },
                   child: Icon(Icons.arrow_forward_ios),
