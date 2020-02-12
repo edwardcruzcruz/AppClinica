@@ -224,7 +224,9 @@ class _RecetaViewState extends State<RecetaView> {
                                 padding:
                                 const EdgeInsets.fromLTRB(
                                     10.0, 12.0, 12.0, 3.0),
-                                child: Text(recetas.elementAt(position).DuracionTratamiento.toString()+" días",
+                                child: Text(
+                                recetas.elementAt(position).DuracionTratamiento==1?recetas.elementAt(position).DuracionTratamiento.toString()+" día":
+                                  recetas.elementAt(position).DuracionTratamiento.toString()+" días",
                                   style: appTheme().textTheme
                                       .subhead,), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
@@ -256,7 +258,8 @@ class _RecetaViewState extends State<RecetaView> {
                                 padding:
                                 const EdgeInsets.fromLTRB(
                                     10.0, 12.0, 12.0, 3.0),
-                                child: Text("Cada "+recetas.elementAt(position).HoraTratamiento.toString()+" horas",
+                                child: Text(recetas.elementAt(position).HoraTratamiento==1?"Cada hora":
+                                  "Cada "+recetas.elementAt(position).HoraTratamiento.toString()+" horas",
                                   style: appTheme().textTheme
                                       .subhead,), //Text(this.widget.cuentas.elementAt(position).Nombre+" "+this.widget.cuentas.elementAt(position).Apellido,style: appTheme().textTheme.display4,),
                               ),
