@@ -96,11 +96,17 @@ class _CalendarioState extends State<CalendarioPage> with TickerProviderStateMix
     if(horarios!=null){
       //
       for(int h=0;h<horarios.length;h++){
+        print("**********************************");
+        print(horarios.elementAt(h).Fecha);
         DateTime fechaTemp=DateTime.parse(horarios.elementAt(h).Fecha);
+        print(fechaTemp);
+        print(this.widget.horariosID.elementAt(h).HorarioInicio+ " "+this.widget.horariosID.elementAt(h).Horariofin);
         _selectedEvents.add(this.widget.horariosID.elementAt(h).HorarioInicio+ " "+this.widget.horariosID.elementAt(h).Horariofin);
         //_selectedEvents.add(horario.Hora);
         int days=fechaTemp.difference(temp).inDays-1;
-        _events[fechaTemp.add(Duration(days: days))]=_selectedEvents.toList();
+        print(days);
+        _events[fechaTemp.add(Duration(days: 0))]=_selectedEvents.toList();
+        _selectedEvents=new List();
         /*
         _selectedEvents.add(this.widget.horariosID.elementAt(h).HorarioInicio+ " "+this.widget.horariosID.elementAt(h).Horariofin);
           //_selectedEvents.add(horario.Hora);

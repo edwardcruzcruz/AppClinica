@@ -163,9 +163,13 @@ class _Agendamiento3State extends State<Agendamiento3>{
           onPressed:()async{//async
             this.widget.callbackloading();
             if(this.widget.agendar){
+              print("8888888888888888888888888888888888888888888888888");
               print(this.widget.usuario.Id);
+              print(this.widget.idHorario);
+              print("8888888888888888888888888888888888888888888888888");
               var respuesta= await RestDatasource().save_cita(this.widget.usuario.Id,this.widget.idEspecialidadEscogida,1,this.widget.idHorario,this.widget.doctor.Id);
               Horario horario=await RestDatasource().HorarioDoctorbyId(this.widget.idHorario);
+              print(horario);
               var respuesta2= await RestDatasource().CambiarDisponibilidadHorarioDoctor(this.widget.idHorario, horario);
               var respuesta3= await RestDatasource().save_shop(this.widget.usuario.Id, 1,respuesta.Cita);
 

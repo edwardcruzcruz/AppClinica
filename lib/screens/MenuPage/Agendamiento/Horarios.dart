@@ -111,6 +111,8 @@ class _HorariosState extends State<Horarios>{
 
   Widget formulario(){
     //String especialidad=this.doctores.elementAt(0).Especialidad;
+    print("*-*-*-*-*-*-*-*-*-*-*-*-*-*-+++++++++++++++++");
+    print(this.widget.selectedEvents);
     return ListView.builder(
       shrinkWrap: true,
       itemBuilder: (context, position) {

@@ -402,6 +402,8 @@ class RestDatasource {
       //print(res.toString());
       Horario hr=Horario.fromJson(res);
       //HorarioRango horario=new HorarioRango(int.parse(res.id), res.horaInicio.toString(), res.horaFin.toString());
+      print("//////////////////////////////////////////////////////////////////");
+      print(hr.Hora);
       if(hr!=null){
         return hr;
       }
@@ -440,7 +442,7 @@ class RestDatasource {
     _API_KEY=_decoder.convert(storageService.getuser)['token'];
     Map map = {
       "fecha": horario.Fecha,
-      "hora": horario.IdHorario,
+      "hora": horario.Hora,
       "doctor": horario.IdDoctor,
       "is_available": horario.IsAvaliable==true?false:true,
       //"is_finished":true;

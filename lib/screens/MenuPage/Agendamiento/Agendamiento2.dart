@@ -230,9 +230,13 @@ class _Agendamiento2State extends State<Agendamiento2>{
   }
   void _horariosmessage(List<Horario> horarios) {//todos estos mensajes se tendrian que poner en una clase externa
     // flutter defined function
+
     String Final="";//\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
     for(Horario horario in horarios){
+      print("####################################");
+      print(horario.Fecha);
       Final=Final+Utils.getMonth(horario.Fecha.split("-")[1])+" "+horario.Fecha.split("-")[2]+" "+horario.Fecha.split("-")[0]+"\n";
+      print("####################################");
     }
     print(Final);
     showDialog(

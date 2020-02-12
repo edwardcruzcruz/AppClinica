@@ -88,21 +88,23 @@ class Utils{
   }
   static String getMonth(String number){
     String month="Enero";
-    if ( number.compareTo("2")==0) {
+    print("99999999999999999999999999999999999999999999999999999999999999999");
+    print(number);
+    if ( number.compareTo("02")==0) {
       month="Febrero";
-    } else if (number.compareTo("3")==0) {
+    } else if (number.compareTo("03")==0) {
       month="Marzo";
-    } else if (number.compareTo("4")==0) {
+    } else if (number.compareTo("04")==0) {
       month="Abril";
-    }else if (number.compareTo("5")==0) {
+    }else if (number.compareTo("05")==0) {
       month="Mayo";
-    }else if (number.compareTo("6")==0) {
+    }else if (number.compareTo("06")==0) {
       month="Junio";
-    }else if (number.compareTo("7")==0) {
+    }else if (number.compareTo("07")==0) {
       month="Julio";
-    }else if (number.compareTo("8")==0) {
+    }else if (number.compareTo("08")==0) {
       month="Agosto";
-    }else if (number.compareTo("9")==0) {
+    }else if (number.compareTo("09")==0) {
       month="Septiembre";
     }else if (number.compareTo("10")==0) {
       month="Octubre";
